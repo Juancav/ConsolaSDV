@@ -1,5 +1,5 @@
 ###################
-Que es Consola SDV
+¿ Que es Consola SDV ?
 ###################
 
 Consola SDV , es una aplicacion utilizada en el area
@@ -8,9 +8,9 @@ asignacion de telefonos , todas estas asignaciones conforman un equipo de factur
 para que el vendedor puede realizar su trabajo eficientemente.
 
 
-*******************
-Server Requirements
-*******************
+*****************************
+Requerimientos Del Servidor
+*****************************
 
 PHP version 5.6 o superior
 
@@ -20,12 +20,15 @@ Base de datos MySQL.
 Instalacion
 ************
 
-Es una que es utilada atraves de internet Link https://043ea08.netsolhost.com/ConsolaSDV/index.php
+Es una plataforma web que es utilizada atraves de internet Link https://043ea08.netsolhost.com/ConsolaSDV/index.php
 
 ***************
 Reconocimiento
 ***************
 
+
+###########################
 Juan Carlos Arevalo Villalta 
-Analista De Sistemas De ventas
+Analista De Sistemas De Ventas
 Bocadeli 2019-2020 
+############################
