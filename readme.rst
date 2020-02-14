@@ -8,9 +8,9 @@ asignacion de telefonos , todas estas asignaciones conforman un equipo de factur
 para que el vendedor puede realizar su trabajo eficientemente.
 
 
-*****************************
+************
 Requerimientos Del Servidor
-*****************************
+************
 
 PHP version 5.6 o superior
 
@@ -22,13 +22,13 @@ Instalacion
 
 Es una plataforma web que es utilizada atraves de internet Link https://043ea08.netsolhost.com/ConsolaSDV/index.php
 
-***************
+************
 Reconocimiento
-***************
+************
 
 
-###########################
+###################git 
 Juan Carlos Arevalo Villalta 
 Analista De Sistemas De Ventas
 Bocadeli 2019-2020 
-############################
+###################
