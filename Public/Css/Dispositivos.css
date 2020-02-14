@@ -1,0 +1,294 @@
+/* The device with borders */
+
+.smartphone {
+    position: relative;
+    width: 300px;
+    height: 600px;
+    border: 16px black solid;
+    border-top-width: 60px;
+    border-bottom-width: 60px;
+    border-radius: 36px;
+  }
+
+  
+  /* The horizontal line on the top of the device */
+  .smartphone:before {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 5px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #3a3f48;
+    border-radius: 10px;
+  }
+  
+  /* The circle on the bottom of the device */
+  .smartphone:after {
+    content: '';
+    display: block;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    left: 50%;
+    bottom: -65px;
+    transform: translate(-50%, -50%);
+    background: #3a3f48;
+    border-radius: 50%;
+  }
+  .flexbox{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  
+  .buttonCell {
+      margin: 5px;
+      padding: 25px;
+      width: 40%;
+      font-size: 25px;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 50%;
+      /* box-shadow: 5px 5px 0px white; */
+  }
+  
+  .flexbox > * { transition: opacity 150ms linear 100ms, transform 150ms ease-in-out 100ms; }
+  
+  .flexbox:hover > * { opacity: 0.4; transform: scale(0.9); }
+  
+  .flexbox > *:hover { opacity: 100; transform: scale(1.2); transition-delay: 0ms, 0ms; color:#16c7ff;}
+  
+  .a1 {
+      background: #3a3f48;
+      color: white;
+      box-shadow: 2px 3px 0px #16c7ff;
+  }
+  .a2 {
+      background: #3a3f48;
+      color: white;
+      box-shadow: 2px 3px 0px #16c7ff;
+  }
+   .a3 {
+    background: #3a3f48;
+    color: white;
+    box-shadow: 2px 3px 0px #16c7ff;
+  }
+  
+  .a4 {
+    background: #3a3f48;
+    color: white;
+    box-shadow: 2px 3px 0px #16c7ff;
+  }
+  .a5 {
+    background: #3a3f48;
+    color: white;
+    box-shadow: 2px 3px 0px #16c7ff;
+  }
+  
+  .a6 {
+    background: #3a3f48;
+    color: white;
+    box-shadow: 2px 3px 0px #16c7ff;
+  }
+
+  .img  {
+    max-width: 100%;
+      opacity: 100;
+      width: 2080px;
+      height: 100%;
+  }
+
+.dispo{
+    background:rgba(116, 117, 111, 0.068);  
+    width:71%; 
+    float:right; 
+    margin-bottom:50px; 
+    margin-right:25px; 
+    border-radius:2%;
+
+}
+
+
+/* RADIO BUTTONS ASIGNAR TELEFONO */
+
+.option-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 13.33333px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 40px;
+  width: 40px;
+  transition: all 0.15s ease-out 0s;
+  background: #cbd1d8;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 0.5rem;
+  outline: none;
+  position: relative;
+  z-index: 1000;
+}
+.option-input:hover {
+  background: #9faab7;
+}
+.option-input:checked {
+  background: #40e0d0;
+}
+.option-input:checked::before {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  content: '✔';
+  display: inline-block;
+  font-size: 26.66667px;
+  text-align: center;
+  line-height: 40px;
+}
+
+.option-input:checked::after {
+  -webkit-animation: click-wave 0.65s;
+  -moz-animation: click-wave 0.65s;
+  animation: click-wave 0.65s;
+  background: #40e0d0;
+  content: '';
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+
+.option-input.radio {
+  border-radius: 50%;
+}
+.option-input.radio::after {
+  border-radius: 50%;
+}
+
+/* FINISH, RADIO BUTTONS ASIGNAR TELEFONO */
+
+
+
+.pump{
+  width: 50px;
+  height: auto;
+  margin: auto;
+  margin-top: 100px;
+}
+.handle{
+  width: 30px;
+  height: 6px;
+  background: #454545;
+  border-radius: 20px;
+  margin: auto;
+}
+.pole{
+  width: 5px;
+  height: 30px;
+  background: gray;
+  margin: auto;
+}
+.tube{
+  width: 16px;
+  height: 110px;
+  background: red;
+  margin: auto;
+  position: relative;
+  z-index: 999
+}
+.gauge{
+  width: 23px;
+  height: 23px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: solid 2px #454545;
+  position: relative;
+  top: -17px;
+  margin: auto;
+  z-index: 999
+}
+.base{
+  width: 100%;
+  height: 6px;
+  background: #454545;
+  position: relative;
+  top: -19px;
+  border-radius: 50%;
+  z-index: 2
+}
+.limit{
+  width: 2px;
+  height: 5px;
+  border-right: 4px solid red;
+  transform: rotate(-40deg);
+  position: relative;
+  top: 3px;
+  left: 2px;
+}
+.hand{
+  width: 1px;
+  height: 8px;
+  border-right: 2px solid #454545;
+  position: relative;
+  transition-property: transform;
+  transition-duration: 1s;
+  transform-origin: 50% 80%;
+  top: -2px;
+  left: 8px;
+}
+.handle-assy{
+  position: relative;
+  z-index: 99;
+  transition-property: top;
+  transition-duration: 1s;
+}
+.ball{
+  width: 30px;
+  height: 30px;
+  background: orange;
+  border-radius: 50%;
+  position: absolute;
+  margin-top: -40px;
+  left: 216px;
+  z-index: 1;
+  display: none;
+  transition-property: transform, top;
+  transition-duration: 1s;
+}
+.ball-shadow{
+  width: 10px;
+  height: 5px;
+  background: #454545;
+  position: relative;
+  left: 210px;
+  top: -10px;
+  border-radius: 10px;
+  transition-property: transform;
+  transition-duration: 1s;
+}
+
+.light{
+  width: 15px;
+  height: 12px;
+  background: blue;
+  position: relative;
+}
+
+
+
+
+
