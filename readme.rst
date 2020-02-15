@@ -27,7 +27,6 @@ Reconocimiento
 ************
 
 
-Juan Carlos Arevalo Villalta.
-Analista De Sistemas De Ventas.
+Juan Carlos Arevalo Villalta 
+Analista De Sistemas De Ventas
 Bocadeli 2019-2020
-
