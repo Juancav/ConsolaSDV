@@ -115,7 +115,7 @@ class AutorizacionesMH extends CI_Controller {
 
 		if(!empty($dat)){
 		
-			redirect('index.php/AutorizacionesMH');
+			redirect('index.php/Dispositivos');
 			
 		
 			

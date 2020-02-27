@@ -1162,7 +1162,9 @@ Id_telefono int(7) zerofill not null,
 Id_autorizaciones int(7) zerofill not null,
 fecha_registro date not null,
 estado int(2)  not null,
+motivo_entrega varchar(50) not null,
 id_u_sdv int(7) zerofill not null,
+Id_pdf_cell varchar(50) not null,
 foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
 foreign key (Id_canal) references canal(Id_canal),
 foreign key (Id_ruta) references rutas(Id_ruta),
@@ -1171,7 +1173,6 @@ foreign key (Id_telefono) references telefonos(Id_telefono),
 foreign key (Id_autorizaciones) references autorizaciones_mh(Id_autorizaciones),
 foreign key (id_u_sdv) references usuarios_consolasdv(id_u_sdv)
 );
-alter table bitacora_entrega_celular add column motivo_entrega varchar(50) not null;
 
 create table tipo_notificacion(
 Id_tipo_notificacion int(7) zerofill not null auto_increment primary key,
@@ -1183,9 +1184,6 @@ insert into tipo_notificacion values (0,'secondary');
 insert into tipo_notificacion values (0,'warning');
 insert into tipo_notificacion values (0,'info');
 insert into tipo_notificacion values (0,'danger');
-
-select * from tipo_notificacion;
-describe notificaciones;
 
 create table notificaciones(
 Id_notificacion int(7) zerofill not null auto_increment primary key,
@@ -1208,9 +1206,6 @@ inner join usuarios_consolasdv as u_c on n.Id_u_sdv=u_c.Id_u_sdv
 inner join tipo_notificacion as t_n on n.Id_tipo_notificacion=t_n.Id_tipo_notificacion;
 
 
-select * from Aautorizaciones_mh  ;
-insert into notificaciones values (0,'TITULO 1','AQUI VA A IR EL MENSAJE','2','1','MAIN',1);
-
 select t.Id_telefono,m_c.Nombre_marca,mo_c.Nombre_Modelo, t.color_telefono, d.Nombre_Distribuidora 
 from telefonos as t 
 inner join marca_cell as m_c on t.Id_marca_cell=m_c.id_marca_cell
@@ -1229,6 +1224,7 @@ fecha_registro date not null,
 estado int(2)  not null,
 motivo_entrega varchar(50) not null,
 id_u_sdv int(7) zerofill not null,
+Id_pdf_cell varchar(50) not null,
 foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
 foreign key (Id_canal) references canal(Id_canal),
 foreign key (Id_ruta) references rutas(Id_ruta),
@@ -1236,3 +1232,269 @@ foreign key (Id_empleados) references empleados(Id_empleados),
 foreign key (Id_telefono) references telefonos(Id_telefono),
 foreign key (id_u_sdv) references usuarios_consolasdv(id_u_sdv)
 );
+
+/*CONSULTA PARA MOSTRAR TODOS LOS DATOS ASIGNADOS */
+select d.nombre_distribuidora, c.nombre_canal,r.nombre_ruta, e.nombre,e.cargo, e.carnet,m_c.nombre_marca, mo_c.nombre_modelo,t.color_telefono ,t.imei_telefono,t.activo_fijo,t.año_telefono,
+t.estado_telefono,t.observacion_telefono,a_mh.software,a_mh.n_maquina,a_mh.n_resolucion,a_mh.n_resolucion_rt,a_mh.fecha_autorizacion,a_mh.fecha_habilitacion,a_mh.serie_autorizada, a_mh.cantidad_tk
+ from bitacora_entrega_celular as bec
+inner join rutas as r on bec.Id_ruta=r.Id_Ruta  
+inner join telefonos as t on bec.Id_telefono=t.Id_telefono
+inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+inner join distribuidora as d on bec.Id_distribuidora=d.Id_Distribuidora
+inner join canal as c on bec.Id_canal=c.Id_Canal
+inner join autorizaciones_mh as a_mh on bec.Id_autorizaciones=a_mh.id_autorizaciones
+inner join baja_serie as b_s on a_mh.Id_autorizaciones=b_s.id_autorizaciones
+inner join empleados as e on bec.id_empleados=e.id_empleados;
+/*****************************************************************************************/
+
+
+SELECT a_mh.Id_autorizaciones, a_mh.n_maquina, a_mh.estado,a_mh.estado_cell,r.Nombre_Ruta FROM autorizaciones_mh as a_mh
+inner join telefonos as t on a_mh.Id_telefono=t.Id_telefono
+inner join bitacora_entrega_celular as bec on t.Id_telefono=bec.Id_telefono
+inner join rutas as r on bec.Id_ruta=r.Id_Ruta;
+select * from autorizaciones_mh;
+
+
+--  CONSULTAR ARCHIVOS PDF  DE TABLAS DE TELEFONOS AUTORIZADOS Y NO AUTORIZADOS
+SELECT * FROM (
+select bec.Id_entrega_cell as Id_Entrega_cell, bec.Id_ruta, 	r.Nombre_Ruta ,	bec.Id_empleados,e.Nombre,bec.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec.Id_distribuidora,	bec.Id_canal,bec.fecha_registro	, bec.id_autorizaciones,bec.Id_pdf_cell, bec.id_u_sdv as usuario	 from bitacora_entrega_celular  as bec
+inner join rutas as r on bec.Id_ruta=r.Id_ruta 
+inner join empleados as e on e.Id_Empleados=bec.Id_empleados
+inner join telefonos as t on bec.Id_telefono=t.Id_telefono
+inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+union all 
+select bec_n.Id_entrega_cell_no, bec_n.Id_ruta, 	r.Nombre_Ruta ,	bec_n.Id_empleados,e.Nombre,bec_n.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec_n.Id_distribuidora,	bec_n.Id_canal, bec_n.fecha_registro, "null" as autorizacion,bec_n.Id_pdf_cell,bec_n.id_u_sdv  from  bitacora_entrega_celular_noautorizado as bec_n
+inner join rutas as r on bec_n.Id_ruta=r.Id_ruta 
+inner join empleados as e on bec_n.Id_Empleados=e.Id_empleados
+inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
+inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+LIMIT 10 ) PDF
+  where usuario=1
+  order by fecha_registro DESC 
+;
+
+select * from bitacora_entrega_celular;
+select * from bitacora_entrega_celular_noautorizado;
+select * from telefonos;
+select * from marca_cell;
+alter table bitacora_entrega_celular;
+
+
+select * from rutas;
+
+alter table rutas add column telefono varchar(15) not null;
+alter table rutas add column sim_card varchar(50) not null;
+
+-- STAR ACTUALIZACION DE TELEFONO Y SIM CARD RUTAS DE EL SALVADOR-- 
+
+update rutas set telefono='7746-0965', sim_card='8950301217089635936F' where id_ruta='1';
+update rutas set telefono='7746-0787', sim_card='8950301217030046175F' where id_ruta='2';
+update rutas set telefono='7851-9875', sim_card='8950301216034351250F' where id_ruta='3';
+update rutas set telefono='7746-8941', sim_card='8950301216034318218F' where id_ruta='4';
+update rutas set telefono='7851-9230', sim_card='8950301216034193249F' where id_ruta='5';
+update rutas set telefono='7069-9977', sim_card='8950301216060052046F' where id_ruta='6';
+update rutas set telefono='7851-2463', sim_card='895030121606051030F' where id_ruta='7';
+update rutas set telefono='7844-7179', sim_card='8950301216038420317F' where id_ruta='8';
+update rutas set telefono='7746-9700', sim_card='8950301217030222792F' where id_ruta='9';
+update rutas set telefono='7851-8572', sim_card='8950301217089633303F' where id_ruta='10';
+update rutas set telefono='7852-8834', sim_card='8950301216037896483F' where id_ruta='11';
+update rutas set telefono='7861-6857', sim_card='895030121707025189F' where id_ruta='12';
+update rutas set telefono='7986-1656', sim_card='895030121707025188F' where id_ruta='13';
+update rutas set telefono='7844-5273', sim_card='8950301217030046209F' where id_ruta='14';
+update rutas set telefono='7844-6571', sim_card='8950301217034798060F' where id_ruta='15';
+update rutas set telefono='7844-4978', sim_card='895030121805145232F' where id_ruta='16';
+update rutas set telefono='7069-9258', sim_card='895030121707025186F' where id_ruta='17';
+update rutas set telefono='7851-0445', sim_card='8950301216060051121F' where id_ruta='18';
+update rutas set telefono='7852-9324', sim_card='8950301217030222101F' where id_ruta='19';
+update rutas set telefono='7861-1766', sim_card='8950301216037896343F' where id_ruta='20';
+update rutas set telefono='7844-8916', sim_card='8950301216078500747F' where id_ruta='21';
+update rutas set telefono='7861-8612', sim_card='8950301217030222826F' where id_ruta='22';
+update rutas set telefono='7840-8709', sim_card='8950301217089635993F' where id_ruta='23';
+update rutas set telefono='7844-0960', sim_card='8950301216038420382F' where id_ruta='24';
+update rutas set telefono='7986-4536', sim_card='8950301216033155975F' where id_ruta='25';
+update rutas set telefono='7844-9784', sim_card='8950301217030131753F' where id_ruta='26';
+update rutas set telefono='7069-0830', sim_card='8950301216060051162F' where id_ruta='27';
+update rutas set telefono='7069-1125', sim_card='8950301215091913705F' where id_ruta='28';
+update rutas set telefono='7844-4641', sim_card='8950301216038420432F' where id_ruta='29';
+update rutas set telefono='7844-7744', sim_card='8950301216032088359F' where id_ruta='30';
+update rutas set telefono='7852-2259', sim_card='8950301216060074891F' where id_ruta='31';
+update rutas set telefono='7748-7976', sim_card='8950301216060051170F' where id_ruta='32';
+update rutas set telefono='7844-8913', sim_card='8950301216038420358F' where id_ruta='33';
+update rutas set telefono='7069-9328', sim_card='8950301215091913721F' where id_ruta='34';
+update rutas set telefono='7851-9632', sim_card='8950301216060052053F' where id_ruta='35';
+update rutas set telefono='7986-2302', sim_card='8950301216060052178F' where id_ruta='36';
+update rutas set telefono='7844-4234', sim_card='8950301217089635837F' where id_ruta='37';
+update rutas set telefono='7844-1725', sim_card='8950301216038420192F' where id_ruta='38';
+update rutas set telefono='7844-3988', sim_card='8950301216038420200F' where id_ruta='39';
+update rutas set telefono='7069-1003', sim_card='895030121707025194' where id_ruta='40';
+update rutas set telefono='7851-6599', sim_card='8950301217030222511F' where id_ruta='41';
+update rutas set telefono='7844-4737', sim_card='8950301217030543122F' where id_ruta='42';
+update rutas set telefono='7861-8608', sim_card='8950301216060052079F' where id_ruta='43';
+update rutas set telefono='7851-3092', sim_card='8950301216034193140F' where id_ruta='44';
+update rutas set telefono='7844-9938', sim_card='8950301216038420226F' where id_ruta='45';
+update rutas set telefono='7840-8722', sim_card='895030121707025193F' where id_ruta='46';
+update rutas set telefono='7844-5786', sim_card='8950301216038420291F' where id_ruta='47';
+update rutas set telefono=' ', sim_card='8950301216038420390F' where id_ruta='48';
+update rutas set telefono='7609-8022', sim_card='8950301217030231009F' where id_ruta='49';
+update rutas set telefono='7861-4056', sim_card='8950301216037896517F' where id_ruta='50';
+update rutas set telefono='7746-7454', sim_card='8950301216034318267F' where id_ruta='51';
+update rutas set telefono='7862-3978', sim_card='8950301217030131787F' where id_ruta='52';
+update rutas set telefono='7851-1840', sim_card='8950301217030222875F' where id_ruta='53';
+update rutas set telefono='7861-2243', sim_card='8950301216037896426F' where id_ruta='54';
+update rutas set telefono='7861-6404', sim_card='8950301216037896335F' where id_ruta='55';
+update rutas set telefono='7861-1539', sim_card='8950301217034101323F' where id_ruta='56';
+update rutas set telefono='7861-6261', sim_card='8950301217034570774F' where id_ruta='57';
+update rutas set telefono='7844-7323', sim_card='8950301216038420218F' where id_ruta='58';
+update rutas set telefono='7851-8247', sim_card='8950301216060052061F' where id_ruta='59';
+update rutas set telefono='7855-2868', sim_card='8950301216070744871F' where id_ruta='60';
+update rutas set telefono='7855-4139', sim_card='8950301217030222727F' where id_ruta='61';
+update rutas set telefono='7855-0247', sim_card='8950301216070744947F' where id_ruta='62';
+update rutas set telefono='7861-8506', sim_card='8950301216037896301F' where id_ruta='63';
+update rutas set telefono='7748-4430', sim_card='' where id_ruta='64';
+update rutas set telefono='7844-0268', sim_card='8950301216038420457F' where id_ruta='65';
+update rutas set telefono='7986-1660', sim_card='' where id_ruta='66';
+update rutas set telefono='7844-9379', sim_card='8950301216060052103F' where id_ruta='67';
+update rutas set telefono='7851-4856', sim_card='895030121707025191F' where id_ruta='68';
+update rutas set telefono='7850-6667', sim_card='895030121707041743F' where id_ruta='69';
+update rutas set telefono='7861-0355', sim_card='895030121805053655F' where id_ruta='70';
+update rutas set telefono='7986-5847', sim_card='8950301217089635894F' where id_ruta='71';
+update rutas set telefono='7748-7190', sim_card='' where id_ruta='72';
+update rutas set telefono='7748-2657', sim_card='' where id_ruta='73';
+update rutas set telefono='7851-5857', sim_card='8950301216034193181F' where id_ruta='74';
+update rutas set telefono='7069-4669', sim_card='8950301215091913671F' where id_ruta='75';
+update rutas set telefono='7986-7523', sim_card='8950301216033155983F' where id_ruta='76';
+update rutas set telefono='7854-2041', sim_card='8950301215084342862F' where id_ruta='77';
+update rutas set telefono='7855-1452', sim_card='895030121805145298F' where id_ruta='78';
+update rutas set telefono='7986-3547', sim_card='8950301216033156072F' where id_ruta='79';
+update rutas set telefono='7851-1781', sim_card='8950301216034193322F' where id_ruta='80';
+update rutas set telefono='7069-5626', sim_card='8950301215091913655F' where id_ruta='81';
+update rutas set telefono='7986-4826', sim_card='8950301218050536764F' where id_ruta='82';
+update rutas set telefono='7609-1750', sim_card='8950301217030230886F' where id_ruta='83';
+update rutas set telefono='7609-5962', sim_card='8950301217030230860F' where id_ruta='84';
+update rutas set telefono='7609-9375', sim_card='8950301217030230928F' where id_ruta='85';
+update rutas set telefono='7852-3284', sim_card='8950301216060044597F' where id_ruta='86';
+update rutas set telefono='7609-1533', sim_card='895030121707025192F' where id_ruta='87';
+update rutas set telefono='7855-3188', sim_card='' where id_ruta='88';
+update rutas set telefono='7855-0697', sim_card='8950301216070744897F' where id_ruta='89';
+update rutas set telefono='7861-2150', sim_card='8950301214123113939F' where id_ruta='90';
+update rutas set telefono='7852-5123', sim_card='8950301216060074982F' where id_ruta='91';
+update rutas set telefono='7852-7100', sim_card='8950301216060074933F' where id_ruta='92';
+update rutas set telefono='7852-0739', sim_card='8950301218051452383F' where id_ruta='93';
+update rutas set telefono='7852-1663', sim_card='8650301216060044670F' where id_ruta='94';
+update rutas set telefono='7852-6876', sim_card='8950301216060074909F' where id_ruta='95';
+update rutas set telefono='7855-1226', sim_card='8950301216070744848F' where id_ruta='96';
+update rutas set telefono='7852-0519', sim_card='8950301217089635902F' where id_ruta='97';
+update rutas set telefono='7855-5349', sim_card='8950301218051452128F' where id_ruta='98';
+update rutas set telefono='7855-4279', sim_card=' 8950301218051452052F' where id_ruta='99';
+update rutas set telefono='7855-0436', sim_card='8950301218051452078F' where id_ruta='100';
+update rutas set telefono='7855-2036', sim_card='8950301218051452797F' where id_ruta='101';
+update rutas set telefono='7609-9538', sim_card='8950301217034798086F' where id_ruta='102';
+update rutas set telefono='7855-3753', sim_card='8950301217070251750F' where id_ruta='103';
+update rutas set telefono='7855-5128', sim_card='8950301216070744863F' where id_ruta='104';
+update rutas set telefono='7855-1465', sim_card='8950301216070744939F' where id_ruta='105';
+update rutas set telefono='7609-8808', sim_card='8950301218050536772F' where id_ruta='106';
+update rutas set telefono='7609-0962', sim_card='8950301217030248706F' where id_ruta='107';
+update rutas set telefono='7609-7214', sim_card='8950301217030230944F' where id_ruta='108';
+update rutas set telefono='7855-8030', sim_card='8950301217030222800F' where id_ruta='109';
+update rutas set telefono='7609-3376', sim_card='8950301217030230902F' where id_ruta='110';
+update rutas set telefono='7852-2101', sim_card='8950301217070251743F' where id_ruta='111';
+update rutas set telefono='7855-5049', sim_card='8950301216070744970F' where id_ruta='112';
+update rutas set telefono='7855-7891', sim_card='8950301216070744988F' where id_ruta='113';
+update rutas set telefono='7855-3122', sim_card='8950301216070744962F' where id_ruta='114';
+update rutas set telefono='7855-7861', sim_card='8950301216070744798F' where id_ruta='115';
+update rutas set telefono='7855-5650', sim_card='8950301218051452813F' where id_ruta='116';
+update rutas set telefono='7748-8723', sim_card='8950301218051452805F' where id_ruta='117';
+update rutas set telefono='7607-7699', sim_card='8950301216032088565F' where id_ruta='118';
+update rutas set telefono='7860-8204', sim_card='8950301216032088615F' where id_ruta='119';
+update rutas set telefono='7856-1341', sim_card='8950301218051452789F' where id_ruta='120';
+update rutas set telefono='7862-4075', sim_card='8950301216032088276F' where id_ruta='121';
+update rutas set telefono='7609-0976', sim_card='8950301217030230837F' where id_ruta='122';
+update rutas set telefono='7609-5708', sim_card='8950301217030230894F' where id_ruta='123';
+update rutas set telefono='7855-0662', sim_card='8950301216070744905F' where id_ruta='124';
+update rutas set telefono='7855-9205', sim_card='8950301216070744954F' where id_ruta='125';
+update rutas set telefono='7090-7824', sim_card='895030121807276000F' where id_ruta='126';
+update rutas set telefono='7844-3228', sim_card='8950301216038420267F' where id_ruta='127';
+update rutas set telefono='7844-2775', sim_card='8950301216038420283F' where id_ruta='128';
+update rutas set telefono='7601-6977', sim_card='8950301218050536640F' where id_ruta='129';
+update rutas set telefono='7844-3525', sim_card='8950301218051452094F' where id_ruta='130';
+update rutas set telefono='7844-9441', sim_card='8950301218051452268F' where id_ruta='131';
+update rutas set telefono='7852-4728', sim_card='8950301216060044639F' where id_ruta='132';
+update rutas set telefono='7852-8728', sim_card='8950301216060044613F' where id_ruta='133';
+update rutas set telefono='7852-7710', sim_card='8950301216060044605F' where id_ruta='134';
+update rutas set telefono='7852-2843', sim_card='8950301218050536632F' where id_ruta='135';
+update rutas set telefono='7852-2781', sim_card='8950301219017413956F' where id_ruta='136';
+update rutas set telefono='7855-0410', sim_card='8950301216070744996F' where id_ruta='137';
+update rutas set telefono='7852-3288', sim_card='8950301218050639873F' where id_ruta='138';
+update rutas set telefono='7852-8420', sim_card='895030121805145293F' where id_ruta='139';
+update rutas set telefono='7852-1187', sim_card='8950301217034570758F' where id_ruta='140';
+update rutas set telefono='7852-9903', sim_card='8950301216060050974F' where id_ruta='141';
+update rutas set telefono='7852-1926', sim_card='8950301216060074917F' where id_ruta='142';
+update rutas set telefono='7609-3571', sim_card='8950301217034146260F' where id_ruta='143';
+update rutas set telefono='7855-1299', sim_card='8950301216070744830F' where id_ruta='144';
+update rutas set telefono='7852-9665', sim_card='8950301218051452672F' where id_ruta='145';
+update rutas set telefono='7852-2491', sim_card='8950301216060074834F' where id_ruta='146';
+update rutas set telefono='7855-2677', sim_card='8950301216070744889F' where id_ruta='147';
+update rutas set telefono='7986-2548', sim_card='89503012170300243053F' where id_ruta='148';
+update rutas set telefono='7852-2612', sim_card='8950301217089794154F' where id_ruta='149';
+update rutas set telefono='7609-9223', sim_card='8950301219017414236F' where id_ruta='150';
+update rutas set telefono='7852-1185', sim_card='8950301218051452235F' where id_ruta='151';
+update rutas set telefono='7852-3357', sim_card='8950301216060074859F' where id_ruta='152';
+update rutas set telefono='7852-1951', sim_card='8950301217089794162F' where id_ruta='153';
+update rutas set telefono='7852-3522', sim_card='8950301216060044571F' where id_ruta='154';
+update rutas set telefono='7986-1544', sim_card='8950301217070251859F' where id_ruta='155';
+update rutas set telefono='7748-6151', sim_card='8950301219017449224F' where id_ruta='156';
+update rutas set telefono='', sim_card='' where id_ruta='157';
+update rutas set telefono='7862-6369', sim_card='8950301216032088524F' where id_ruta='158';
+update rutas set telefono='7862-1655', sim_card='8950301216032088607F' where id_ruta='159';
+update rutas set telefono='7862-8165', sim_card='8950301216032088631F' where id_ruta='160';
+update rutas set telefono='7609-0623', sim_card='8950301217030230951F' where id_ruta='161';
+update rutas set telefono='7609-6891', sim_card='8950301217030230829F' where id_ruta='162';
+update rutas set telefono='7855-1292', sim_card='8950301216070744954F' where id_ruta='163';
+
+
+-- END ACTUALIZACION DE TELEFONO Y SIM CARD RUTAS DE EL SALVADOR-- 
+
+
+create table deducibles_telefonos(
+Id_deducible_telefonos int(7) zerofill not null auto_increment primary key,
+primera_ocacion double (4,2) not null,
+segunda_ocacion double(4,2) not null,
+tercera_ocacion double (4,2) not null,
+Id_modelo_cell int(7) zerofill not null,
+foreign key (Id_modelo_cell) references modelo_cell(Id_modelo_cell)  
+)ENGINE=innoDB;
+
+
+
+insert into deducibles_telefonos values(0,'50.29','60.22','84.3',8);
+insert into deducibles_telefonos values(0,'53.36','66.69','93.37',9);
+insert into deducibles_telefonos values(0,'300.00','300.00','300.00',10);
+insert into deducibles_telefonos values(0,'53.36','66.69','93.37',4);
+insert into deducibles_telefonos values(0,'50.29','60.22','84.3',5);
+insert into deducibles_telefonos values(0,'53.36','66.69','93.37',6);
+
+
+
+-- CONSULTA PARA IMPRIMIR DATOS PDF--  
+select r.Nombre_Ruta,e.nombre,e.cargo,d.Nombre_Distribuidora,bec.fecha_registro,bec.motivo_entrega,r.telefono,r.sim_card, t.imei_telefono, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from empleados where Id_distribuidora=1 and cargo='JEFE DE VENTA' and estado=1) AS JEFE_DE_VENTA, bec.Id_pdf_cell from bitacora_entrega_celular as bec 
+inner join empleados as e on bec.Id_empleados=e.Id_empleados
+inner join distribuidora as d on bec.Id_distribuidora=d.Id_distribuidora
+inner join rutas as r on bec.Id_ruta=r.Id_ruta
+inner join telefonos as t on bec.Id_telefono=t.Id_telefono
+inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+inner join modelo_cell	as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+inner join deducibles_telefonos as d_t on mo_c.Id_modelo_cell=d_t.Id_modelo_cell
+union all
+select r.Nombre_Ruta,e.nombre,e.cargo,d.Nombre_Distribuidora,bec_n.fecha_registro,bec_n.motivo_entrega,r.telefono,r.sim_card, t.imei_telefono, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from empleados where Id_distribuidora=1 and cargo='JEFE DE VENTA' and estado=1) AS JEFE_DE_VENTA, bec_n.Id_pdf_cell 
+from bitacora_entrega_celular_noautorizado as bec_n 
+inner join empleados as e on bec_n.Id_empleados=e.Id_empleados
+inner join distribuidora as d on bec_n.Id_distribuidora=d.Id_distribuidora
+inner join rutas as r on bec_n.Id_ruta=r.Id_ruta
+inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
+inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+inner join modelo_cell	as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+inner join deducibles_telefonos as d_t on mo_c.Id_modelo_cell=d_t.Id_modelo_cell;
+-- CONSULTA PARA IMPRIMIR DATOS PDF-- 

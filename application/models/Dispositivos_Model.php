@@ -415,7 +415,33 @@ class Dispositivos_Model extends CI_Model {
   }
 
   public function Entrega_Cell_Autorizado($param){
- 
+    $fecha = date('Y-m-j H:i:s'); //inicializo la fecha con la hora
+
+    $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+    $nuevafecha = date ( 'Y-m-j_H:i:s' , $nuevafecha );
+  
+
+    // ACTUALIZAR ESTADO DE TELEFONO ANTERIOR  ASIGNADO DE LA RUTA EN LA TABLA TELEFONOS
+    $query = 'UPDATE telefonos SET estado_telefono="'.$param['estado'].'" , observacion_telefono="'.$param['motivo_entrega'].'" WHERE  Id_Telefono=(select Id_Telefono FROM bitacora_entrega_celular
+        WHERE Id_ruta ="'.$param['Id_ruta'].'" AND estado =1);' ;
+
+        $resultados = $this->db->query($query);
+    // *********************************************************
+
+
+      // ACTUALIZACION DE ESTADO DE TELEFONO ANTERIOR ASIGNADO
+      $camposbaja= array(
+        'estado' => 0,
+      );
+  
+  
+      $this->db->where('Id_Ruta', $param['Id_ruta']);
+      $this->db->where('estado',1);
+      $this->db->update('bitacora_entrega_celular',$camposbaja);
+      // *********************************************************
+
+
+    // INSERTAR EN BITACORA ASIGNACION DE TELEFONO
     $campos = array(
            'Id_entrega_cell' => 0,
            'Id_distribuidora' => $param['Id_distribuidora'],
@@ -428,11 +454,17 @@ class Dispositivos_Model extends CI_Model {
            'estado' =>1,
            'id_u_sdv' =>$this->session->userdata('Id_u_sdv'),
            'motivo_entrega'=>$param['motivo_entrega'],
+           'id_pdf_cell'=>$nuevafecha."_".$param['Id_empleados'],
 
     );
-
+ 
     $this->db->insert('bitacora_entrega_celular',$campos);
+    // ******************************************************************
 
+    
+        
+    
+      // AGREGAR NOTIFICACIONES
     $noti = array(
       'Id_notificacion' => 0,
       'titulo' => "Baja De Serie Ruta ".$param['ruta'],
@@ -445,21 +477,27 @@ class Dispositivos_Model extends CI_Model {
     );
 
     $this->db->insert('notificaciones',$noti);
+    // ****************************************
    
-
-    $camposA= array(
+    //ACTUALIZACION DE ESTADO DE TELEFONO EN AUTORIZACIONES MH 
+    $camposb= array(
       'estado_cell' => "RESERVADO",
     );
 
     $this->db->where('Id_autorizaciones', $param['Id_autorizaciones']);
-    $this->db->update('autorizaciones_mh',$camposA);
+    $this->db->update('autorizaciones_mh',$camposb);
+    //*************************************************/
 
+
+    // ACTUALIZACION DE ESTADO DE TELEFONO NUEVO A ASIGNAR
     $camposA= array(
       'estado_telefono' => 1,
     );
+   
 
     $this->db->where('Id_telefono', $param['Id_telefono']);
     $this->db->update('telefonos',$camposA);
+    // *********************************************************
 
 
     
@@ -468,9 +506,30 @@ class Dispositivos_Model extends CI_Model {
 
   
   public function Entrega_Cell_NoAutorizado($param){
+    $fecha = date('Y-m-j H:i:s'); //inicializo la fecha con la hora
+
+    $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+    $nuevafecha = date ( 'Y-m-j_H:i:s' , $nuevafecha );
+  
+    // ACTUALIZAR ESTADO DE TELEFONO ANTERIOR  ASIGNADO AL EMPLEADO EN LA TABLA TELEFONOS
+    $query = 'UPDATE telefonos SET estado_telefono="'.$param['estado'].'" , observacion_telefono="'.$param['motivo_entrega'].'" WHERE  Id_Telefono=(select Id_Telefono FROM bitacora_entrega_celular_noautorizado
+        WHERE Id_Empleados ="'.$param['Id_empleados'].'" AND estado =1);' ;
+
+        $resultados = $this->db->query($query);
+    // *********************************************************
 
 
-
+      // ACTUALIZACION DE ESTADO DE TELEFONO ANTERIOR ASIGNADO
+      $camposbaja= array(
+        'estado' => 0,
+      );
+  
+  
+      $this->db->where('Id_empleados', $param['Id_empleados']);
+      $this->db->where('estado',1);
+      $this->db->update('bitacora_entrega_celular_noautorizado',$camposbaja);
+      // *********************************************************
+  
     $campos = array(
            'Id_entrega_cell_no' => 0,
            'Id_distribuidora' => $param['Id_distribuidora'],
@@ -482,6 +541,7 @@ class Dispositivos_Model extends CI_Model {
            'estado' =>1,
            'id_u_sdv' =>$this->session->userdata('Id_u_sdv'),
            'motivo_entrega'=>$param['motivo_entrega'],
+           'id_pdf_cell'=>$nuevafecha."_".$param['Id_empleados'],
 
     );
 
@@ -497,6 +557,147 @@ class Dispositivos_Model extends CI_Model {
 
     return 1;
   }
+
+
+  public function Consultar_PDF(){
+
+    $query='SELECT * FROM (
+                select bec.Id_entrega_cell as Id_Entrega_cell, bec.Id_ruta, 	r.Nombre_Ruta ,	bec.Id_empleados,e.Nombre,bec.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec.Id_distribuidora,	bec.Id_canal,bec.fecha_registro	, bec.id_autorizaciones,bec.Id_pdf_cell, bec.id_u_sdv as usuario	 from bitacora_entrega_celular  as bec
+                inner join rutas as r on bec.Id_ruta=r.Id_ruta 
+                inner join empleados as e on e.Id_Empleados=bec.Id_empleados
+                inner join telefonos as t on bec.Id_telefono=t.Id_telefono
+                inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+                inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+                union all 
+                select bec_n.Id_entrega_cell_no, bec_n.Id_ruta, 	r.Nombre_Ruta ,	bec_n.Id_empleados,e.Nombre,bec_n.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec_n.Id_distribuidora,	bec_n.Id_canal, bec_n.fecha_registro, "null" as autorizacion,bec_n.Id_pdf_cell,bec_n.id_u_sdv  from  bitacora_entrega_celular_noautorizado as bec_n
+                inner join rutas as r on bec_n.Id_ruta=r.Id_ruta 
+                inner join empleados as e on bec_n.Id_Empleados=e.Id_empleados
+                inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
+                inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+                inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+                LIMIT 10 ) PDF
+                  order by fecha_registro DESC 
+          ;';
+
+    $resultados = $this->db->query($query);
+    return $resultados->result();
+    
+  }
+
+  
+  function fetch_single_details($Id_PDF)
+	{
+        
+
+        $this->db->select('count(S_A.Cantidad) as Total,S_A.Id_Ruta, S_A.motivo_entrega,r.Nombre_Ruta, a.Id_Accesorios,a.precio_u,e.Nombre,e.Carnet,e.Dui, C_A.Id_Categoria, C_A.Nombre as Categoria ,S_A.cantidad,a.nombre_accesorio,a.vida_util_accesorio,a.marca_accesorio,a.tipo_accesorio, S_A.fecha_salida , S_A.Id_Empleados , S_A.Id_Accesorios ,S_A.Id_PDF');
+        $this->db->from('Salida_Accesorios  as S_A');
+        $this->db->join('rutas as r','S_A.Id_Ruta= r.Id_Ruta');
+        $this->db->join('Empleados as e','S_A.Id_Empleados = e.Id_Empleados');
+        $this->db->join('Accesorios as a','S_A.Id_Accesorios = a.Id_Accesorios');
+        $this->db->join('Categoria_Accesorio as C_A','a.Id_Categoria = C_A.Id_Categoria');
+        $this->db->group_by('a.Id_Accesorios');
+
+        $this->db->where('S_A.Id_PDF',$Id_PDF);
+       
+       
+        $data = $this->db->get('');
+
+        // $data->row()->Nombre; "ASI SE ACCEDE A UNA COLUMNA DE LA CONSULTA"
+
+
+        $output = '<p color="red">SE HACE ENTREGA DEL EQUIPO: <b></p>';
+        
+        $output .= '<table width="100%" border="1px"><tr>
+        <th bgcolor="black"><center><font color="white">ID</font></center></th>
+        <th bgcolor="black"><center><font color="white">DESCRIPCION</font></center></th>
+        <th bgcolor="black"><center><font color="white">CANTIDAD</font></center></th>
+        </tr>';
+
+        
+       
+		foreach($data->result() as $row)
+		{
+			$output .= '
+			<tr>
+				
+                <td width="15%"><center>'.$row->Id_Accesorios.'</center></td>
+                <td width="25%"><center>'.$row->nombre_accesorio." ".$row->marca_accesorio." ".$row->tipo_accesorio.'</center></td>
+                <td width="10%"><center>'.$row->Total.'</center></td>
+					
+			</tr>
+			';
+		}
+		
+        $output .= '</table>';
+
+        $output .= '
+        <p>PARA USO EN EL SISTEMA DE VENTAS<br><br>RECIBE:</p>
+        <p>CARNET: <b>  '.$data->row()->Carnet.'</b>  <span style="margin-left:200px;" >
+        NOMBRE: <b>'.$data->row()->Nombre.' </b> </span></p>
+        <P>FECHA <b>'.$data->row()->fecha_salida.'</b><span style="margin-left:200px;" >
+        RUTA: <b>'.$data->row()->Nombre_Ruta.' </b> </span></P><br><br>
+        ';
+
+        $output.='<p style="margin-bottom:50px; text-align:center;"><B>*****************************************************************************************
+        <br>NOTA:ES RESPONSABILIDAD DEL VENDEDOR CUIDAR ESTE PRODUCTO, TIEMPO DE REPOSICION "'.$data->row()->vida_util_accesorio.'" GARANTIA SE INVALIDA SI EXISTE MALA MANIPULACION POR EL PERSONAL.<br>
+        ***************************************************************************************** </B></p>';
+        
+
+        $output .= '
+        
+        <p style="margin-bottom:100px;"><b>EL EQUIPO ESTA ASIGNADO A LA RUTA. POR LO TANTO, SI CAMBIO DE RUTA
+        DEBO DE ENTREGAR Y RECIBIR EL EQUIPO CORRESPONDIENTE.</b><p>
+
+        <p style="margin-bottom:200px;"><b>MOTIVO DE ENTREGA: '.$data->row()->motivo_entrega.'</b></p>
+
+        <p>FIRMA USUARIO:________________________</p>
+        <p style="margin-left:50%; margin-top:-50px;">ENTREGA: <b>'.strtoupper($this->session->userdata('Nombre')).'</b></p>
+    
+        ';
+        // $output.='<br><br><br><br><br><br><p colspan="2" align="center"><span style="margin-left:100px;"><a href="'.base_url().'index.php/Accesorios" class="btn btn-primary">Regresar</a></span><p>';
+        
+        //*********************************HOJA DE DESCUENTO ***********************************//
+        
+        if($data->row()->Categoria=="POWER BANK"){
+            $cuota=$row->precio_u/2;
+        $output.='<div style="page-break-before:always;">
+        
+        <BR><BR><BR><BR><BR><BR>
+        <p>YO,<b>  '.STRTOUPPER($data->row()->Nombre).' </b>CON DUI NUMERO :<b> '.STRTOUPPER($data->row()->Dui).'</b> AUTORIZO A <BR>
+         <b>DISTRIBUIDORA';
+         if($this->session->userdata('Nombre_Distribuidora')=='SAN SALVADOR'){
+             $output.=' DEL CENTRO';
+         }elseif($this->session->userdata('Nombre_Distribuidora')=='SAN MIGUEL'){
+            $output.=' DE ORIENTE';
+         }else if($this->session->userdata('Nombre_Distribuidora')=='SANTA ANA' OR $this->session->userdata('Nombre_Distribuidora')=='SONSONATE' ){
+            $output.=' DE OCCIDENTE';
+         }
+        $output.=' , S.A DE C.V.</b>  CARGAR A MI CUENTA PERSONAL LA CANTIDAD DE <b>$'.number_format($row->precio_u,2).'</b> DOLARES DE LOS ESTADOS UNIDOS DE NORTE AMERICA.<BR><BR>
+        EN CONCEPTO DE DESCUENTO POR: <b>'.$data->row()->nombre_accesorio." ".$row->marca_accesorio." ".$row->tipo_accesorio.'</b><br><br>
+        CANTIDAD QUE ME COMPROMETO A CANCELAR EN LA SIGUIENTE FORMA:<BR><BR>
+        <b>DESCUENTO EN PLANILLA</b> 
+        <img width="5%;" style="margin-left:50px; margin-top:10px;" src="https://cdn4.iconfinder.com/data/icons/vote-check-marks/100/vote-24-512.png">
+        </p><p><b><center><hr></center></b></p><br><br>
+        A LA VEZ SOLICITO Y AUTORIZO AL DEPARTAMENTO DE COMPENSACIONES DE ESTA EMPRESA, 
+        PARA QUE DE MI SALARIO QUINCENAL RETENGA DICHO MONTO A PARTIR DE_____________________________, 
+        EN <B>2 CUOTAS QUINCENALES DE $'.number_format($cuota,2).' C/U</B><BR><BR> Y TAMBIÉN PARA QUE EN CASO DE MI RETIRO 
+        Y SI FUERA OBJETO DE INDEMNIZACIÓN, SE ME DEDUZCA EL SALDO ADEUDADO, EL CUAL FIRMO EN SEÑAL 
+        DE ACEPTACIÓN COMPLETA.<BR><BR>PARA SER PRESENTADA A <b>DISTRIBUIDORA';
+        if($this->session->userdata('Nombre_Distribuidora')=='SAN SALVADOR'){
+            $output.=' DEL CENTRO';
+        }elseif($this->session->userdata('Nombre_Distribuidora')=='SAN MIGUEL'){
+           $output.=' DE ORIENTE';
+        }else if($this->session->userdata('Nombre_Distribuidora')=='SANTA ANA' OR $this->session->userdata('Nombre_Distribuidora')=='SONSONATE' ){
+           $output.=' DE OCCIDENTE';
+        }
+        $output.=' S.A DE C.V.</B> SE EXTIENDE LA PRESENTE A LOS _______ 
+        DIAS DEL MES DE ____________________ DEL AÑO 20______</div>
+        <BR><BR><HR><BR><BR>
+        NOMBRE DEL EMPLEADO: _________________________________________________________<BR><BR><BR><BR>
+        FIRMA:___________________________';
+        }
+		return $output;
+    }
 
 
 }

@@ -1269,13 +1269,13 @@ function Mostrar_CajasMH(){
              
                 htmlA +="<div id='"+registros[i]["Id_autorizaciones"]+"' name='draggableA' class='draggable' style='z-index:1;'>"+
                   "<label style='color:white; font-size:18px;'>"+
-                  "<i class='fas fa-archive'></i> "+registros[i]["n_maquina"]+"</label>"+
+                  ""+registros[i]["Nombre_Ruta"]+"<br> <i class='fas fa-archive'></i> "+registros[i]["n_maquina"]+"</label>"+
                   "</div>";
 
                 }else if(registros[i]["estado"] ==2){
                   htmlB +="<div id='"+registros[i]["Id_autorizaciones"]+"' name='draggableB' class='draggableBP' style='z-index:1;'>"+
                   "<label style='color:white; font-size:18px;'>"+
-                  "<i class='fas fa-archive'></i> "+registros[i]["n_maquina"]+" </label>"+
+                  ""+registros[i]["Nombre_Ruta"]+"<br><i class='fas fa-archive'></i> "+registros[i]["n_maquina"]+" </label>"+
                   "</div>";
                   
                 }
@@ -1330,7 +1330,7 @@ function Mostrar_CajasMH_R(){
                  
                     html +="<div id='"+registros[i]["Id_autorizaciones"]+"' name='draggableB' class='draggableACT' style='z-index:1;'>"+
                           "<label style='color:white; font-size:18px;'>"+
-                          "<i class='fas fa-archive'></i> "+registros[i]["n_maquina"]+" </label>"+
+                          ""+registros[i]["Nombre_Ruta"]+"<br><i class='fas fa-archive'></i>"+registros[i]["n_maquina"]+" </label>"+
                           "</div>";
     
                     }

@@ -12,36 +12,36 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/Dispositivos.css')?>">
 
     <style>
-input[type="color"] {
-	-webkit-appearance: none;
-	border: none;
-	width: 70px;
-	height: 30px;
-}
-input[type="color"]::-webkit-color-swatch-wrapper {
-	padding: 0;
-}
-input[type="color"]::-webkit-color-swatch {
-	border: none;
-}
-
-table {
-   
-      border-collapse: collapse;
-      overflow: hidden;
-      box-shadow: 2px 5px 5px rgba(116, 117, 111);
+    input[type="color"] {
+        -webkit-appearance: none;
+        border: none;
+        width: 70px;
+        height: 30px;
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+    input[type="color"]::-webkit-color-swatch {
+        border: none;
     }
 
-    th {
-      padding: 15px;
-      background-color:#000000;
-      text-align: center;
-      
-      color: #fff;
-    }
+    table {
+    
+        border-collapse: collapse;
+        overflow: hidden;
+        box-shadow: 2px 5px 5px rgba(116, 117, 111);
+        }
+
+        th {
+        padding: 15px;
+        background-color:#000000;
+        text-align: center;
+        
+        color: #fff;
+        }
 
 
-    }
+        }
 
 
 
@@ -696,11 +696,70 @@ table {
             </div>
             <!-- End, Modal Asignar Telefono -->
 
+      
+           
+
+
     </section>  
-    
+                
+            <input type="radio" id="mostrar-modal" name="modal"/>
+            <label  class="PdfDispositivos" for="mostrar-modal"><span style="font-size:22px;"><i class="fas fa-file-pdf"></i></span></label>
+            <input type="radio" id="cerrar-modal" name="modal"/>
+            <label for="cerrar-modal">X</label>
+            
+            <div id="modal">
+            <h1 style="color:white; margin-left:15vw;"> Historico De Entrega </hr>
+            <h1 style="color: white;    float: right;    margin-right: 100px;    margin-top: 75px; cursor:pointer;"></a><span style="font-size:70px;"><i onclick="ConsultarPDF();"class="fab fa-sistrix"></i></span> </h1><br>
+                <div id="tablapdf"> 
+
+                    <div class="buscador" style="">
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
+                                <select class="form-control" id="bdistribuidora" name="bdistribuidora" > 
+                                <option  disabled="disabled" value="" selected="selected">Seleccione Distribuidora</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Canal</h6></strong></label>
+                                <select class="form-control" id="bcanal" name="bcanal" >
+                                <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
+                                </select>
+                            </div> 
+
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Ruta Asignada</h6></strong></label>
+                                <select class="form-control" id="bruta" name="bruta" >
+                                <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
+                                </select>
+                            </div>  
+
+                    </div>
+                     
+                    <div class="tabla">
+
+                    <table class="table" style="margin: auto; border:white 2px solid; width:55%;   margin-bottom:5%;">
+                    <tr><th class="th">Ruta</th><th class="th">Nombre</th><th class="th">Telefono</th><th class="th"> Fecha Entrega</th><th class="th">PDF</th></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
+                
+                    </table>
+
+                    </div>
+
+                </div>
+             
+            </div>
     </main>
-   
-    </div>
+
     
             
 </body>
@@ -755,9 +814,9 @@ table {
             document.getElementById('OcultarForm1').style.display = 'none';
             document.getElementById('MostrarForm1').style.display = 'block';
           }
-        //   End , Efecto Botones De Telefono
-        // Efecto Botones De formularios de entrega de  Telefono 
-        function autorizados(){
+            //   End , Efecto Botones De Telefono
+            // Efecto Botones De formularios de entrega de  Telefono 
+          function autorizados(){
            document.getElementById('Inflar_pelota').style.display = 'none';
             document.getElementById('form_autorizados').style.display = 'block';
             document.getElementById('form_no_autorizados').style.display = 'none';
@@ -956,7 +1015,8 @@ $('#btnregistrartelefono').click(function(){
                                 if (
                                     result.dismiss === Swal.DismissReason.timer
                                 ){
-                                location.reload();
+                                    window.location="AutorizacionesMH";
+                                    // location('');
                                 }
                             });
                             
@@ -1805,7 +1865,7 @@ $('#btnguardarautorizados').click(function(){
                 if (
                     result.dismiss === Swal.DismissReason.timer
                 ){
-                location.reload();
+                   location.reload();
                 }
             });
             
@@ -2048,6 +2108,113 @@ $('#btnguardarnoautorizados').click(function(){
 /*==================End, Registrar Modelo Celular==================================*/
 
 
+
+/*==================MOSTRAR DISTRIBUIDORA , CANAL , RUTA , BITACORA PDF TELEFONOS==================================*/
+
+    $.ajax({
+                url:"<?php echo base_url();?>index.php/Dispositivos/fetch_distribuidora",
+                method:"POST",
+            
+
+                success:function(data)
+                {
+                
+                $('#bdistribuidora').html(data);
+                //   $('#mtxtcanalnocell').html('<option value="" >Seleccione El Canal</option>');
+                //   $('#mtxtrutacell').html('<option value="" >Seleccione la Ruta</option>');
+                }
+            });
+
+            //   obtener canal segun distribuidora
+            $('#bdistribuidora').change(function(){
+            var Id_Distribuidora = $('#bdistribuidora').val();
+
+            if(Id_Distribuidora != '')
+            {
+                $.ajax({
+                url:"<?php echo base_url();?>index.php/Dispositivos/fetch_canal",
+                method:"POST",
+                data:{Id_Distribuidora:Id_Distribuidora},
+
+                success:function(data)
+                {
+                
+                    $('#bcanal').html(data);
+                    $('#bruta').html('<option value="" >Seleccione la Ruta</option>');
+                }
+                });
+            }
+            else
+            {
+            $('#bcanal').html('<option value="" >Selecccion el canal</option>');
+            $('#bruta').html('<option value="" >Selecccione la Ruta</option>');
+            }
+            });
+            // obtener rutas segun canal
+            $('#bcanal').change(function(){
+            var Id_Canal = $('#bcanal').val();
+            if(Id_Canal != '')
+            {
+            $.ajax({
+                url:"<?php echo base_url(); ?>index.php/Dispositivos/fetch_ruta_cell",
+                method:"POST",
+                data:{Id_Canal:Id_Canal},
+                success:function(data)
+                {
+                
+                $('#bruta').html(data);
+                }
+            });
+            }
+            else
+            {
+            $('#bruta').html('<option value="" >Selecccione la Ruta</option>');
+            }
+            });
+/*==================END MOSTRAR DISTRIBUIDORA , CANAL , RUTA , BITACORA PDF TELEFONOS==================================*/
+
+/*==================MOSTRAR REGISTROS PDF CON PARAMETROS ==================================*/
+
+function ConsultarPDF(){
+    alert("Realmente Funciona Pero No Funciona")
+}
+
+/*==================END MOSTRAR REGISTROS PDF CON PARAMETROS==================================*/
+
+
+$.ajax({
+            url:"<?php echo base_url();?>index.php/Dispositivos/Consultar_PDF",
+            method:"POST",
+          
+
+            success:function(respuesta)
+            {
+                var registros =eval(respuesta);
+            
+            html ="<table class='table' style='margin: auto; border:white 2px solid; width:55%;   margin-bottom:5%;'>";
+            html +="<tr><th class='th'>Ruta</th><th class='th'>Nombre</th><th class='th'>Telefono</th><th class='th'> Fecha Entrega</th><th class='th'>PDF</th></tr>";
+            html +="<tbody>"; 
+            
+            for (var i = 0; i <registros.length; i++) {
+              html +="<tr style='height:px;'><td style='display:none;'>"+registros[i]["Id_Ruta"]+
+              "</td><td>"+registros[i]["Nombre_Ruta"]+
+              "</td><td>"+registros[i]["Nombre"]+
+              "</td><td>"+registros[i]["Nombre_Marca"]+" "+registros[i]["nombre_Modelo"]+" <BR>IMEI: "+registros[i]["Imei_telefono"]+
+              "</td><td>"+registros[i]["fecha_registro"]+ 
+              "</td><td style='display:none;'>"+registros[i]["Id_PDF"]+
+              "</td><td><a href='<?php echo base_url();?>index.php/Dispositivos/pdfdetails/"+registros[i]["Id_pdf_cell"]+"' target='_blank'><span style='color: red; font-size:30px;'><i class='fas fa-file-pdf'></i></span></a>"+
+              "</td></tr>";
+              
+
+            };
+
+
+            html +="</tbody></table>";
+
+            
+            $(".tabla").html(html);
+            }
+          });
 
     </SCRIPT>
 </html>

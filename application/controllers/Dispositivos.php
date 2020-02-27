@@ -319,6 +319,8 @@ class Dispositivos extends CI_Controller {
 	}
 
 	public function Entrega_Cell_Autorizado(){
+
+		$verificar=$param['motivo_entrega']=$this->input->post('mtxtmotivoentrega');
 	
 		$param['Id_distribuidora'] = $this->input->post('mtxtdistribuidoracell');
 		$param['Id_canal'] = $this->input->post('mtxtcanalcell');
@@ -329,12 +331,19 @@ class Dispositivos extends CI_Controller {
 		$param['fecha_registro'] = $this->input->post('mtxtfechahabilitacion');
 		$param['ruta'] = $this->input->post('mtxtruta');
 		$param['motivo_entrega']=$this->input->post('mtxtmotivoentrega');
+		
+		if($verificar=="DAÑO" || $verificar=="ROBO"){
+		 $param['estado']=7;
+		}else{
+		 $param['estado']=0;
+		}
 		echo $this->Dispositivos_Model->Entrega_Cell_Autorizado($param);
 
 	}
 	
 	public function Entrega_Cell_NoAutorizado(){
-	
+		$verificar=$param['motivo_entrega']=$this->input->post('mtxtmotivoentregano');
+
 		$param['Id_distribuidora'] = $this->input->post('mtxtdistribuidoranocell');
 		$param['Id_canal'] = $this->input->post('mtxtcanalnocell');
 		$param['Id_ruta'] = $this->input->post('mtxtrutacell');
@@ -342,9 +351,46 @@ class Dispositivos extends CI_Controller {
 		$param['Id_telefono'] = $this->input->post('mtxtidtelefonono');
 		$param['fecha_registro'] = $this->input->post('mtxtfechahabilitacion');
 		$param['motivo_entrega']=$this->input->post('mtxtmotivoentregano');
+
+		if($verificar=="DAÑO" || $verificar=="ROBO"){
+			$param['estado']=7;
+		   }else{
+			$param['estado']=0;
+		   }
 		echo $this->Dispositivos_Model->Entrega_Cell_NoAutorizado($param);
 
-    }
+	}
+	
+
+	public function Consultar_PDF()
+	{
+		if ($this->input->is_ajax_request()) {
+
+		
+			$Datos = $this->Dispositivos_Model->Consultar_PDF();
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
+
+
+	public function pdfdetails()
+	{
+
+		if($this->uri->segment(3))
+		{
+			$Id_PDF = $this->uri->segment(3);
+		
+			$html_content ='<div style="margin-top:1;"><img width="110%;" src="https://fotos.subefotos.com/301649983a6dedbf76bbbea3b8d33b18o.png"></div>';
+		
+			$html_content .= $this->Dispositivos_Model->fetch_single_details($Id_PDF);
+			$this->pdf->loadHtml($html_content);
+			$this->pdf->render();
+			$this->pdf->stream("".$Id_PDF.".pdf", array("Attachment"=>0));
+		}
+	}
 
 	
 

@@ -106,8 +106,12 @@ class AutorizacionesMH_Model extends CI_Model {
 
   public function Mostrar_CajasMH(){
 
-    $this->db->select('Id_autorizaciones, n_maquina, estado,estado_cell');
-    $this->db->from('autorizaciones_mh');
+
+    $this->db->select('a_mh.Id_autorizaciones, a_mh.n_maquina, a_mh.estado,a_mh.estado_cell,r.Nombre_Ruta');
+    $this->db->from('autorizaciones_mh as a_mh');
+    $this->db->join('telefonos as t','a_mh.Id_telefono=t.Id_telefono');
+    $this->db->join('bitacora_entrega_celular as bec','t.Id_telefono=bec.Id_telefono');
+    $this->db->join('rutas as r','bec.Id_ruta=r.Id_Ruta');
     // $this->db->where('estado',2);
     $this->db->where('estado_cell!=',"NO ENTREGADO");
     $this->db->order_by('n_maquina');

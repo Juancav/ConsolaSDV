@@ -74,7 +74,7 @@ class Empleados extends CI_Controller
 	public function Ingresar_Empleados(){
 		$config['file_name'] =$this->input->post('txtcarnet', TRUE).$this->input->post('txtnombre', TRUE) ; 
 		$config['upload_path'] = './Uploads/Imagenes/';
-        $config['allowed_types'] = 'gif|jpg|png';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size'] = '0';
         $config['max_width'] = '0';
         $config['max_height'] = '0';
