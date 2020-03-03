@@ -10,6 +10,7 @@ class Dispositivos extends CI_Controller {
 		$this->load->model('Dispositivos_Model');
 		$this->load->helper(array('url'));
 		$this->load->library(array('session'));
+		$this->load->library('Pdf');
 		
 	}
 
@@ -383,8 +384,8 @@ class Dispositivos extends CI_Controller {
 		{
 			$Id_PDF = $this->uri->segment(3);
 		
-			$html_content ='<div style="margin-top:1;"><img width="110%;" src="https://fotos.subefotos.com/301649983a6dedbf76bbbea3b8d33b18o.png"></div>';
-		
+			$html_content ='<div style="margin-top:-35; margin-left:7%;"><img src="https://i.ibb.co/MGcV2Y3/Titulo-PDF.png"/></div>';
+			// $html_content ='';
 			$html_content .= $this->Dispositivos_Model->fetch_single_details($Id_PDF);
 			$this->pdf->loadHtml($html_content);
 			$this->pdf->render();

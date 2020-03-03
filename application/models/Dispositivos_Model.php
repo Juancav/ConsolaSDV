@@ -576,6 +576,7 @@ class Dispositivos_Model extends CI_Model {
                 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
                 inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
                 LIMIT 10 ) PDF
+                where Id_Distribuidora= '.$this->session->userdata('Id_Distribuidora').'
                   order by fecha_registro DESC 
           ;';
 
@@ -587,79 +588,406 @@ class Dispositivos_Model extends CI_Model {
   
   function fetch_single_details($Id_PDF)
 	{
-        
+        $JEFE="JEFE DE VENTA";
+        $Espacio="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        $Espacio2="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        $Espacio3="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        $EspacioImp="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        $EspacioVen="&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+     
+     $data='SELECT * FROM (
+                  SELECT r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora,bec.fecha_registro,bec.motivo_entrega,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="'.$JEFE.'" and Estado=1) AS JEFE_DE_VENTA, bec.Id_pdf_cell 
+                  from bitacora_entrega_celular as bec 
+                  inner join empleados as e on bec.Id_empleados=e.Id_Empleados
+                  inner join distribuidora as d on bec.Id_distribuidora=d.Id_Distribuidora
+                  inner join rutas as r on bec.Id_ruta=r.Id_Ruta
+                  inner join telefonos as t on bec.Id_telefono=t.Id_telefono
+                  inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+                  inner join modelo_cell	as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+                  inner join deducibles_telefonos as d_t on mo_c.Id_modelo_cell=d_t.Id_modelo_cell
+                  union all
+                  SELECT r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora,bec_n.fecha_registro,bec_n.motivo_entrega,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="'.$JEFE.'" and Estado=1) AS JEFE_DE_VENTA, bec_n.Id_pdf_cell 
+                  from bitacora_entrega_celular_noautorizado as bec_n 
+                  inner join empleados as e on bec_n.Id_empleados=e.Id_Empleados
+                  inner join distribuidora as d on bec_n.Id_distribuidora=d.Id_Distribuidora
+                  inner join rutas as r on bec_n.Id_ruta=r.Id_Ruta
+                  inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
+                  inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+                  inner join modelo_cell	as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+                  inner join deducibles_telefonos as d_t on mo_c.Id_modelo_cell=d_t.Id_modelo_cell) InfoPDF
+                  WHERE Id_pdf_cell="'.$Id_PDF.'"';
 
-        $this->db->select('count(S_A.Cantidad) as Total,S_A.Id_Ruta, S_A.motivo_entrega,r.Nombre_Ruta, a.Id_Accesorios,a.precio_u,e.Nombre,e.Carnet,e.Dui, C_A.Id_Categoria, C_A.Nombre as Categoria ,S_A.cantidad,a.nombre_accesorio,a.vida_util_accesorio,a.marca_accesorio,a.tipo_accesorio, S_A.fecha_salida , S_A.Id_Empleados , S_A.Id_Accesorios ,S_A.Id_PDF');
-        $this->db->from('Salida_Accesorios  as S_A');
-        $this->db->join('rutas as r','S_A.Id_Ruta= r.Id_Ruta');
-        $this->db->join('Empleados as e','S_A.Id_Empleados = e.Id_Empleados');
-        $this->db->join('Accesorios as a','S_A.Id_Accesorios = a.Id_Accesorios');
-        $this->db->join('Categoria_Accesorio as C_A','a.Id_Categoria = C_A.Id_Categoria');
-        $this->db->group_by('a.Id_Accesorios');
-
-        $this->db->where('S_A.Id_PDF',$Id_PDF);
        
        
-        $data = $this->db->get('');
+        $data = $this->db->query($data  );
+  
 
         // $data->row()->Nombre; "ASI SE ACCEDE A UNA COLUMNA DE LA CONSULTA"
 
+// *********************************HOJA DE ENTREGA TELEFONO ***********************************//
+            $output =  '<p style="font-size:16px; margin-left:5%; margin-top:-35px;"><b>Informacion Del Solicitante</b></p>'; 
+            $output.= '<p style="font-size:16px; margin-left:5%;">Fecha de registro: <b>'.$data->row()->fecha_registro.'</b> <b></p>';
+            $output.='<p style="font-size:16px; margin-left:5%;">Tipo de empleado:<b>&nbsp;&nbsp;&nbsp;'.$data->row()->Cargo.'</b> ';
+              if($data->row()->Cargo=="VENDEDOR")
+              {
+               $output.=$EspacioVen;
+              }
+               else if($data->row()->Cargo=="IMPULSADORA")
+              { 
+                 $output.=$EspacioImp;
+              };
+            $output.='(Seleccion) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Otro: <input type="text"  style="height:30px; width:40%; background-color:#DFDFDF; margin-top:5px;" class="form-control" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----------------------------" ></p> ';
+            $output.='<div style="margin-top:-38px;"><p style="font-size:16px; margin-left:5%; ">Vigencia:<b>&nbsp;&nbsp;&nbsp; Permanente</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Seleccion)    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Otro: <input type="text"  style="height:30px; width:40%; background-color:#DFDFDF; margin-top:5px;" class="form-control" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----------------------------" ></p></div>';
+            $output.='<div style="margin-top:-35px; margin-left:-3px;"><p style="font-size:16px; margin-left:5%; "><b>R '.$data->row()->Nombre_Ruta.'</b>  &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;Desde: <input type="text" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$data->row()->fecha_registro.'" style="height:20px;  background-color:#DFDFDF;"></input></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Hasta: <input type="text"  style="height:30px; width:40%; background-color:#DFDFDF;" class="form-control" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----------------------------" ></p></div>';
+            
+            $output.='<div style="margin-left:26%;">';
 
-        $output = '<p color="red">SE HACE ENTREGA DEL EQUIPO: <b></p>';
-        
-        $output .= '<table width="100%" border="1px"><tr>
-        <th bgcolor="black"><center><font color="white">ID</font></center></th>
-        <th bgcolor="black"><center><font color="white">DESCRIPCION</font></center></th>
-        <th bgcolor="black"><center><font color="white">CANTIDAD</font></center></th>
-        </tr>';
+              $output.='<div style="float:left; ">';
+                $output.='<p style="font-size:16px; margin-left:-20%; margin-top:10px;"> Departamento Solicitante &nbsp;&nbsp;<br><p>';
+                $output.='<p style="font-size:16px; margin-left:-20%;" >&nbsp;&nbsp;&nbsp;Nombre Del Solicitante &nbsp;&nbsp;<br></p>';
+                $output.='<p style="font-size:16px; margin-left:-20%; margin-top:20px;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cargo Del Solicitante &nbsp;&nbsp;</p>';
+              $output.='</div>';
 
-        
-       
-		foreach($data->result() as $row)
-		{
-			$output .= '
-			<tr>
-				
-                <td width="15%"><center>'.$row->Id_Accesorios.'</center></td>
-                <td width="25%"><center>'.$row->nombre_accesorio." ".$row->marca_accesorio." ".$row->tipo_accesorio.'</center></td>
-                <td width="10%"><center>'.$row->Total.'</center></td>
-					
-			</tr>
-			';
-		}
-		
-        $output .= '</table>';
+              $output.='<div>';
+                $output.='<input type="text" value="'.$Espacio.'VENTAS" style="font-size: 14px; height:30px; width:88.4%; background-color:#DFDFDF;"></input><br>';
+                $output.='<input type="text" value="'.$Espacio2.'&nbsp;&nbsp;&nbsp;&nbsp;'.$data->row()->JEFE_DE_VENTA.'" style="font-size: 14px;height:30px; width:88.4%; background-color:#DFDFDF;"></input><br>';
+                $output.='<input type="text" value="'.$Espacio2.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$JEFE.' | '.$data->row()->Nombre_Distribuidora.'" style="font-size: 14px; height:30px; width:88.4%; background-color:#DFDFDF;"></input><br>';
+              $output.='</div>';
 
-        $output .= '
-        <p>PARA USO EN EL SISTEMA DE VENTAS<br><br>RECIBE:</p>
-        <p>CARNET: <b>  '.$data->row()->Carnet.'</b>  <span style="margin-left:200px;" >
-        NOMBRE: <b>'.$data->row()->Nombre.' </b> </span></p>
-        <P>FECHA <b>'.$data->row()->fecha_salida.'</b><span style="margin-left:200px;" >
-        RUTA: <b>'.$data->row()->Nombre_Ruta.' </b> </span></P><br><br>
-        ';
+            $output.='</div>';
 
-        $output.='<p style="margin-bottom:50px; text-align:center;"><B>*****************************************************************************************
-        <br>NOTA:ES RESPONSABILIDAD DEL VENDEDOR CUIDAR ESTE PRODUCTO, TIEMPO DE REPOSICION "'.$data->row()->vida_util_accesorio.'" GARANTIA SE INVALIDA SI EXISTE MALA MANIPULACION POR EL PERSONAL.<br>
-        ***************************************************************************************** </B></p>';
-        
+            $output.='<p style="font-size:16px; margin-left:3%;"><b>Informacion del Usuario Responsable del Telefono</b></p>';
 
-        $output .= '
-        
-        <p style="margin-bottom:100px;"><b>EL EQUIPO ESTA ASIGNADO A LA RUTA. POR LO TANTO, SI CAMBIO DE RUTA
-        DEBO DE ENTREGAR Y RECIBIR EL EQUIPO CORRESPONDIENTE.</b><p>
+            $output.='<div style="margin-left:26%;">';
 
-        <p style="margin-bottom:200px;"><b>MOTIVO DE ENTREGA: '.$data->row()->motivo_entrega.'</b></p>
+              $output.='<div style="float:left; ">';
+                $output.='<p style="font-size:16px; margin-left:-20%; margin-top:10px;"> Nombre del Usuario &nbsp;&nbsp;<br><p>';
+                $output.='<p style="font-size:16px; margin-left:-24%;" >Departamento Responsable &nbsp;&nbsp;<br></p>';
+              $output.='</div>';
 
-        <p>FIRMA USUARIO:________________________</p>
-        <p style="margin-left:50%; margin-top:-50px;">ENTREGA: <b>'.strtoupper($this->session->userdata('Nombre')).'</b></p>
+              $output.='<div>';
+                $output.='<input type="text" value="'.$Espacio2.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$data->row()->Nombre.'" style="font-size: 14px; height:30px; width:88.4%; background-color:#DFDFDF;"></input><br>';
+                $output.='<input type="text" value="'.$Espacio.'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VENTAS'.'" style="font-size: 14px;height:30px; width:88.4%; background-color:#DFDFDF;"></input><br>';
+                $output.='</div>';
+              $output.='</div>';
+
+            $output.='<div style="margin-left:-5%;"><img width="100.5%" height="250px" src="https://fotos.subefotos.com/15a551727983ffc757af09c27c7b1238o.png"></div>';
+            $output.='<p style="font-size:16px; margin-left:3%; margin-top:-7px;"> Justificacion <input type="text" style="font-size: 14px;height:30px; width:85%; background-color:#DFDFDF;" value="'.$Espacio.'ENTREGA DE EQUIPO POR: '.$data->row()->motivo_entrega.'" ></input></p>';
+            $output.='<input type="text" value="" style="font-size: 14px; margin-top:-22px; margin-left:35px; height:30px; width:90%; background-color:#DFDFDF; "></input>';
+            $output.='<input type="text" value="" style="font-size: 14px; margin-top:0; margin-left:35px; height:30px; width:90%; background-color:#DFDFDF; "></input>';
+            $output.='<div style="margin-left:-5%;"><img width="98%" height="200px"src="https://fotos.subefotos.com/b4f9c1a76472c9f643fbac104995d36co.png"></div>';
+
+            $output.='
+            <div style="border:  5px black solid; height:375px; margin-top:-10px;">
+
+                        <div style="border-bottom: 5px black solid; height:30px;  background-color:#DFDFDF">
+
+                          <p style="text-align:center; font-size:20px; margin-top:-1px;">
+                            ESPACIO RESERVADO PARA TECNOLOGIA DE INFORMACION
+                          </p>
+                          
+                          <p style="font-size:22px; text-align:center;">&nbsp;&nbsp;&nbsp;Fecha/hora Entrega:_______________________&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Autorizado Gerente De IT f._____________________<br>
+                            Nombre quien Entrega:_______________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Firma Persona que Entrega f._____________________<br>
+                          <p>
+
+                            <div style="border-bottom: 5px black solid; border-top: 5px black solid; height:30px; background-color:#DFDFDF">
+                              
+                              <p style="text-align:center; font-size:20px; margin-top:-1px;">
+                                DATOS DEL APARATO TELEFONICO
+                              </p>
+                              
+                              <p style="font-size:22px; margin-left:100px;"> 
+                                                                            NUMERO: <b>'.$data->row()->telefono.'</b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MARCA: <b>'.$data->row()->Nombre_Marca.'</b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODELO: <b>'.$data->row()->nombre_Modelo.'</b><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMEI: <b>'.$data->row()->imei_telefono.'</b><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIM: <b>'.$data->row()->sim_card.'</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                En caso de robo , o daño me hago responsable de reponer el celular <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                asignado por aparato de igual o similar modelo
+                                <br>PRIMERA OCACION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->primera_ocacion.'</b><br>
+                                SEGUNDA OCACION &nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->segunda_ocacion.'</b><br>
+                                TERCERA OCACION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->tercera_ocacion.'</b> 
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                F.______________________________
+                              </p>
+
+                            
+
+                            </div>
+
+                        </div>
+
+                      
+                        
+            </div>';
+
+//*********************************END, HOJA DE ENTREGA TELEFONO ***********************************//
+
+
+//*********************************HOJA DE ENTREGA HAND HELD ***********************************//
+
+// $output='';
+    $output .=  '<div style="page-break-before:always; font-size:20px;">
+            <img width="125px"  height="125px" style="margin-top:10px;" src="https://fotos.subefotos.com/1caca0253f02cfa9f52b2d2264004f28o.png">
+                   
+            
+                  <h1 style="font-size:24px; position:fixed; text-align:center;">
+
+                                          PRODUCTOS ALIMENTICIOS BOCADELI S.A DE C.V<br>
+                                      Formato para movimiento definitivo de activos fijos <br>
+                                                   Formulario ACF-01
+                  </h1>
+                  
+                  Fecha : <b>'.$data->row()->fecha_registro.'</b>  
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    Correlativo No. <table style="float:right; margin-right:300px;">
+                                                                      <td width="150px"  style="border: 1px #000 solid; ">&nbsp;</td>
+                                                                    </table>
+                                                                    <br><br>
+                  <b>Tipos de movimiento activos</b>
+                  
+
+                  <table style="margin-left:150px; margin-top:-30px; font-size:15px;" >
+                      <tr>
+                        <td style="border:1px #000 solid;" width="50px">&nbsp;</td><td style="font-size:23px;">Alta por entrega del activo fijo o contratacion de personal</td>
+                      </tr>
+                      <tr>
+                        <td style="border:1px #000 solid;" width="50px">&nbsp;</td><td style="font-size:20px;">Alta por liquidacion de proyectos o adquisicion de maquinaria (Debera completar anexo 1)</td>
+                      </tr>
+                      <tr>
+                        <td style="border:1px #000 solid; text-align:center;" width="50px">X</td ><td style="font-size:23px;"> Traslado interno(dentro de la misma empresa o area)</td>
+                      </tr>
+                      <tr>
+                        <td style="border:1px #000 solid;" width="50px">&nbsp;</td><td style="font-size:23px;">Traslado externo (a otra distribuidora) o venta del activo</td>
+                      </tr>
+                      <tr>
+                        <td style="border:1px #000 solid;" width="50px">&nbsp;</td><td style="font-size:23px;">Bajas de activo fijo dañado</td>
+                      </tr>
+                      <tr>
+                        <td style="border:1px #000 solid;" width="50px">&nbsp;</td><td style="font-size:23px;">Retiro de Activos Fijos por obsolescencia o donacion</td>
+                      </tr>
+                  </table><br>
+
+                
+                  <table style="float:right;">
+                  
+                      <tr>
+                      <td></td>
+                        <td></td>
+                        <td style="border:1px #000 solid; text-align:center; font-size:20px;" ><b>RUTA</b></td>
+                        <td style="border:1px #000 solid; text-align:center; font-size:20px;" ><b>'.$data->row()->Nombre_Ruta.'</b></td>
+                        
+                      </tr>
+
+                      <tr>
+                        <td colspan="4" style="border:1px #000 solid; text-align:center; font-size:20px; width:500px;" ><b> Dependencia destino (Recibe)</b></td>
+                      </tr>
+
+                      <tr>
+                        
+                        <td style="border:1px #000 solid;  font-size:20px;"> Nuevo Responsable</td>
+                        <td colspan="3" style="border:1px #000 solid;  font-size:20px;"> '.$data->row()->Nombre.'</td>
+                        
+                      </tr>
+
+                      <tr>
+                       
+                        <td style="border:1px #000 solid;  font-size:20px;"> Codigo de Empleado</td>
+                        <td colspan="3" style="border:1px #000 solid;  font-size:20px;"> '.$data->row()->Carnet.'</td>
+                      </tr>
+
+                      <tr>
+                     
+                        <td style="border:1px #000 solid;  font-size:20px;"> Area </td>
+                        <td colspan="3" style="border:1px #000 solid;  font-size:20px;">  VENTAS </td>
+                      </tr>
+
+                      <tr>
+                  
+                        <td style="border:1px #000 solid;  font-size:20px;"> Codigo Centro de Costos</td>
+                        <td colspan="3" style="border:1px #000 solid;  font-size:20px;"> '.$data->row()->cod_cc.'</td>
+                      </tr>
+
+                      <tr>
+                       
+                        <td style="border:1px #000 solid;  font-size:20px;">Nombre centro de costos</td>
+                        <td colspan="3" style="border:1px #000 solid;  font-size:20px;"> '.$data->row()->descrip_cc.'</td>
+                      </tr>
+
+
+                  </table>
+
+                 
+                  <table style="float:left; margin-top:2px;">
+                    
+                    <tr>
+                      <td width="75px">&nbsp;</td>
+                      <td width="75px">&nbsp;</td>
+                      <td width="75px">&nbsp;</td>
+                      <td width="75px">&nbsp;</td>
+                      <td width="75px">&nbsp;</td>
+                      <td style=" text-align:center; font-size:20px;" width="100px">&nbsp;</td>
+                      <td style=" text-align:center; font-size:20px;" width="100px">&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="6"style="border:1px #000 solid; text-align:center; font-size:20px;" width="100px"><b> Dependencia Origen (Entrega)</b></td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="4" style="border:1px #000 solid;  font-size:20px;"> Responsable Actual </td>
+                      <td colspan="2" style="border:1px #000 solid; text-align:center; font-size:20px;"> IT </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="4" style="border:1px #000 solid;  font-size:20px;"> Codigo de Empleado </td>
+                      <td colspan="2" style="border:1px #000 solid;  font-size:20px;">  </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2" style="border:1px #000 solid;  font-size:20px;"> Area </td>
+                      <td colspan="4" style="border:1px #000 solid; text-align:center; font-size:20px;"> IT </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="4" style="border:1px #000 solid;  font-size:20px;"> Codigo centro de costos </td>
+                      <td colspan="2" style="border:1px #000 solid;  font-size:20px;">  </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="4" style="border:1px #000 solid;   font-size:20px;"> Nombre centro de costos </td>
+                      <td colspan="2" style="border:1px #000 solid;   font-size:20px;"> </td>
+                    </tr>
+
+                  </table>
+
+                  <table style=" text-align:center; width:100%; position:absolute; margin-top:15%;">
+                    <tr>
+                      <th colspan="4" style="border:1px #000 solid;"> INFORMACION BASICA DE LOS ACTIVOS FIJOS</th>
+                    </tr>
+
+                    <tr>
+                      <th style="border:1px #000 solid;"> No.</th>
+                      <th style="border:1px #000 solid;"> Descripcion de los activos</th>
+                      <th style="border:1px #000 solid;"> Codigo De Activo</th>
+                      <th style="border:1px #000 solid;"> Marca y/o No. de Serie del Activo</th>
+                    </tr>  
+                    
+                    <tr>
+                      <td style="border:1px #000 solid;">1</td>
+                      <td style="border:1px #000 solid;">'.$data->row()->Nombre_Marca.' '.$data->row()->nombre_Modelo.'</td>
+                      <td style="border:1px #000 solid;">'.$data->row()->activo_fijo.'</td>
+                      <td style="border:1px #000 solid;">'.$data->row()->imei_telefono.'</td>
+                    </tr>
+
+                    <tr>
+                      <td style="border:1px #000 solid;">2</td>
+                      <td style="border:1px #000 solid;"></td>
+                      <td style="border:1px #000 solid;"></td>
+                      <td style="border:1px #000 solid;"></td>
+                    </tr>
+
+                    <tr>
+                      <td style="border:1px #000 solid;">3</td>
+                      <td style="border:1px #000 solid;"></td>
+                      <td style="border:1px #000 solid;"></td>
+                      <td style="border:1px #000 solid;"></td>
+                    </tr>
+
+                  </table>
+
+                  <table style=" text-align:center; width:100%; position:absolute; margin-top:26%;">
+                    <tr>
+                      <td style="border:1px #000 solid;"><B>Observaciones</B></td>
+                    </tr>
+                    <tr>
+                      <td rowspan="10" style="border:1px #000 solid;"><B>SE HACE ENTREGA DE EQUIPO PARA USO DE FACTURACION MOVIL EN LINEA</B></td>
+                    </tr>
+
+                  </table>
+
+                  <table style="float:right; margin-top:35%; text-align:center;  width:600px; margin-left:42px;">
+                      
+                      
+                        <tr>
+                          <td colspan="3" style="border:1px #000 solid;"><b>Firmas Dependencia Origen(Entrega)</b></td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="3"  height="70px" style="border:1px #000 solid;">&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="3" style="border:1px #000 solid;"><b>Firma y Sello responsable/dependencia actual</b></td>
+                        </tr>
+
+                        <tr>
+                          <td  colspan="3" height="70px" style="border:1px #000 solid;">&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                          <td colspan="3" style="border:1px #000 solid;"><b>Firma y Sello de quien autorizo el traslado</b></td>
+                        </tr>
+
+                  </table>
+
+                  <table style="float:left; margin-top:35%;   width:620px; text-align:center; margin-right:90px;">
+                      <tr>
+                        <td colspan="2" style="border:1px #000 solid"><b>Firmas Dependencia Destino(Recibe)</b></td>
+                      </tr>
+                        <tr>
+                          <td colspan="2" height="70px" style="border:1px #000 solid">&nbsp;</td>
+                        </tr>
+                          <tr>
+                            <td colspan="2" style="border:1px #000 solid"><b>Firma y Sello nuevo responsable/dependencia </b></td>
+                          </tr>
+                        <tr>
+                          <td height="70px" style="border:1px #000 solid">&nbsp;</td>
+                          <td height="70px" style="border:1px #000 solid">&nbsp;</td>
+                        </tr>
+                      <tr>
+                        <td style="border:1px #000 solid"><b>V.B Auxiliar activos</b></td>
+                        <td style="border:1px #000 solid"><b>Captura Activos Fijos</b></td>
+                      </tr>
+                  </table>
+
+                  <table style="border:1px #000 solid; margin-top:53%; width:100.5%; ">
+                    <tr>
+                      <th style="border:1px #000 solid; text-align:center;">Clausula de Compromiso</th>
+                    </tr>
+                      <tr>
+                        <td style="font-size:17px;">
+                        Como funcionario de Productos Alimenticios Bocadeli, S.A. de C.V. declaro que los activos relacionados en el presente documento están  bajo  
+                        mi  responsabilidad,  por  lo  cual  les  daré un uso adecuado al  desempeño de mis funciones y a la destinación institucional prevista para cada 
+                        uno de ellos. En consecuencia, serán asumidos por mí el daño o la pérdida de los mismos debidos a mi negligencia o incumplimiento de los instructivos relacionados con su uso y conservación.
+                        <br><br>
+                        Me comprometo  a  informar  oportunamente  al encargado de Activos Fijos sobre cualquier desplazamiento, traslado temporal o definitivo  de 
+                        dichos activos mediante la tramitación de los formatos respectivos, y sobre cualquier situación que ponga en inminente riesgo los bienes 
+                        relacionados. Dado que  la omisión  de estas disposiciones es considerada como falta grave por el  reglamento interno de trabajo,  asumo  las  
+                        consecuencias  económicas  que   conlleven  el  daño  o   la   pérdida  de  los  bienes mencionados si ocurren por mi  negligencia o 
+                        incumplimiento  de los instructivos  correspondientes, y en tal evento autorizo a Productos Alimenticios Bocadeli a efectuar el descuento 
+                        correspondiente al valor de reposición del bien afectado, deduciéndolo de mis salarios, prestaciones sociales o eventuales indemnizaciones a mi 
+                        favor.
+                        </td>
+                      </tr>
+                  </table>
+                  <br>
+                  <p style="font-size:16px; margin-top:-7px; text-align:center;"><b> Se requiere original y dos copias distribuidas asi : Original , contabilidad 1a. Copia auditoria interna 2.a Copia Archivo</b></p>
+
+
+                  
+          
+                <div>'; 
+
+
+//*********************************END, HOJA DE ENTREGA HAND HELD ***********************************//
+
+
+
+
     
-        ';
-        // $output.='<br><br><br><br><br><br><p colspan="2" align="center"><span style="margin-left:100px;"><a href="'.base_url().'index.php/Accesorios" class="btn btn-primary">Regresar</a></span><p>';
+  //********************************* HOJA DE DESCUENTO ***********************************//
         
-        //*********************************HOJA DE DESCUENTO ***********************************//
         
-        if($data->row()->Categoria=="POWER BANK"){
-            $cuota=$row->precio_u/2;
         $output.='<div style="page-break-before:always;">
         
         <BR><BR><BR><BR><BR><BR>
@@ -672,15 +1000,15 @@ class Dispositivos_Model extends CI_Model {
          }else if($this->session->userdata('Nombre_Distribuidora')=='SANTA ANA' OR $this->session->userdata('Nombre_Distribuidora')=='SONSONATE' ){
             $output.=' DE OCCIDENTE';
          }
-        $output.=' , S.A DE C.V.</b>  CARGAR A MI CUENTA PERSONAL LA CANTIDAD DE <b>$'.number_format($row->precio_u,2).'</b> DOLARES DE LOS ESTADOS UNIDOS DE NORTE AMERICA.<BR><BR>
-        EN CONCEPTO DE DESCUENTO POR: <b>'.$data->row()->nombre_accesorio." ".$row->marca_accesorio." ".$row->tipo_accesorio.'</b><br><br>
+        $output.=' , S.A DE C.V.</b>  CARGAR A MI CUENTA PERSONAL LA CANTIDAD DE <b>$'.number_format($data->row()->primera_ocacion,2).'</b> DOLARES DE LOS ESTADOS UNIDOS DE NORTE AMERICA.<BR><BR>
+        EN CONCEPTO DE DESCUENTO POR: <b>'.$data->row()->Nombre_Marca." ".$data->row()->nombre_Modelo."<BR> IMEI: ".$data->row()->imei_telefono.'</b><br><br>
         CANTIDAD QUE ME COMPROMETO A CANCELAR EN LA SIGUIENTE FORMA:<BR><BR>
         <b>DESCUENTO EN PLANILLA</b> 
         <img width="5%;" style="margin-left:50px; margin-top:10px;" src="https://cdn4.iconfinder.com/data/icons/vote-check-marks/100/vote-24-512.png">
         </p><p><b><center><hr></center></b></p><br><br>
         A LA VEZ SOLICITO Y AUTORIZO AL DEPARTAMENTO DE COMPENSACIONES DE ESTA EMPRESA, 
         PARA QUE DE MI SALARIO QUINCENAL RETENGA DICHO MONTO A PARTIR DE_____________________________, 
-        EN <B>2 CUOTAS QUINCENALES DE $'.number_format($cuota,2).' C/U</B><BR><BR> Y TAMBIÉN PARA QUE EN CASO DE MI RETIRO 
+        EN <B>5 CUOTAS QUINCENALES DE $'.number_format(($data->row()->primera_ocacion/5),2).' C/U</B><BR><BR> Y TAMBIÉN PARA QUE EN CASO DE MI RETIRO 
         Y SI FUERA OBJETO DE INDEMNIZACIÓN, SE ME DEDUZCA EL SALDO ADEUDADO, EL CUAL FIRMO EN SEÑAL 
         DE ACEPTACIÓN COMPLETA.<BR><BR>PARA SER PRESENTADA A <b>DISTRIBUIDORA';
         if($this->session->userdata('Nombre_Distribuidora')=='SAN SALVADOR'){
@@ -695,7 +1023,7 @@ class Dispositivos_Model extends CI_Model {
         <BR><BR><HR><BR><BR>
         NOMBRE DEL EMPLEADO: _________________________________________________________<BR><BR><BR><BR>
         FIRMA:___________________________';
-        }
+        
 		return $output;
     }
 

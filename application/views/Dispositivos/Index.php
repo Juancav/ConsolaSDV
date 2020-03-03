@@ -738,20 +738,7 @@
                      
                     <div class="tabla">
 
-                    <table class="table" style="margin: auto; border:white 2px solid; width:55%;   margin-bottom:5%;">
-                    <tr><th class="th">Ruta</th><th class="th">Nombre</th><th class="th">Telefono</th><th class="th"> Fecha Entrega</th><th class="th">PDF</th></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                    <tr><td>1.1.01</><td>Juan Carlos Arevalo</td><td>SAMSUNG J2 PRIME 123456789</td><td>27-02-2020</td><td><span style="font-size:22px; color:red; margin:0 auto;"><i class="fas fa-file-pdf"></i></span></td></tr>
-                
-                    </table>
+                   
 
                     </div>
 
