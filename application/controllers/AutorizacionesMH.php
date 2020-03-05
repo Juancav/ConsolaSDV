@@ -9,7 +9,8 @@ class AutorizacionesMH extends CI_Controller {
 		$this->load->database();
 		$this->load->helper(array('url'));
         $this->load->library(array('session'));
-        $this->load->model('AutorizacionesMH_Model');		
+		$this->load->model('AutorizacionesMH_Model');	
+		$this->load->library('Pdf');	
 	}
 	public function index()
 	{
@@ -135,6 +136,26 @@ class AutorizacionesMH extends CI_Controller {
 			
 	}
 
+	public function fetch_canal()
+	{
+		if($this->input->is_ajax_request()){
+			if($this->input->post('Id_Distribuidora'))
+			{
+			echo $this->AutorizacionesMH_Model->fetch_canal($this->input->post('Id_Distribuidora'));
+			
+			}
+		}
+	}
+
+	public function fetch_ruta_cell()
+	{
+		if($this->input->post('Id_Canal'))
+			{
+			echo $this->AutorizacionesMH_Model->fetch_ruta_cell($this->input->post('Id_Canal'));
+			}
+	}
+
+
 
 
 	public function fetch_autorizaciones_activas()
@@ -247,6 +268,40 @@ class AutorizacionesMH extends CI_Controller {
 			
 		}
         
+	}
+
+	public function Consultar_PDF()
+	{
+		if ($this->input->is_ajax_request()) {
+
+		
+			$Datos = $this->AutorizacionesMH_Model->Consultar_PDF();
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
+
+
+	
+
+	public function pdfdetails()
+	{
+
+		if($this->uri->segment(3))
+		{
+			$Id_PDF = $this->uri->segment(3);
+		
+			
+			$html_content ='';
+			$html_content .= $this->AutorizacionesMH_Model->fetch_single_details($Id_PDF);
+			$this->pdf->set_paper("A4", "landscape");
+			$this->pdf->loadHtml($html_content);
+			$this->pdf->render();
+			$this->pdf->stream("".$Id_PDF.".pdf", array("Attachment"=>0));
+		
+		}
 	}
 		
     

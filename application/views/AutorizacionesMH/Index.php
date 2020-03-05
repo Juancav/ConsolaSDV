@@ -240,7 +240,6 @@
             <div id="containment-wrapper">
               <div style="display:none;" id="js"></div>
               <div style="display:none;" id="jsACT"></div>
-              <div class="cr cr-top cr-right cr-sticky cr-blue" style="font-weight:bold; color:#000; box-shadow: 1px 5px  #000;">Historial De Baja</div>
               <div class="container">
                 
                       <div class="row">
@@ -303,7 +302,52 @@
  
             </div>
 
+            
+
           </div>
+          <input type="radio" id="mostrar-modal" name="modal"/>
+            <label  class="PdfDispositivos" for="mostrar-modal"><span style="font-size:22px;"><i class="fas fa-file-pdf"></i></span></label>
+            <input type="radio" id="cerrar-modal" name="modal"/>
+            <label for="cerrar-modal">X</label>
+            
+            <div id="modal">
+            <h1 style="color:white; margin-left:20vw;"> Alta y Baja de Serie </hr>
+            <h1 style="color: white;    float: right;    margin-right: 100px;    margin-top: 75px; cursor:pointer;"></a><span style="font-size:70px;"><i onclick="ConsultarPDF();"class="fab fa-sistrix"></i></span> </h1><br>
+                <div id="tablapdf"> 
+
+                    <div class="buscador" style="">
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
+                                <select class="form-control" id="bdistribuidora" name="bdistribuidora" > 
+                                <option  disabled="disabled" value="" selected="selected">Seleccione Distribuidora</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Canal</h6></strong></label>
+                                <select class="form-control" id="bcanal" name="bcanal" >
+                                <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
+                                </select>
+                            </div> 
+
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Ruta Asignada</h6></strong></label>
+                                <select class="form-control" id="bruta" name="bruta" >
+                                <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
+                                </select>
+                            </div>  
+
+                    </div>
+                     
+                    <div class="tabla" style="margin-left:2%;">
+
+                   
+
+                    </div>
+
+                </div>
+             
+            </div>
 
 
           <!--============= MODAL EDITAR AUTORIZACIONES MH BACK UP========= -->
@@ -449,6 +493,8 @@
               
 
       </section>
+
+     
       
     </main>
 
@@ -1488,7 +1534,125 @@ function Registrar_Alta_MH(){
       });
     }
 }
+
+
+
 /*================== END, METODO REGISTRAR BAJA DE SERIE==================================*/
+
+
+/*==================MOSTRAR DISTRIBUIDORA , CANAL , RUTA , BITACORA ALTA Y BAJA SERIE==================================*/
+
+  $.ajax({
+                url:"<?php echo base_url();?>index.php/AutorizacionesMH/fetch_distribuidora",
+                method:"POST",
+            
+
+                success:function(data)
+                {
+                
+                $('#bdistribuidora').html(data);
+                //   $('#mtxtcanalnocell').html('<option value="" >Seleccione El Canal</option>');
+                //   $('#mtxtrutacell').html('<option value="" >Seleccione la Ruta</option>');
+                }
+            });
+
+            //   obtener canal segun distribuidora
+            $('#bdistribuidora').change(function(){
+            var Id_Distribuidora = $('#bdistribuidora').val();
+
+            if(Id_Distribuidora != '')
+            {
+                $.ajax({
+                url:"<?php echo base_url();?>index.php/AutorizacionesMH/fetch_canal",
+                method:"POST",
+                data:{Id_Distribuidora:Id_Distribuidora},
+
+                success:function(data)
+                {
+                
+                    $('#bcanal').html(data);
+                    $('#bruta').html('<option value="" >Seleccione la Ruta</option>');
+                }
+                });
+            }
+            else
+            {
+            $('#bcanal').html('<option value="" >Selecccion el canal</option>');
+            $('#bruta').html('<option value="" >Selecccione la Ruta</option>');
+            }
+            });
+            // obtener rutas segun canal
+            $('#bcanal').change(function(){
+            var Id_Canal = $('#bcanal').val();
+            if(Id_Canal != '')
+            {
+            $.ajax({
+                url:"<?php echo base_url(); ?>index.php/AutorizacionesMH/fetch_ruta_cell",
+                method:"POST",
+                data:{Id_Canal:Id_Canal},
+                success:function(data)
+                {
+                
+                $('#bruta').html(data);
+                }
+            });
+            }
+            else
+            {
+            $('#bruta').html('<option value="" >Selecccione la Ruta</option>');
+            }
+            });
+/*==================END MOSTRAR DISTRIBUIDORA , CANAL , RUTA , BITACORA PDF ALTA Y BAJA SERIE==================================*/
+
+
+
+function ConsultarPDF(){
+    alert("Realmente Funciona Pero No Funciona")
+}
+
+/*==================END MOSTRAR REGISTROS PDF CON PARAMETROS==================================*/
+
+
+$.ajax({
+            url:"<?php echo base_url();?>index.php/AutorizacionesMH/Consultar_PDF",
+            method:"POST",
+          
+
+            success:function(respuesta)
+            {
+                var registros =eval(respuesta);
+    
+
+            html ='';
+            html +="<table class='table' style='margin: 200 auto; border:white 2px solid; width:55%; margin-bottom:5%;'>";
+            html +="<tr><th class='th'>Ruta</th><th class='th'>Estatus</th><th class='th'>N Maquina</th><th class='th'> Fecha Baja/Alta</th><th class='th'>PDF</th></tr>";
+
+              for (var i = 0; i <registros.length; i++) {
+                  html +="<tbody>";
+                  html+="<tr><td rowspan='2'>"+registros[i]["Nombre_Ruta"]+"</td><td>"+registros[i]["estatus"]+"</td><td rowspan='2'>"+registros[i]["n_maquina"]+"</td><td rowspan='2'>"+registros[i]["fecha_baja_alta"]+ "</td><td rowspan='2'><a href='<?php echo base_url();?>index.php/AutorizacionesMH/pdfdetails/"+registros[i]["Id_pdf_baja_serie"]+"' target='_blank'><span style='color: red; font-size:30px;'><i class='fas fa-file-pdf'></i></span></a></td></tr>";                  
+                  
+                    if(i % 2 == 0) 
+                        {
+                        
+                        }
+                        else 
+                        {
+                          html+="<tr></tr><tr><td colspan='5'<hr style='border:2px #222AD1 solid; background-color:#222AD1;'></td></tr>";
+                        }
+                    
+                  
+              }
+
+             
+
+            
+
+            html +="</tbody></table>";
+
+            
+            $(".tabla").html(html);
+            }
+          });
 
 
 </script>

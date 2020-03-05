@@ -376,6 +376,7 @@ class Dispositivos extends CI_Controller {
 			
 	}
 
+	
 
 	public function pdfdetails()
 	{
@@ -384,12 +385,13 @@ class Dispositivos extends CI_Controller {
 		{
 			$Id_PDF = $this->uri->segment(3);
 		
-			$html_content ='<div style="margin-top:-35; margin-left:7%;"><img src="https://i.ibb.co/MGcV2Y3/Titulo-PDF.png"/></div>';
-			// $html_content ='';
+			
+			$html_content ='';
 			$html_content .= $this->Dispositivos_Model->fetch_single_details($Id_PDF);
 			$this->pdf->loadHtml($html_content);
 			$this->pdf->render();
 			$this->pdf->stream("".$Id_PDF.".pdf", array("Attachment"=>0));
+		
 		}
 	}
 

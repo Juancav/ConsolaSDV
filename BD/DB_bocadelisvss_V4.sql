@@ -1028,7 +1028,7 @@ Id_marca_cell int(7) zerofill not null,
 Id_modelo_cell int(7) zerofill not null,
 año_telefono int(4) not null,
 color_telefono varchar(25) not null,
-imei_telefono int(20) not null,
+imei_telefono varchar(20) not null,
 N_serie_telefono varchar(50) not null,
 activo_fijo int(16) not null,
 Id_Distribuidora int(7) zerofill not null,
@@ -1467,14 +1467,16 @@ Id_modelo_cell int(7) zerofill not null,
 foreign key (Id_modelo_cell) references modelo_cell(Id_modelo_cell)  
 )ENGINE=innoDB;
 
-
+select * from deducibles_telefonos;
 
 insert into deducibles_telefonos values(0,'50.29','60.22','84.3',8);
 insert into deducibles_telefonos values(0,'53.36','66.69','93.37',9);
 insert into deducibles_telefonos values(0,'300.00','300.00','300.00',10);
 insert into deducibles_telefonos values(0,'53.36','66.69','93.37',4);
 insert into deducibles_telefonos values(0,'50.29','60.22','84.3',5);
-insert into deducibles_telefonos values(0,'53.36','66.69','93.37',6);
+insert into deducibles_telefonos values(0,'53.36','66.69','93.37',11);
+
+
 
 
 
@@ -1499,7 +1501,9 @@ inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
 inner join modelo_cell	as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
 inner join deducibles_telefonos as d_t on mo_c.Id_modelo_cell=d_t.Id_modelo_cell) InfoPDF
-;
+
+
+
 -- CONSULTA PARA IMPRIMIR DATOS PDF-- 
 
 
@@ -1657,5 +1661,47 @@ UPDATE RUTAS SET COD_CC='751546' , DESCRIP_CC='Ruta Gudaff Santa Ana 3.9.01' WHE
 
 -- END ACTUALIZAR CENTROS DE COSTOS--
 
+alter table telefonos change  imei_telefono  imei_telefono varchar(20) not null;
 
-select * from rutas;
+-- CONSULTA PDF ALTA Y BAJA SERIE--
+select  bs.Id_pdf_baja_serie,a_mh.n_maquina , r.nombre_ruta , d.Nombre_Distribuidora, a_mh.n_resolucion,  a_mh.fecha_autorizacion, t.imei_telefono, bs.estatus,a_mh.n_resolucion_rt, m_c.Nombre_Marca,mo_c.nombre_Modelo,a_mh.software,a_mh.fecha_habilitacion, a_mh.cantidad_tk,a_mh.serie_autorizada
+from baja_serie  as bs
+inner join autorizaciones_mh as a_mh on bs.Id_autorizaciones=a_mh.Id_autorizaciones
+inner join telefonos as t on a_mh.Id_telefono=t.Id_telefono
+inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
+inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
+inner join bitacora_entrega_celular as bec on t.Id_telefono=bec.Id_telefono 
+inner join distribuidora as d on t.Id_Distribuidora=d.Id_Distribuidora
+inner join rutas	as r	on bec.Id_ruta=r.Id_ruta
+ where bs.fecha_registro='2020-03-03 21:07:55' and bs.estatus='BAJA'
+ order by bs.estatus desc;
+-- CONSULTA PDF ALTA Y BAJA SERIE--
+
+
+--  MOSTRAR TABLA CONSULTAR PDF ULTIMOS 10--
+
+select r.Nombre_Ruta, bs.estatus,a_mh.n_maquina, bs.fecha_baja_alta ,bs.Id_pdf_baja_serie from baja_serie as bs
+inner join autorizaciones_mh as a_mh on bs.Id_autorizaciones=a_mh.Id_autorizaciones
+inner join telefonos as t on a_mh.Id_telefono=t.Id_telefono
+inner join distribuidora as d on t.Id_Distribuidora=d.Id_Distribuidora
+inner join bitacora_entrega_celular as bec on bec.Id_telefono=t.Id_telefono
+inner join rutas as r on bec.Id_Ruta=r.Id_ruta
+order by bs.Id_pdf_baja_serie desc
+;
+
+select * from autorizaciones_mh;
+
+--  MOSTRAR TABLA CONSULTAR PDF ULTIMOS 10--
+create table alta_serie(
+Id_baja_serie int(7) zerofill not null auto_increment primary key,
+Id_autorizaciones int(7) zerofill not null,
+fecha_baja_alta date not null,
+estatus varchar(10) not null,
+Id_pdf_baja_serie datetime	not null,
+Id_u_sdv int(7) zerofill not null,
+fecha_registro datetime not null,
+foreign key (Id_autorizaciones) references autorizaciones_mh(Id_autorizaciones),
+foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv)
+);
+
+SELECT * FROM alta_serie
