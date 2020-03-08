@@ -1621,26 +1621,37 @@ $.ajax({
             success:function(respuesta)
             {
                 var registros =eval(respuesta);
-    
+                var ROSPAN='';
+                var ruta ='';
 
             html ='';
             html +="<table class='table' style='margin: 200 auto; border:white 2px solid; width:55%; margin-bottom:5%;'>";
             html +="<tr><th class='th'>Ruta</th><th class='th'>Estatus</th><th class='th'>N Maquina</th><th class='th'> Fecha Baja/Alta</th><th class='th'>PDF</th></tr>";
-
+            
+            
+           
+            html +="<tbody>";
               for (var i = 0; i <registros.length; i++) {
-                  html +="<tbody>";
-                  html+="<tr><td rowspan='2'>"+registros[i]["Nombre_Ruta"]+"</td><td>"+registros[i]["estatus"]+"</td><td rowspan='2'>"+registros[i]["n_maquina"]+"</td><td rowspan='2'>"+registros[i]["fecha_baja_alta"]+ "</td><td rowspan='2'><a href='<?php echo base_url();?>index.php/AutorizacionesMH/pdfdetails/"+registros[i]["Id_pdf_baja_serie"]+"' target='_blank'><span style='color: red; font-size:30px;'><i class='fas fa-file-pdf'></i></span></a></td></tr>";                  
+                               
+                  html +="<tr>";
+
+                  if(registros[i]["estatus"]=='ALTA'){
+
+                    html+="<td rowspan='2' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Ruta"]+"</td>";
+
+                  }
+
+                  html+="<td>"+registros[i]["estatus"]+"</td><td >"+registros[i]["n_maquina"]+"</>";
                   
-                    if(i % 2 == 0) 
-                        {
-                        
-                        }
-                        else 
-                        {
-                          html+="<tr></tr><tr><td colspan='5'<hr style='border:2px #222AD1 solid; background-color:#222AD1;'></td></tr>";
-                        }
+                  if(registros[i]["estatus"]=='ALTA'){
+
+                    html+="<td rowspan='2' style='vertical-align : middle;text-align:center;'>"+registros[i]["fecha_baja_alta"]+ "</td>";
+                    html+="<td rowspan='2' style='vertical-align : middle;text-align:center;'><a href='<?php echo base_url();?>index.php/AutorizacionesMH/pdfdetails/"+registros[i]["Id_pdf_baja_serie"]+"' target='_blank'><span style='color: red; font-size:30px;'><i class='fas fa-file-pdf'></i></span></a></td></tr>";                  
+
+                    }
+
                     
-                  
+
               }
 
              

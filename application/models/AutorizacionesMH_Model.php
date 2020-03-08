@@ -279,7 +279,8 @@ class AutorizacionesMH_Model extends CI_Model {
     inner join distribuidora as d on t.Id_Distribuidora=d.Id_Distribuidora
     inner join bitacora_entrega_celular as bec on bec.Id_telefono=t.Id_telefono
     inner join rutas as r on bec.Id_Ruta=r.Id_ruta
-    order by bs.Id_pdf_baja_serie desc;';
+    order by bs.Id_baja_serie desc 
+    limit 10;';
 
     $resultados = $this->db->query($query);
     return $resultados->result();

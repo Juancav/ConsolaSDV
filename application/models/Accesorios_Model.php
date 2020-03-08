@@ -332,13 +332,22 @@ class Accesorios_Model extends CI_Model {
 
 
     public function Consultar_PDF()
-    {
+    {   
        $Id_Distribuidora= $this->session->userdata('Id_Distribuidora');
+
+
         $query = 'SELECT S_A.Id_S_Accesorios, S_A.Id_Ruta, r.Nombre_Ruta, e.Nombre,a.nombre_accesorio,a.marca_accesorio,a.tipo_accesorio, S_A.fecha_salida , S_A.Id_Empleados , S_A.Id_Accesorios ,S_A.Id_PDF   
         from Salida_Accesorios  as S_A inner join rutas as r on S_A.Id_Ruta= r.Id_Ruta
         inner join Empleados as e on S_A.Id_Empleados = e.Id_Empleados 
         inner join Accesorios as a on S_A.Id_Accesorios = a.Id_Accesorios 
-        where S_A.Id_pdf !="" and S_A.Id_Distribuidora="'.$Id_Distribuidora.'"  group by S_A.Id_PDF order by S_A.Id_S_Accesorios desc' ;
+        where S_A.Id_pdf !="" and S_A.Id_Distribuidora="'.$Id_Distribuidora.'"';
+        
+        if($this->session->userdata('Id_u_sdv')=="0000005"){
+            $query.='and S_A.Id_Distribuidora="000000004"';
+
+        }else{
+            $query.='group by S_A.Id_PDF order by S_A.Id_S_Accesorios desc';
+        }
 
         $resultados = $this->db->query($query);
         return $resultados->result();

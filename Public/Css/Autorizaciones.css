@@ -371,7 +371,7 @@ transform: scale(1.1);
   cursor: pointer;
 }
 #mostrar-modal + label:hover {
-  background: ;
+  background: #3a3f48;
 }
 #mostrar-modal:checked ~ #modal {
   top: 0;

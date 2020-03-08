@@ -1673,7 +1673,7 @@ inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
 inner join bitacora_entrega_celular as bec on t.Id_telefono=bec.Id_telefono 
 inner join distribuidora as d on t.Id_Distribuidora=d.Id_Distribuidora
 inner join rutas	as r	on bec.Id_ruta=r.Id_ruta
- where bs.fecha_registro='2020-03-03 21:07:55' and bs.estatus='BAJA'
+ where  bs.estatus='BAJA'
  order by bs.estatus desc;
 -- CONSULTA PDF ALTA Y BAJA SERIE--
 
@@ -1686,7 +1686,7 @@ inner join telefonos as t on a_mh.Id_telefono=t.Id_telefono
 inner join distribuidora as d on t.Id_Distribuidora=d.Id_Distribuidora
 inner join bitacora_entrega_celular as bec on bec.Id_telefono=t.Id_telefono
 inner join rutas as r on bec.Id_Ruta=r.Id_ruta
-order by bs.Id_pdf_baja_serie desc
+order by bs.Id_baja_serie desc
 ;
 
 select * from autorizaciones_mh;
@@ -1704,4 +1704,8 @@ foreign key (Id_autorizaciones) references autorizaciones_mh(Id_autorizaciones),
 foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv)
 );
 
-SELECT * FROM alta_serie
+describe baja_serie;
+describe bitacora_entrega_celular;
+select * from baja_serie;
+
+alter table baja_serie change Id_pdf_baja_serie Id_pdf_baja_serie varchar(50) not null

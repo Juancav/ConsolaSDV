@@ -1,6 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<style>
+
+.table{   
+             
+              border-collapse: collapse;
+              box-shadow: 2px 10px 15px #000DFD;
+              overflow: hidden;
+              text-align: center;
+              border-radius:5px;
+              font-size:11.5px;  
+              font-weight:bold ;
+
+  
+        }
+        .th {
+              
+              background-color:#000DFD;
+              text-align: center;
+              color: #fff;
+        }
+        .td {
+            
+              text-align: center;      
+        }
+   
+</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -26,177 +53,185 @@
 
     <!--=================================STAR NAV TABS============================ -->
   <nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-visualizar-tab" data-toggle="tab" href="#nav-visualizar" role="tab" aria-controls="nav-visualizar" aria-selected="true">Visualizar</a>
-    <a class="nav-item nav-link" id="nav-crear-tab" data-toggle="tab" href="#nav-crear" role="tab" aria-controls="nav-crear" aria-selected="false">Crear</a>
-    <a class="nav-item nav-link" id="nav-asignar-tab" data-toggle="tab" href="#nav-asignar" role="tab" aria-controls="nav-asignar" aria-selected="false">Asignar</a>
-  </div>
-</nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-visualizar-tab" data-toggle="tab" href="#nav-visualizar" role="tab" aria-controls="nav-visualizar" aria-selected="true">Visualizar</a>
+        <a class="nav-item nav-link" id="nav-crear-tab" data-toggle="tab" href="#nav-crear" role="tab" aria-controls="nav-crear" aria-selected="false">Crear</a>
+        <a class="nav-item nav-link" id="nav-asignar-tab" data-toggle="tab" href="#nav-asignar" role="tab" aria-controls="nav-asignar" aria-selected="false">Asignar</a>
+      </div>
+  </nav>
   <!--=================================CONTENT NAV TABS "VISUALIZAR"============================ -->
-<div class="tab-content" id="nav-tabContent">
+    <div class="tab-content" id="nav-tabContent">
 
-    <div class="tab-pane fade show active" id="nav-visualizar" role="tabpanel" aria-labelledby="nav-visualizar-tab">
-    <form id="form-vis">
-      <div class="form-row">
-        <div class="form-group col-md-2" >
-                <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
-                <select class="form-control" id="Cdistribuidora" name="Cdistribuidora" required>
-                <option selected="true" disabled="disabled" value="">Seleccione distribuidora</option>
-                <?php
-                    foreach($arrDistribuidora as $row)
-                    {
-                    echo '<option value="'.$row->Id_Distribuidora.'">'.$row->Nombre_Distribuidora.'</option>';
-                    }
-                    ?>
-                </select>
-        </div> 
-          <div class="form-group col-md-2" >
-                <label for="exampleFormControlSelect1"><strong><h6>Tipo Empleado</h6></strong></label>
-                <select class="form-control" id="Ccargo" name="Ccargo" required>
-                <option selected="true" disabled="disabled" value="">Seleccione Tipo Empleado</option>
-                  <option value='VENDEDOR'>VENDEDOR</option>
-                  <option value='IMPULSADORA'>IMPULSADORA</option>
-                  <option value='SUPERVISOR'>SUPERVISOR</option>
-                  <option value='VENDEDOR JR'>VENDEDOR JR</option>
-                  <option value='SUPERVISOR JR'>SUPERVISOR JR</option>
-                  <option value='REPARTO'>REPARTO</option>
-                  <option value='AUXILIAR DE REPARTO'>AUXILIAR DE REPARTO</option>
-                  <option value='JEFE DE VENTA'>JEFE DE VENTA</option>
-                  <option value='ANALISTA'>ANALISTA</option>
+        <div class="tab-pane fade show active" id="nav-visualizar" role="tabpanel" aria-labelledby="nav-visualizar-tab">
 
-
-                </select>
-          </div>
-            <div class="btn-group-vertical">
-              <div style='padding: 15px; 400px;  margin-top:-20px; margin-left:200px;'>
-                  <button type="button" name='buscar' id='buscar' class="btn btn-primary" OnClick="mostrarDatos();">consultar</button>
-                  <button type="button" class="btn btn-success ">Exportar</button>
-              </div>
-            </div>       
-      </div>
-    </form>
-      <div class="row">
-    <style>
-          
-    table {
-      width: 800px;
-      border-collapse: collapse;
-      overflow: hidden;
-      box-shadow: 2px 5px 5px #999;
-    }
-
-    th {
-      padding: 15px;
-      background-color:#007DFF;
-      text-align: center;
-      
-      color: #fff;
-    }
-
-
-    }
-
-
-    </style>
-            <div id="listaEmpleados" class="col-lg-16">
-            
-          </div>
-          <input type="hidden" class="form-control" id="txtid"  name="txtid" >
-        </div>
-        
-       
-</div><!--FINISH VISUALIZAR -->
-
-
- <!--=================================CONTENT NAV TABS "CREAR"============================ -->
-<div class="tab-pane fade" id="nav-crear" role="tabpanel" aria-labelledby="nav-crear-tab">
-    <form method='POST' id='form_empleados' name='form_empleados' action='<?php echo base_url('index.php/Empleados/Ingresar_Empleados')?>' enctype="multipart/form-data">
-        <div class="form-row">
-            <div class="form-group col-md-2">
-              <label for="inputEmail4">Numero de Carnet</label>
-              <input type="number" class="form-control" id="txtcarnet"  name="txtcarnet" placeholder="Carnet" >
-            </div>
-            <div class="form-group col-md-2">
-              <label for="inputPassword4">Numero De Dui</label>
-              <input type="text" class="form-control" id="txtdui" name="txtdui" placeholder="00000000-0">
-            </div>     
-            <div class="form-group col-md-4">
-              <label for="inputAddress">Nombre</label>
-              <input type="text" class="form-control" id="txtnombre" name="txtnombre" placeholder="" >
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-4">
-              <label for="inputState">Cargo</label>
-              <select id="txtcargo" name='txtcargo' class="form-control" >
-              <option selected="true" disabled="disabled" value="">Seleccione El Cargo</option>
-                <option value='VENDEDOR'>VENDEDOR</option>
-                <option value='IMPULSADORA'>IMPULSADORA</option>
-                <option value='SUPERVISOR'>SUPERVISOR</option>
-                <option value='VENDEDOR JR'>VENDEDOR JR</option>
-                <option value='SUPERVISOR JR'>SUPERVISOR JR</option>
-                <option value='REPARTO'>REPARTO</option>
-                <option value='AUXILIAR DE REPARTO'>AUXILIAR DE REPARTO</option>
-                <option value='JEFE DE VENTA'>JEFE DE VENTA</option>
-                <option value='ANALISTA'>ANALISTA</option>
-              </select>
-            </div>
-              <div class="form-group">
-                <label for="inputAddress2">Fecha Ingreso</label>
-                <input type="date" class="form-control" id="txtfecha" name="txtfecha"  >
-              </div>
-            </div>
-      <div class="form-row">
-            <div class="form-group col-md-2" >
-              <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
-              <select class="form-control" id="distribuidora" name="distribuidora" > 
-              <option selected="true" disabled="disabled" value="">Seleccione Distribuidora</option>
+              <div>
+              <form id="form-vis">
               
-              <?php
-                  foreach($arrDistribuidora as $row)
-                  {
-                   echo '<option value="'.$row->Id_Distribuidora.'">'.$row->Nombre_Distribuidora.'</option>';
-                  }
-                  ?>
-              </select>
-            </div>
+                <div style="width:25%; float:right; margin-top:10%; margin-right:-5%; ">
+                  <div class="form-group " >
 
-            <div class="form-group col-md-2" >
-              <label for="exampleFormControlSelect1"><strong><h6>Canal</h6></strong></label>
-              <select class="form-control" id="canal" name="canal" >
-              <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
+                          <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
+                          <select class="form-control" id="Cdistribuidora" name="Cdistribuidora" required>
+                          <option selected="true" disabled="disabled" value="">Seleccione distribuidora</option>
+                          <?php
+                              foreach($arrDistribuidora as $row)
+                              {
+                              echo '<option value="'.$row->Id_Distribuidora.'">'.$row->Nombre_Distribuidora.'</option>';
+                              }
+                              ?>
+                          </select>
+                  </div> 
+
+                  <div class="form-group " >
+                          <label for="exampleFormControlSelect1"><strong><h6>Tipo Empleado</h6></strong></label>
+                          <select class="form-control" id="Ccargo" name="Ccargo" required>
+                          <option selected="true" disabled="disabled" value="">Seleccione Tipo Empleado</option>
+                            <option value='VENDEDOR'>VENDEDOR</option>
+                            <option value='IMPULSADORA'>IMPULSADORA</option>
+                            <option value='SUPERVISOR'>SUPERVISOR</option>
+                            <option value='VENDEDOR JR'>VENDEDOR JR</option>
+                            <option value='SUPERVISOR JR'>SUPERVISOR JR</option>
+                            <option value='REPARTO'>REPARTO</option>
+                            <option value='AUXILIAR DE REPARTO'>AUXILIAR DE REPARTO</option>
+                            <option value='JEFE DE VENTA'>JEFE DE VENTA</option>
+                            <option value='ANALISTA'>ANALISTA</option>
+
+
+                          </select>
+                  </div>
+                               
+                
+                  <div>
+                      <button type="button" name='buscar' id='buscar' class="btn btn-primary" OnClick="mostrarDatos();">Consultar</button>
+                      <button type="button" class="btn btn-success " disabled="disabled">Exportar</button>
+                  </div>
+                </div> 
+               
+
+              </form>
+              </div>
+
+                <div id="listaEmpleados">
+                  <input type="hidden" class="form-control" id="txtid"  name="txtid" >
+                </div>
+      
             
-              </select>
-            </div> 
+          
+    </div><!--FINISH VISUALIZAR -->
 
-            <div class="form-group col-md-2" >
-              <label for="exampleFormControlSelect1"><strong><h6>Ruta Asignada</h6></strong></label>
-              <select class="form-control" id="ruta" name="ruta" >
-              <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
-              </select>
-            </div>
 
+  <!--=================================CONTENT NAV TABS "CREAR"============================ -->
+  <div class="tab-pane fade" id="nav-crear" role="tabpanel" aria-labelledby="nav-crear-tab">
+
+          <div style="float:right;  text-align:center; margin-right:100px; margin-top:50px;">
+            <!-- <hr style="color:black; border:1px #000 solid; width:40%; float:right;"> -->
+            <img style="border-radius:5px;  filter: drop-shadow(5px 5px 10px #444);" src="http://innovacion.uanl.mx/wp-content/uploads/2017/06/sin-perfil.jpg"  width="200px" height="250px" id="img" class="muestraimg" >
+          <br><br><br><br>
+            <h2 style=" color: #000; font-size:20px; text-align:center;">Previsualizacion De Foto De Empleado</h2>
+
+          </div>  
+
+
+      <div style='background-color:#DFDFDF; border-radius:10px; width:40%; padding:10px; height:auto; margin-bottom:5%;'>
+
+          <div style="background:white;  border-radius:10px;  padding:40px; height:auto; ">
+         <p style="font-size:25px; color:black;">  <i class="fas fa-user-tie"></i> Creacion De Empleado </p><br>
+            <form style="font-size:16px;" method='POST' id='form_empleados' name='form_empleados' action='<?php echo base_url('index.php/Empleados/Ingresar_Empleados')?>' enctype="multipart/form-data">
             
-      </div>
-      <div class="form-group col-md-7 " >
-              <label for="exampleFormControlSelect1"><strong><h6>Foto Empleado</h6></strong></label>  
-              <input type="file" class="form-control-file" id="foto_empleado" name="foto_empleado">
-              </select>
-      </div>
+                    <div class="form-group row ">
+                      <label for="inputEmail4">Numero de Carnet</label>
+                      <input type="number" class="form-control" id="txtcarnet"  name="txtcarnet" placeholder="Carnet" >
+                    </div>
 
-      <img src="http://innovacion.uanl.mx/wp-content/uploads/2017/06/sin-perfil.jpg"  width="200px" height="250px" id="img" class="muestraimg" style="image-orientation: from-image; position: fixed; margin-left: 55%; margin-top: -15%; border-radius:5px;">
-      <div class="form-row" style='padding-top: 40px; padding-left: 100px;'>
-      <button type="submit" name='guardar'  id="btnguardarempleado" class="btn btn-primary" style="display: none;">Guardar</button>
-      <button type="button" name='comprobar'  id="btncomprobar" class="btn btn-primary" OnClick="validar()" >Guardar</button>
-      <button type="reset" name='limpiar' class="btn btn-danger">Limpiar</button>
+                    <div class="form-group  row ">
+                      <label for="inputPassword4">Numero De Dui</label>
+                      <input type="text" class="form-control" id="txtdui" name="txtdui" placeholder="00000000-0">
+                    </div>   
+
+              
+                    <div class="form-group row ">
+                      <label for="inputAddress">Nombre</label>
+                      <input type="text" class="form-control" id="txtnombre" name="txtnombre" placeholder="" >
+                    </div>
+                
+                    <div class="form-group row ">
+                      <label for="inputState">Cargo</label>
+                      <select id="txtcargo" name='txtcargo' class="form-control" >
+                      <option selected="true" disabled="disabled" value="">Seleccione El Cargo</option>
+                        <option value='VENDEDOR'>VENDEDOR</option>
+                        <option value='IMPULSADORA'>IMPULSADORA</option>
+                        <option value='SUPERVISOR'>SUPERVISOR</option>
+                        <option value='VENDEDOR JR'>VENDEDOR JR</option>
+                        <option value='SUPERVISOR JR'>SUPERVISOR JR</option>
+                        <option value='REPARTO'>REPARTO</option>
+                        <option value='AUXILIAR DE REPARTO'>AUXILIAR DE REPARTO</option>
+                        <option value='JEFE DE VENTA'>JEFE DE VENTA</option>
+                        <option value='ANALISTA'>ANALISTA</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group row ">
+                        <label for="inputAddress2">Fecha Ingreso</label>
+                        <input type="date" class="form-control" id="txtfecha" name="txtfecha"  >
+                    </div>
+                
+            
+                    <div class="form-group row " >
+                      <label for="exampleFormControlSelect1">Distribuidora</label>
+                      <select class="form-control" id="distribuidora" name="distribuidora" > 
+                      <option selected="true" disabled="disabled" value="">Seleccione Distribuidora</option>
+                      
+                      <?php
+                          foreach($arrDistribuidora as $row)
+                          {
+                          echo '<option value="'.$row->Id_Distribuidora.'">'.$row->Nombre_Distribuidora.'</option>';
+                          }
+                          ?>
+                      </select>
+                    </div>
+
+                    <div class="form-group  row " >
+                      <label for="exampleFormControlSelect1">Canal</label>
+                      <select class="form-control" id="canal" name="canal" >
+                      <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
+                    
+                      </select>
+                    </div> 
+
+                    <div class="form-group  row " >
+                      <label for="exampleFormControlSelect1">Ruta Asignada</label>
+                      <select class="form-control" id="ruta" name="ruta" >
+                      <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
+                      </select>
+                    </div>
+
+                
+                    <label for="exampleFormControlSelect1">Foto Empleado</label>  
+                    <div class="custom-file " style="margin-left:20px;">
+                    
+                      <input type="file" class="custom-file-input" id="foto_empleado" name="foto_empleado" lang="es">
+                      <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+                    </div>
+
+              <div class="form-row" style='padding-top: 40px; padding-left: 100px;'>
+                <button type="submit" name='guardar'  id="btnguardarempleado" class="btn btn-primary" style="display: none;">Guardar</button>
+                <button type="button" name='comprobar'  id="btncomprobar" class="btn btn-primary" OnClick="validar()" >Guardar</button>
+                <button type="reset" name='limpiar' class="btn btn-danger">Limpiar</button>
+              </div>
+
+            </form>
+
+          </div>
       </div>
-    </form>
+           
     
+  </div><!--FINISH CREAR -->
 
-</div><!--FINISH CREAR -->
-<div class="tab-pane fade" id="nav-asignar" role="tabpanel" aria-labelledby="nav-asignar-tab">
-SE ASIGNARA RUTA UNA VEZ INGRESADO EL EMPLEADOS
-</div><!--FINISH ASIGNAR-->
+ <!--=================================CONTENT NAV TABS ASIGNA============================ -->
+    <div class="tab-pane fade" id="nav-asignar" role="tabpanel" aria-labelledby="nav-asignar-tab">
+      SE ASIGNARA RUTA UNA VEZ INGRESADO EL EMPLEADOS
+    </div><!--FINISH ASIGNAR-->
+
 </main>
  <!--=================================FINISH NAV TABS============================ -->
 
@@ -494,24 +529,39 @@ $(document).ready(function(){
      
         var registros =eval(respuesta);
 
+        html='';
+        html +="<table class='table' style='float:left; margin-left:-3%; border:white 2px solid; width:55%; margin-top:2%; margin-bottom:5%;'>";
+        html +="<tr style=' filter: drop-shadow(5px 5px 10px #444); margin-bottom:50px;'>"+
+        "<th class='th' style='display:none; '>ID</th>"+
+        "<th class='th' >Foto Empleado</th>"+
+        "<th class='th' >Carnet</th>"+
+        "<th class='th' >Dui</th>"+
+        "<th class='th' >Nombre</th>"+
+        "<th class='th' >Cargo</th>"+
+        "<th class='th' >Fecha</th>"+
+        "<th class='th' >Nombre Distribuidora</th>"+
+        "<th class='th' >Nombre Canal</th>"+
+        "<th class='th' >Nombre Ruta</th>"+
+        "<th class='th' style='display:none;'>Estado</th>"+
+        "<th class='th' >Accion</th>"+
+        "</tr>";
 
-        html ="<table class='table table-responsive table-bordered' align='center'><thead>";
-        html +="<th style='display:none;'>ID</th><th>Foto Empleado</th><th>Carnet</th><th>Dui</th><th>Nombre</th><th>Cargo</th><th>Fecha</th><th>Nombre Distribuidora</th><th>Nombre Canal</th><th>Nombre Ruta</th><th style='display:none;'>Estado</th><th>Accion</th></tr>";
+
         html +="</thead><tbody>"; 
         
         for (var i = 0; i <registros.length; i++) {
-          html +="<tr'><td style='display:none;'>"+registros[i]["Id_Empleados"]+
-          "</td><td><img  width='100px' height='100px' src='"+registros[i]["foto_empleado"]+
-          "'></td><td>"+registros[i]["Carnet"]+
-          "</td><td>"+registros[i]["Dui"]+
-          "</td><td>"+registros[i]["Nombre"]+
-          "</td><td>"+registros[i]["Cargo"]+
-          "</td><td>"+registros[i]["Fecha"]+
-          "</td><td>"+registros[i]["Nombre_Distribuidora"]+
-          "</td><td>"+registros[i]["Nombre_Canal"]+
-          "</td><td>"+registros[i]["Nombre_Ruta"]+
-          "</td><td style='display:none;'>"+registros[i]["estado"]+
-          "</td><td>"+
+          html +="<tr><td class='td' style='display:none; '>"+registros[i]["Id_Empleados"]+
+          "</td><td class='td' style='padding: 5px;' ><img  width='90px' height='90px' src='"+registros[i]["foto_empleado"]+
+          "'></td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Carnet"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Dui"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Cargo"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Fecha"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Distribuidora"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Canal"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Ruta"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center; display:none;'>"+registros[i]["Estado"]+
+          "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+
           "<a href='#' data-toggle='modal' class='editar' data-target='#ModalEdithPersona' onClick='Enviar_Datos_modal(\""+registros[i]["Id_Empleados"]+
           "\",\""+registros[i]["Carnet"]+
           "\",\""+registros[i]["Dui"]+
@@ -623,15 +673,28 @@ function Enviar_Datos_modal(Id_Empleado,Carnet,Dui,Nombre,Cargo,Fecha,Id_Distrib
     $('#mtxtcargo').val(Cargo);
     $('#mtxtfecha').val(Fecha);
 
-    
-    $("#mtxtdistribuidora option[value='"+Id_Distribuidora+"']").attr("selected",true);
+    $("#mtxtdistribuidora option[value='00"+Id_Distribuidora+"']").attr("selected",true);
     $("#mtxtdistribuidora").change();
     
-    $("#mtxtcanal option[value='"+Id_Canal+"']").attr("selected",true);
-    $("#mtxtcanal").change();
     
-    $("#mtxtruta option[value='"+Id_Ruta+"']").attr("selected",true);
-    $("#mtxtruta").change();
+    setTimeout(function(){ 
+      $("#mtxtcanal").val(Id_Canal);
+      $("#mtxtcanal").change();
+
+    }, 200);
+
+
+    setTimeout(function(){ 
+      
+      $("#mtxtruta").val('00'+Id_Ruta);
+
+      
+    }, 400);
+    
+    
+    
+    // $("#mtxtruta option[value='"+Id_Ruta+"']").attr("selected",true);
+    // $("#mtxtruta").change();
  
     
 

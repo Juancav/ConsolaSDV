@@ -2183,11 +2183,11 @@ $.ajax({
             html +="<tbody>"; 
             
             for (var i = 0; i <registros.length; i++) {
-              html +="<tr style='height:px;'><td style='display:none;'>"+registros[i]["Id_Ruta"]+
-              "</td><td>"+registros[i]["Nombre_Ruta"]+
-              "</td><td>"+registros[i]["Nombre"]+
-              "</td><td>"+registros[i]["Nombre_Marca"]+" "+registros[i]["nombre_Modelo"]+" <BR>IMEI: "+registros[i]["Imei_telefono"]+
-              "</td><td>"+registros[i]["fecha_registro"]+ 
+              html +="<tr><td style='display:none;'>"+registros[i]["Id_Ruta"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Ruta"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Marca"]+" "+registros[i]["nombre_Modelo"]+" <BR>IMEI: "+registros[i]["Imei_telefono"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["fecha_registro"]+ 
               "</td><td style='display:none;'>"+registros[i]["Id_PDF"]+
               "</td><td><a href='<?php echo base_url();?>index.php/Dispositivos/pdfdetails/"+registros[i]["Id_pdf_cell"]+"' target='_blank'><span style='color: red; font-size:30px;'><i class='fas fa-file-pdf'></i></span></a>"+
               "</td></tr>";
