@@ -308,7 +308,7 @@ INSERT INTO municipio (Id_Municipio, NombreMunicipio, Id_Departamento) VALUES
 (0000262, 'USULUTAN', 0000009);
 
 CREATE TABLE distribuidora(
-	Id_Distribuidora INT(9) zerofill PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	Id_Distribuidora INT(7) zerofill PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	Nombre_Distribuidora VARCHAR(28) NOT NULL,
 	Id_Pais INT(9) zerofill,
 	FOREIGN KEY (Id_Pais) REFERENCES pais(Id_Pais)
@@ -1708,4 +1708,75 @@ describe baja_serie;
 describe bitacora_entrega_celular;
 select * from baja_serie;
 
-alter table baja_serie change Id_pdf_baja_serie Id_pdf_baja_serie varchar(50) not null
+alter table baja_serie change Id_pdf_baja_serie Id_pdf_baja_serie varchar(50) not null;
+
+
+
+alter table empleados change Id_distribuidora Id_distribuidora int(7) zerofill not null;
+alter table empleados change Id_Canal Id_Canal int(7) zerofill not null;
+alter table empleados change Id_Ruta Id_Ruta int(7) zerofill not null;
+
+update empleados set Id_distribuidora='0000001' where Id_Distribuidora='0000001';
+
+
+create table Marca_Impresoras(
+Id_marca_impresoras int(7) zerofill not null  auto_increment primary key,
+nombre_marca varchar(50)not null ,
+descripcion_marca varchar(100) not null,
+fecha_registro date not null,
+Id_distribuidora int(7) zerofill not null ,
+Id_u_sdv int(7) zerofill not null ,
+foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
+foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv) 
+);
+
+SELECT * FROM Modelo_Impresoras;
+
+create table Modelo_Impresoras(
+Id_modelo_impresoras int(7) zerofill not null  auto_increment primary key,
+nombre_modelo varchar(50)not null ,
+Id_marca_impresoras int(7)zerofill not null ,
+fecha_registro date not null,
+Id_distribuidora int(7) zerofill not null ,
+Id_u_sdv int(7) zerofill not null ,
+foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
+foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv) ,
+foreign key (Id_marca_impresoras) references Marca_Impresoras(Id_marca_impresoras)
+);
+
+create table Impresoras(
+Id_Impresoras int(7) zerofill not null  auto_increment primary key,
+Id_marca_impresoras int(7) zerofill not null ,
+Id_modelo_impresoras int(7) zerofill not null,
+activo_fijo int(7) not null,
+n_serie varchar(50) not null,
+codigo_impresora varchar(10) not null,
+fecha_registro date not null,
+estado int(3) not null,
+estado_entrega int(2) not null,
+observacion varchar(25) not null,
+Id_distribuidora int(7) zerofill not null,
+Id_u_sdv int(7) zerofill not null,
+foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
+foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv) ,
+foreign key (Id_marca_impresoras) references Marca_Impresoras(Id_marca_impresoras),
+foreign key (Id_modelo_impresoras) references Modelo_Impresoras(Id_modelo_impresoras)
+);
+
+
+-- Consultar impresoras-- 
+select I.Id_impresoras,d.Nombre_Distribuidora,m_i.nombre_marca,m_o.nombre_modelo,I.activo_fijo,I.n_serie,I.codigo_impresora,i.estado from Impresoras as I
+inner join Marca_Impresoras as m_i on I.Id_marca_impresoras=m_i.Id_marca_impresoras
+inner join Modelo_Impresoras as m_o on I.Id_modelo_impresoras=m_o.Id_modelo_impresoras
+inner join distribuidora as d on I.Id_Distribuidora=d.Id_Distribuidora
+ where I.Id_distribuidora="0000001";
+-- 
+
+
+alter table distribuidora change Id_Distribuidora Id_Distribuidora int(7) zerofill not null auto_increment;
+
+select * from impresoras;
+alter table impresoras add column estado_entrega int(2) not null;
+
+
+

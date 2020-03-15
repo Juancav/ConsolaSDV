@@ -1,0 +1,50 @@
+.fondo_form{
+    float:left;
+    background-color: #DFDFDF;
+    width: 375px;
+    padding:1%;
+    min-height: 300px;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 5%;
+ 
+}
+
+.form_impresoras{
+    background-color:#fff;
+    height: auto;
+    border-radius: 5px;
+    padding:7%;
+
+}
+
+.datos{
+    width: 55%;
+    float: right;
+    margin-right: 10%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+table{
+    box-shadow: #DFDFDF 1px 3px 5px;
+    
+}
+
+.colc_buttons{
+   
+    position:fixed; 
+    z-index:100; 
+    float:right; 
+    top:40%;
+    right: 50px;
+}
+
+.button{
+ 
+    float: right;
+    box-shadow:  #DFDFDF 7px 5px 5px;
+    border-radius: 50%;
+    width: 40px;
+    margin-bottom: 5px;
+}

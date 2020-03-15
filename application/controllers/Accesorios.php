@@ -138,6 +138,7 @@ class Accesorios extends CI_Controller {
 			
 			
 	}
+	
 	 public function fetch_canal()
 	{
 		if($this->input->is_ajax_request()){

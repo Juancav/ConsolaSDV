@@ -24,6 +24,7 @@ class Dispositivos_Model extends CI_Model {
       // ***********************************************************************//
 
     }
+    
     public function Registrar_Marca($param){
 		 $campos = array(
             'Id_marca_cell' => 0,

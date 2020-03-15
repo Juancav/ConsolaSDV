@@ -7,7 +7,7 @@
 .table{   
              
               border-collapse: collapse;
-              box-shadow: 2px 10px 15px #000DFD;
+              box-shadow: 2px 5px 12px #000DFD;
               overflow: hidden;
               text-align: center;
               border-radius:5px;
@@ -662,6 +662,7 @@ function InactivarEmpleado(Id_Empleados){
 	});
 
 }
+
 
 /*============== ENVIA DATOS AL MODAL================ */
 function Enviar_Datos_modal(Id_Empleado,Carnet,Dui,Nombre,Cargo,Fecha,Id_Distribuidora,Id_Canal,Id_Ruta){

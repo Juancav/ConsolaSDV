@@ -119,10 +119,12 @@
               <span>Catalogos</span> </a> 
              <div class="sidebar-submenu">
               <ul>
-                <li><a href="#"><i class="fas fa-camera-retro"></i>Exhibidores</a></li>
+                
                 <li><a href="Dispositivos"><i class="fas fa-mobile-alt"></i>Dispositivos</a></li>
-                <li><a href="Accesorios"><i class="fas fa-headphones-alt"></i>Accesorios</a></li>
                 <li><a href="AutorizacionesMH"><i class="far fa-list-alt"></i>Autorizaciones MH</a></li>
+                <li><a href="Accesorios"><i class="fas fa-headphones-alt"></i>Accesorios</a></li>
+                <li><a href="Impresoras"><i class="fas fa-print"></i>Impresoras</a></li>
+                <li><a href="#"><i class="fas fa-camera-retro"></i>Exhibidores</a></li>
                 <li><a href="#"><i class="fas fa-hand-holding-usd"></i>Credito por ruta</a></li>
                 <li><a href="#"><i class="fas fa-box"></i>Productos</a></li>
                 <li><a href="#"><i class="fas fa-comments-dollar"></i>Seguimiento KPI </a></li>
