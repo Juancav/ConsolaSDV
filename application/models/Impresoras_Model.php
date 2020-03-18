@@ -140,11 +140,11 @@ class Impresoras_Model extends CI_Model {
 
      public function Consultar_Impresoras($Distribuidora){
 
-      $query='SELECT I.Id_Distribuidora,m_i.Id_marca_impresoras,M_o.Id_modelo_impresoras,I.Id_impresoras,d.Nombre_Distribuidora,m_i.nombre_marca,m_o.nombre_modelo,I.activo_fijo,I.n_serie,I.codigo_impresora,i.estado,i.estado_entrega from Impresoras as I
+      $query='SELECT I.Id_Distribuidora,m_i.Id_marca_impresoras,m_o.Id_modelo_impresoras,I.Id_impresoras,d.Nombre_Distribuidora,m_i.nombre_marca,m_o.nombre_modelo,I.activo_fijo,I.n_serie,I.codigo_impresora,I.estado,I.estado_entrega from Impresoras as I
       inner join Marca_Impresoras as m_i on I.Id_marca_impresoras=m_i.Id_marca_impresoras
       inner join Modelo_Impresoras as m_o on I.Id_modelo_impresoras=m_o.Id_modelo_impresoras
       inner join distribuidora as d on I.Id_Distribuidora=d.Id_Distribuidora
-      where I.Id_distribuidora="'.$Distribuidora.'"';
+      where I.Id_Distribuidora="'.$Distribuidora.'"';
 
       $resultados = $this->db->query($query);
       return $resultados->result();
@@ -353,17 +353,18 @@ class Impresoras_Model extends CI_Model {
 
     public function Consultar_PDF(){
 
-      $query='SELECT r.Nombre_ruta , e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, d.Nombre_Distribuidora,bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp 
-      from bitacora_entrega_impresora as bei 
+      $query='SELECT bei.Id_bit_entrega,r.Nombre_Ruta , e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, d.Nombre_Distribuidora,bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp 
+                 from Bitacora_entrega_impresora as bei 
                 inner join Impresoras as I on bei.Id_Impresoras=I.Id_Impresoras
-                inner join marca_impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
-                inner join modelo_impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
+                inner join Marca_Impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
+                inner join Modelo_Impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
                 inner join distribuidora as d on bei.Id_Distribuidora=d.Id_Distribuidora
                 inner join canal as c on bei.Id_Canal=c.Id_Canal
                 inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
-                inner join empleados as e on bei.Id_Empleados=e.Id_Empleados
-                where bei.Id_distribuidora="'.$this->session->userdata('Id_Distribuidora').'"s
-                limit 10;';
+                inner join Empleados as e on bei.Id_Empleados=e.Id_Empleados
+                where bei.Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'"
+                Order by bei.Id_bit_entrega DESC
+                limit 10';
   
       $resultados = $this->db->query($query);
       return $resultados->result();
@@ -376,18 +377,17 @@ class Impresoras_Model extends CI_Model {
     {
       // $data->row()->Nombre; "ASI SE ACCEDE A UNA COLUMNA DE LA CONSULTA"
 
-       $data='SELECT r.Nombre_ruta , e.Dui,e.Nombre,e.Carnet,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora,r.cod_cc,r.descrip_cc, I.activo_fijo,I.n_serie,d.Nombre_Distribuidora,bei.motivo_entrega,dis.primera_ocasion,bei.fecha_registro,bei.Id_pdf_imp 
-                    from bitacora_entrega_impresora as bei 
+       $data='SELECT r.Nombre_Ruta , e.Dui,e.Nombre,e.Carnet,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora,r.cod_cc,r.descrip_cc, I.activo_fijo,I.n_serie,d.Nombre_Distribuidora,bei.motivo_entrega,dis.primera_ocasion,bei.fecha_registro,bei.Id_pdf_imp 
+                    from Bitacora_entrega_impresora as bei 
                     inner join Impresoras as I on bei.Id_Impresoras=I.Id_Impresoras
-                    inner join marca_impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
-                    inner join modelo_impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
-                    inner join distribuidora as d on bei.Id_Distribuidora=I.Id_Distribuidora
+                    inner join Marca_Impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
+                    inner join Modelo_Impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
+                    inner join distribuidora as d on bei.Id_Distribuidora=d.Id_Distribuidora
                     inner join canal as c on bei.Id_Canal=c.Id_Canal
                     inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
-                    inner join empleados as e on bei.Id_Empleados=e.Id_Empleados
+                    inner join Empleados as e on bei.Id_Empleados=e.Id_Empleados
                     inner join deducibles_impresoras as dis on mop.Id_modelo_impresoras=dis.Id_modelo_impresoras
-                    WHERE bei.Id_pdf_imp="'.$Id_PDF.'"
-                    group by bei.Id_Distribuidora';
+                    WHERE bei.Id_pdf_imp="'.$Id_PDF.'"';
   
          
          
@@ -448,7 +448,7 @@ class Impresoras_Model extends CI_Model {
                                               <td></td>
                                                 <td></td>
                                                 <td style="border:1px #000 solid; text-align:center; font-size:20px;" ><b>RUTA</b></td>
-                                                <td style="border:1px #000 solid; text-align:center; font-size:20px;" ><b>'.$data->row()->Nombre_ruta.'</b></td>
+                                                <td style="border:1px #000 solid; text-align:center; font-size:20px;" ><b>'.$data->row()->Nombre_Ruta.'</b></td>
                                                 
                                               </tr>
     

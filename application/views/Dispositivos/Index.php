@@ -1243,7 +1243,7 @@ $(document).ready(function(){
       success:function(respuesta){
      
         var registros =eval(respuesta);
-
+  
 
         html ="<table class='table  table-bordered' align='center'><thead>";
         html +="<th style='display:none; '>ID</th><th>Telefono</th><th style='display:none;'>Id Marca</th><th style='display:none;'>Id Modelo</th><th>Imei</th><th style='display:none;'>Año</th><th style='display:none;'>Color</th><th>Activo Fijo</th><th style='display:none;'>Id_Distribuidora</th><th> Distribuidora</th><th style='display:none;'>Id_Canal</th><th>Canal</th><th style='display:none;'>Estado</th><th width='90px'>Modificar</th><th width='90px'>Baja/alta</th></tr>";
@@ -1251,7 +1251,7 @@ $(document).ready(function(){
         
         for (var i = 0; i <registros.length; i++) {
           html +="<tr><td style='display:none;'>"+registros[i]["Id_telefono"]+
-          "</td><td>"+registros[i]["Nombre_marca"]+" "+registros[i]["nombre_modelo"]+" " +registros[i]["color_telefono"]+" "+registros[i]["año_telefono"]+
+          "</td><td>"+registros[i]["Nombre_Marca"]+" "+registros[i]["nombre_Modelo"]+" " +registros[i]["color_telefono"]+" "+registros[i]["año_telefono"]+
           "</td><td style='display:none;'>"+registros[i]["Id_marca_cell"]+
           "</td><td style='display:none;'>"+registros[i]["Id_modelo_cell"]+
           "</td><td>"+registros[i]["imei_telefono"]+
@@ -1259,9 +1259,9 @@ $(document).ready(function(){
           "</td><td style='display:none;'>"+registros[i]["color_telefono"]+
           "</td><td >"+registros[i]["activo_fijo"]+
           "</td><td style='display:none;'>"+registros[i]["Id_Distribuidora"]+
-          "</td><td>"+registros[i]["nombre_distribuidora"]+
+          "</td><td>"+registros[i]["Nombre_Distribuidora"]+
           "</td><td style='display:none;'>"+registros[i]["Id_Canal"]+
-          "</td><td>"+registros[i]["nombre_canal"]+
+          "</td><td>"+registros[i]["Nombre_Canal"]+
           "</td><td style='display:none;'>"+registros[i]["estado_telefono"]+
           "</td>";
 
@@ -1350,9 +1350,17 @@ $(document).ready(function(){
             
             setTimeout(function(){ 
                 $("#mtxtmodeloasignar").val(Id_modelo_cell);
-                $("#Tcanalm").val(Id_Canal);
-                // $("#Tcanalm option[value='"+Id_Canal+"']").attr("selected",true);
+         
+               
             }, 300);
+
+            setTimeout(function(){ 
+               
+                $("#Tcanalm").val(Id_Canal);
+               
+            }, 300);
+
+
 
         
     

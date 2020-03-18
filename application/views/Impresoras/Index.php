@@ -578,7 +578,7 @@ $(document).ready(function() {
             
             for (var i = 0; i <registros.length; i++) {
               html +="<tr><td style='display:none;'>"+registros[i]["Id_Ruta"]+
-              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_ruta"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Ruta"]+
               "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre"]+
               "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["nombre_marca"]+"<br> "+registros[i]["nombre_modelo"]+registros[i]["codigo_impresora"]+
               "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["fecha_registro"]+ 

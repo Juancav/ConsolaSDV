@@ -328,7 +328,7 @@ class AutorizacionesMH_Model extends CI_Model {
         
 
         $output ='<h2 style="text-align:left;">Alta y Baja De Serie <br>Ruta: '.$data1->row()->nombre_ruta.' <br>Dia: '.$data1->row()->fecha_registro.' <br>Distribuidora: '.$data1->row()->Nombre_Distribuidora.'</h2>';
-        $output.='<img width="225px"  height="225px" style="margin-top:10px; float:right; margin-top:-20%;" src="https://fotos.subefotos.com/1caca0253f02cfa9f52b2d2264004f28o.png">
+        $output.='<img width="225px"  height="225px" style="margin-top:10px; float:right; margin-top:-35%;" src="https://fotos.subefotos.com/1caca0253f02cfa9f52b2d2264004f28o.png">
         ';
         $output .='<div style="margin-top:20%">';
         $output .='<table  style="text-align:center;">

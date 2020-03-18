@@ -125,7 +125,21 @@ class Dispositivos_Model extends CI_Model {
 
     public function Consultar_Telefonos($distribuidora,$canal){
 
-      $this->db->select('T.Id_telefono,T.Id_Distribuidora,c.nombre_canal,t.N_serie_telefono,d.nombre_distribuidora, t.color_telefono,t.año_telefono,	T.Id_Canal, mc.Nombre_marca,mcc.Id_modelo_cell, T.Id_marca_cell,mcc.nombre_modelo,T.imei_telefono,T.estado_telefono,T.activo_fijo,');
+      $this->db->select('T.Id_telefono,
+      T.Id_Distribuidora,
+      T.N_serie_telefono,
+      T.color_telefono,
+      T.año_telefono,	
+      T.Id_Canal,
+      T.Id_marca_cell,
+      T.imei_telefono,
+      T.estado_telefono,
+      T.activo_fijo,
+      c.Nombre_Canal,
+      d.Nombre_Distribuidora, 
+      mc.Nombre_Marca,
+      mcc.Id_modelo_cell, 
+      mcc.nombre_Modelo ');
       $this->db->from('telefonos as T');
       $this->db->join('marca_cell as mc', 'mc.Id_marca_cell=T.Id_marca_cell');
       $this->db->join('modelo_cell as mcc','mcc.Id_modelo_cell=T.Id_modelo_cell');
@@ -149,6 +163,9 @@ class Dispositivos_Model extends CI_Model {
     }
    
     public function Actualizar_Telefonos($param){
+
+
+
       $campos = array(
               'Id_telefono' => $param['Id_telefono'],
               'Id_marca_cell' => $param['Id_marca_cell'],
@@ -162,8 +179,9 @@ class Dispositivos_Model extends CI_Model {
               'Id_Canal' => $param['Id_Canal']
 
       );
+
       $this->db->where('Id_telefono', $param['Id_telefono']);
-      $this->db->update('Telefonos',$campos);
+      $this->db->update('telefonos',$campos);
 
       //***********INSERTAR EN BITACORA *********/
       $Id_item=  $param['Id_telefono'];
@@ -185,7 +203,7 @@ class Dispositivos_Model extends CI_Model {
 
         );
         $this->db->where('Id_Telefono', $id);
-        $this->db->update('Telefonos',$campos);
+        $this->db->update('telefonos',$campos);
         
        //***********INSERTAR EN BITACORA *********/
         $Id_item= $id;
@@ -206,7 +224,7 @@ class Dispositivos_Model extends CI_Model {
 
 		  );
       $this->db->where('Id_Telefono', $id);
-      $this->db->update('Telefonos',$campos);
+      $this->db->update('telefonos',$campos);
 
       //***********INSERTAR EN BITACORA *********/
         $Id_item= $id;
@@ -565,20 +583,20 @@ class Dispositivos_Model extends CI_Model {
     $query='SELECT * FROM (
                 select bec.Id_entrega_cell as Id_Entrega_cell, bec.Id_ruta, 	r.Nombre_Ruta ,	bec.Id_empleados,e.Nombre,bec.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec.Id_distribuidora,	bec.Id_canal,bec.fecha_registro	, bec.id_autorizaciones,bec.Id_pdf_cell, bec.id_u_sdv as usuario	 from bitacora_entrega_celular  as bec
                 inner join rutas as r on bec.Id_ruta=r.Id_ruta 
-                inner join empleados as e on e.Id_Empleados=bec.Id_empleados
+                inner join Empleados as e on e.Id_Empleados=bec.Id_empleados
                 inner join telefonos as t on bec.Id_telefono=t.Id_telefono
                 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
                 inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
                 union all 
                 select bec_n.Id_entrega_cell_no, bec_n.Id_ruta, 	r.Nombre_Ruta ,	bec_n.Id_empleados,e.Nombre,bec_n.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec_n.Id_distribuidora,	bec_n.Id_canal, bec_n.fecha_registro, "null" as autorizacion,bec_n.Id_pdf_cell,bec_n.id_u_sdv  from  bitacora_entrega_celular_noautorizado as bec_n
                 inner join rutas as r on bec_n.Id_ruta=r.Id_ruta 
-                inner join empleados as e on bec_n.Id_Empleados=e.Id_empleados
+                inner join Empleados as e on bec_n.Id_Empleados=e.Id_empleados
                 inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
                 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
                 inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
                 LIMIT 10 ) PDF
                 where Id_Distribuidora= '.$this->session->userdata('Id_Distribuidora').'
-                  order by fecha_registro DESC 
+                  order by Id_entrega_cell DESC 
           ;';
 
     $resultados = $this->db->query($query);
@@ -598,9 +616,9 @@ class Dispositivos_Model extends CI_Model {
         $EspacioVen="&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
        
      $data='SELECT * FROM (
-                  SELECT r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora,bec.fecha_registro,bec.motivo_entrega,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="'.$JEFE.'" and Estado=1) AS JEFE_DE_VENTA, bec.Id_pdf_cell 
+                  SELECT r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora,bec.fecha_registro,bec.motivo_entrega,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="'.$JEFE.'" and Estado=1) AS JEFE_DE_VENTA, bec.Id_pdf_cell 
                   from bitacora_entrega_celular as bec 
-                  inner join empleados as e on bec.Id_empleados=e.Id_Empleados
+                  inner join Empleados as e on bec.Id_empleados=e.Id_Empleados
                   inner join distribuidora as d on bec.Id_distribuidora=d.Id_Distribuidora
                   inner join rutas as r on bec.Id_ruta=r.Id_Ruta
                   inner join telefonos as t on bec.Id_telefono=t.Id_telefono
@@ -608,9 +626,9 @@ class Dispositivos_Model extends CI_Model {
                   inner join modelo_cell	as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
                   inner join deducibles_telefonos as d_t on mo_c.Id_modelo_cell=d_t.Id_modelo_cell
                   union all
-                  SELECT r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora,bec_n.fecha_registro,bec_n.motivo_entrega,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="'.$JEFE.'" and Estado=1) AS JEFE_DE_VENTA, bec_n.Id_pdf_cell 
+                  SELECT r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora,bec_n.fecha_registro,bec_n.motivo_entrega,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo_c.nombre_Modelo,m_c.Nombre_Marca,d_t.primera_ocacion,d_t.segunda_ocacion,d_t.tercera_ocacion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="'.$JEFE.'" and Estado=1) AS JEFE_DE_VENTA, bec_n.Id_pdf_cell 
                   from bitacora_entrega_celular_noautorizado as bec_n 
-                  inner join empleados as e on bec_n.Id_empleados=e.Id_Empleados
+                  inner join Empleados as e on bec_n.Id_empleados=e.Id_Empleados
                   inner join distribuidora as d on bec_n.Id_distribuidora=d.Id_Distribuidora
                   inner join rutas as r on bec_n.Id_ruta=r.Id_Ruta
                   inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono

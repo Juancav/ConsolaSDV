@@ -1019,9 +1019,6 @@ FOREIGN KEY (Id_Distribuidora) REFERENCES distribuidora(Id_Distribuidora)
 )ENGINE=InnoDB;
 
 
-SELECT * FROM empleados;
-alter table empleados add column foto_empleado varchar(200) not null;
-
 create table telefonos(
 Id_telefono int(7) zerofill auto_increment primary key not null,
 Id_marca_cell int(7) zerofill not null,
@@ -1051,7 +1048,6 @@ inner join distribuidora as d on d.Id_Distribuidora=T.Id_Distribuidora;
 
 
 alter table telefonos add column observacion_telefono varchar(20) not null;
-update telefonos set estado_telefono=0 where Id_telefono=1;
 
   
  create table bitacora_procesos(
@@ -1154,10 +1150,10 @@ inner join distribuidora as d on t.Id_distribuidora=d.Id_distribuidora where a_m
 
 create table bitacora_entrega_celular(
 Id_entrega_cell int(7) zerofill not null auto_increment primary key,
-Id_distribuidora int(7) zerofill not null,
-Id_canal int(7) zerofill not null,
-Id_ruta int(7) zerofill not null,
-Id_empleados int(7) zerofill not null,
+Id_Distribuidora int(7) zerofill not null,
+Id_Canal int(7) zerofill not null,
+Id_Ruta int(7) zerofill not null,
+Id_Empleados int(7) zerofill not null,
 Id_telefono int(7) zerofill not null,
 Id_autorizaciones int(7) zerofill not null,
 fecha_registro date not null,
@@ -1165,10 +1161,10 @@ estado int(2)  not null,
 motivo_entrega varchar(50) not null,
 id_u_sdv int(7) zerofill not null,
 Id_pdf_cell varchar(50) not null,
-foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
-foreign key (Id_canal) references canal(Id_canal),
-foreign key (Id_ruta) references rutas(Id_ruta),
-foreign key (Id_empleados) references empleados(Id_empleados),
+foreign key (Id_Distribuidora) references distribuidora(Id_Distribuidora),
+foreign key (Id_Canal) references canal(Id_Canal),
+foreign key (Id_Ruta) references rutas(Id_Ruta),
+foreign key (Id_Empleados) references Empleados(Id_empleados),
 foreign key (Id_telefono) references telefonos(Id_telefono),
 foreign key (Id_autorizaciones) references autorizaciones_mh(Id_autorizaciones),
 foreign key (id_u_sdv) references usuarios_consolasdv(id_u_sdv)
@@ -1213,22 +1209,23 @@ inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
 inner join distribuidora as d on t.Id_distribuidora=d.Id_distribuidora
 where t.id_telefono=10;
 
+
 create table bitacora_entrega_celular_noautorizado(
 Id_entrega_cell_no int(7) zerofill not null auto_increment primary key,
-Id_distribuidora int(7) zerofill not null,
-Id_canal int(7) zerofill not null,
+Id_Distribuidora int(7) zerofill not null,
+Id_Canal int(7) zerofill not null,
 Id_ruta int(7) zerofill not null,
-Id_empleados int(7) zerofill not null,
+Id_Empleados int(7) zerofill not null,
 Id_telefono int(7) zerofill not null,
 fecha_registro date not null,
 estado int(2)  not null,
 motivo_entrega varchar(50) not null,
 id_u_sdv int(7) zerofill not null,
 Id_pdf_cell varchar(50) not null,
-foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
-foreign key (Id_canal) references canal(Id_canal),
-foreign key (Id_ruta) references rutas(Id_ruta),
-foreign key (Id_empleados) references empleados(Id_empleados),
+foreign key (Id_Distribuidora) references distribuidora(Id_distribuidora),
+foreign key (Id_Canal) references canal(Id_canal),
+foreign key (Id_Ruta) references rutas(Id_ruta),
+foreign key (Id_Empleados) references Empleados(Id_empleados),
 foreign key (Id_telefono) references telefonos(Id_telefono),
 foreign key (id_u_sdv) references usuarios_consolasdv(id_u_sdv)
 );
@@ -1276,14 +1273,6 @@ LIMIT 10 ) PDF
   order by fecha_registro DESC 
 ;
 
-select * from bitacora_entrega_celular;
-select * from bitacora_entrega_celular_noautorizado;
-select * from telefonos;
-select * from marca_cell;
-alter table bitacora_entrega_celular;
-
-
-select * from rutas;
 
 alter table rutas add column telefono varchar(15) not null;
 alter table rutas add column sim_card varchar(50) not null;
@@ -1463,34 +1452,9 @@ Id_deducible_telefonos int(7) zerofill not null auto_increment primary key,
 primera_ocacion double (4,2) not null,
 segunda_ocacion double(4,2) not null,
 tercera_ocacion double (4,2) not null,
-Id_modelo_ int(7) zerofill not null,
+Id_modelo_cell int(7) zerofill not null,
 foreign key (Id_modelo_cell) references modelo_cell(Id_modelo_cell)  
 )ENGINE=innoDB;
-
-select * from modelo_impresoras;
-
-create table deducibles_impresoras(
-Id_deducible_impr int(7) zerofill not null auto_increment primary key,
-primera_ocasion double (4,2) not null,
-segunda_ocasion double(4,2) not null,
-tercera_ocasion double (4,2) not null,
-Id_modelo_impresoras int(7) zerofill not null,
-foreign key (Id_modelo_impresoras) references modelo_impresoras(Id_modelo_impresoras)  
-)ENGINE=innoDB;
-
-select * from deducibles_impresoras , modelo_impresoras;
-insert into deducibles_impresoras values(0,'50.29','60.22','84.3',2);
-
-insert into deducibles_telefonos values(0,'50.29','60.22','84.3',8);
-insert into deducibles_telefonos values(0,'53.36','66.69','93.37',9);
-insert into deducibles_telefonos values(0,'300.00','300.00','300.00',10);
-insert into deducibles_telefonos values(0,'53.36','66.69','93.37',4);
-insert into deducibles_telefonos values(0,'50.29','60.22','84.3',5);
-insert into deducibles_telefonos values(0,'53.36','66.69','93.37',11);
-
-
-
-
 
 -- CONSULTA PARA IMPRIMIR DATOS PDF--  
 
@@ -1513,6 +1477,7 @@ inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
 inner join modelo_cell	as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
 inner join deducibles_telefonos as d_t on mo_c.Id_modelo_cell=d_t.Id_modelo_cell) InfoPDF
+;
 
 
 
@@ -1523,157 +1488,156 @@ ALTER TABLE rutas add column cod_cc int(10) not null;
 ALTER TABLE rutas add column descrip_cc varchar(60) not null;
 
 -- ACTUALIZAR CODIGO DE CENTRO DE COSTO Y DESCRIPCION DE CENTRO DE COSTOS-- 
-UPDATE RUTAS SET COD_CC='751301' , DESCRIP_CC='Ruta San Salvador 1.1.01 ' WHERE ID_RUTA='1';
-UPDATE RUTAS SET COD_CC='751302' , DESCRIP_CC='Ruta San Salvador 1.1.02' WHERE ID_RUTA='2';
-UPDATE RUTAS SET COD_CC='751303' , DESCRIP_CC='Ruta San Salvador 1.1.03' WHERE ID_RUTA='3';
-UPDATE RUTAS SET COD_CC='751304' , DESCRIP_CC='Ruta San Salvador 1.1.04' WHERE ID_RUTA='4';
-UPDATE RUTAS SET COD_CC='751305' , DESCRIP_CC='Ruta San Salvador 1.1.05' WHERE ID_RUTA='5';
-UPDATE RUTAS SET COD_CC='751306' , DESCRIP_CC='Ruta San Salvador 1.1.06' WHERE ID_RUTA='6';
-UPDATE RUTAS SET COD_CC='751307' , DESCRIP_CC='Ruta San Salvador 1.1.07' WHERE ID_RUTA='7';
-UPDATE RUTAS SET COD_CC='751308' , DESCRIP_CC='Ruta San Salvador 1.1.08' WHERE ID_RUTA='8';
-UPDATE RUTAS SET COD_CC='751309' , DESCRIP_CC='Ruta San Salvador 1.1.09' WHERE ID_RUTA='9';
-UPDATE RUTAS SET COD_CC='751310' , DESCRIP_CC='Ruta San Salvador 1.1.10' WHERE ID_RUTA='10';
-UPDATE RUTAS SET COD_CC='751311' , DESCRIP_CC='Ruta San Salvador 1.1.11' WHERE ID_RUTA='11';
-UPDATE RUTAS SET COD_CC='751312' , DESCRIP_CC='Ruta San Salvador 1.1.12' WHERE ID_RUTA='12';
-UPDATE RUTAS SET COD_CC='751313' , DESCRIP_CC='Ruta San Salvador 1.1.13' WHERE ID_RUTA='13';
-UPDATE RUTAS SET COD_CC='751314' , DESCRIP_CC='Ruta San Salvador 1.1.14' WHERE ID_RUTA='14';
-UPDATE RUTAS SET COD_CC='751315' , DESCRIP_CC='Ruta San Salvador 1.1.15' WHERE ID_RUTA='15';
-UPDATE RUTAS SET COD_CC='751316' , DESCRIP_CC='Ruta San Salvador 1.1.16' WHERE ID_RUTA='16';
-UPDATE RUTAS SET COD_CC='751317' , DESCRIP_CC='Ruta San Salvador 1.1.17' WHERE ID_RUTA='17';
-UPDATE RUTAS SET COD_CC='751318' , DESCRIP_CC='Ruta San Salvador 1.1.18' WHERE ID_RUTA='18';
-UPDATE RUTAS SET COD_CC='751319' , DESCRIP_CC='Ruta San Salvador 1.1.19' WHERE ID_RUTA='19';
-UPDATE RUTAS SET COD_CC='751320' , DESCRIP_CC='Ruta San Salvador 1.1.20' WHERE ID_RUTA='20';
-UPDATE RUTAS SET COD_CC='751321' , DESCRIP_CC='Ruta San Salvador 1.1.21' WHERE ID_RUTA='21';
-UPDATE RUTAS SET COD_CC='751322' , DESCRIP_CC='Ruta San Salvador 1.1.22' WHERE ID_RUTA='22';
-UPDATE RUTAS SET COD_CC='751323' , DESCRIP_CC='Ruta San Salvador 1.1.23' WHERE ID_RUTA='23';
-UPDATE RUTAS SET COD_CC='751324' , DESCRIP_CC='Ruta San Salvador 1.1.24' WHERE ID_RUTA='24';
-UPDATE RUTAS SET COD_CC='751325' , DESCRIP_CC='Ruta San Salvador 1.1.25' WHERE ID_RUTA='25';
-UPDATE RUTAS SET COD_CC='751326' , DESCRIP_CC='Ruta San Salvador 1.1.26' WHERE ID_RUTA='26';
-UPDATE RUTAS SET COD_CC='751327' , DESCRIP_CC='Ruta San Salvador 1.1.27' WHERE ID_RUTA='27';
-UPDATE RUTAS SET COD_CC='751328' , DESCRIP_CC='Ruta San Salvador 1.1.28' WHERE ID_RUTA='28';
-UPDATE RUTAS SET COD_CC='751329' , DESCRIP_CC='Ruta San Salvador 1.1.29' WHERE ID_RUTA='29';
-UPDATE RUTAS SET COD_CC='751330' , DESCRIP_CC='Ruta San Salvador 1.1.30' WHERE ID_RUTA='30';
-UPDATE RUTAS SET COD_CC='751331' , DESCRIP_CC='Ruta San Salvador 1.1.31' WHERE ID_RUTA='31';
-UPDATE RUTAS SET COD_CC='751332' , DESCRIP_CC='Ruta San Salvador 1.1.32' WHERE ID_RUTA='32';
-UPDATE RUTAS SET COD_CC='751333' , DESCRIP_CC='Ruta San Salvador 1.1.33' WHERE ID_RUTA='33';
-UPDATE RUTAS SET COD_CC='751334' , DESCRIP_CC='Ruta San Salvador 1.1.34' WHERE ID_RUTA='34';
-UPDATE RUTAS SET COD_CC='751335' , DESCRIP_CC='Ruta San Salvador 1.1.35' WHERE ID_RUTA='35';
-UPDATE RUTAS SET COD_CC='751336' , DESCRIP_CC='Ruta San Salvador 1.1.36' WHERE ID_RUTA='36';
-UPDATE RUTAS SET COD_CC='751337' , DESCRIP_CC='Ruta San Salvador 1.1.37' WHERE ID_RUTA='37';
-UPDATE RUTAS SET COD_CC='751338' , DESCRIP_CC='Ruta San Salvador 1.1.38' WHERE ID_RUTA='38';
-UPDATE RUTAS SET COD_CC='751339' , DESCRIP_CC='Ruta San Salvador 1.1.39' WHERE ID_RUTA='39';
-UPDATE RUTAS SET COD_CC='751340' , DESCRIP_CC='Ruta San Salvador 1.1.40' WHERE ID_RUTA='40';
-UPDATE RUTAS SET COD_CC='751341' , DESCRIP_CC='Ruta San Salvador 1.1.41' WHERE ID_RUTA='41';
-UPDATE RUTAS SET COD_CC='751342' , DESCRIP_CC='Ruta San Salvador 1.1.42' WHERE ID_RUTA='42';
-UPDATE RUTAS SET COD_CC='751343' , DESCRIP_CC='Ruta San Salvador 1.1.43' WHERE ID_RUTA='43';
-UPDATE RUTAS SET COD_CC='751344' , DESCRIP_CC='Ruta San Salvador 1.1.44' WHERE ID_RUTA='44';
-UPDATE RUTAS SET COD_CC='755001' , DESCRIP_CC='Ruta San Salvador 1.1.45' WHERE ID_RUTA='45';
-UPDATE RUTAS SET COD_CC='755002' , DESCRIP_CC='Ruta San Salvador 1.1.46' WHERE ID_RUTA='46';
-UPDATE RUTAS SET COD_CC='755032' , DESCRIP_CC='Ruta San Salvador 1.1.47' WHERE ID_RUTA='47';
-UPDATE RUTAS SET COD_CC='755033' , DESCRIP_CC='Ruta San Salvador 1.1.48' WHERE ID_RUTA='48';
-UPDATE RUTAS SET COD_CC='755034' , DESCRIP_CC='Ruta San Salvador 1.1.49' WHERE ID_RUTA='49';
-UPDATE RUTAS SET COD_CC='751345' , DESCRIP_CC='Ruta San Salvador 1.2.01' WHERE ID_RUTA='50';
-UPDATE RUTAS SET COD_CC='751347' , DESCRIP_CC='Ruta San Salvador 1.2.03' WHERE ID_RUTA='51';
-UPDATE RUTAS SET COD_CC='751348' , DESCRIP_CC='Ruta San Salvador 1.2.04' WHERE ID_RUTA='52';
-UPDATE RUTAS SET COD_CC='751349' , DESCRIP_CC='Ruta San Salvador 1.2.05' WHERE ID_RUTA='53';
-UPDATE RUTAS SET COD_CC='751350' , DESCRIP_CC='Ruta San Salvador 1.2.06' WHERE ID_RUTA='54';
-UPDATE RUTAS SET COD_CC='751351' , DESCRIP_CC='Ruta San Salvador 1.2.07' WHERE ID_RUTA='55';
-UPDATE RUTAS SET COD_CC='751352' , DESCRIP_CC='Ruta San Salvador 1.2.08' WHERE ID_RUTA='56';
-UPDATE RUTAS SET COD_CC='751353' , DESCRIP_CC='Ruta San Salvador 1.2.09' WHERE ID_RUTA='57';
-UPDATE RUTAS SET COD_CC='751354' , DESCRIP_CC='Ruta San Salvador 1.2.10' WHERE ID_RUTA='58';
-UPDATE RUTAS SET COD_CC='751355' , DESCRIP_CC='Ruta San Salvador 1.2.11' WHERE ID_RUTA='59';
-UPDATE RUTAS SET COD_CC='751371' , DESCRIP_CC='Ruta San Salvador 1.2.15' WHERE ID_RUTA='60';
-UPDATE RUTAS SET COD_CC='751372' , DESCRIP_CC='Ruta San Salvador 1.2.16' WHERE ID_RUTA='61';
-UPDATE RUTAS SET COD_CC='751373' , DESCRIP_CC='Ruta San Salvador 1.2.17' WHERE ID_RUTA='62';
-UPDATE RUTAS SET COD_CC='751359' , DESCRIP_CC='Ruta San Salvador 1.2.18' WHERE ID_RUTA='63';
-UPDATE RUTAS SET COD_CC='751374' , DESCRIP_CC='Ruta San Salvador 1.2.19' WHERE ID_RUTA='64';
-UPDATE RUTAS SET COD_CC='751375' , DESCRIP_CC='Ruta San Salvador 1.2.20' WHERE ID_RUTA='65';
-UPDATE RUTAS SET COD_CC='755003' , DESCRIP_CC='Ruta San Salvador 1.2.21' WHERE ID_RUTA='66';
-UPDATE RUTAS SET COD_CC='755004' , DESCRIP_CC='Ruta San Salvador 1.2.22' WHERE ID_RUTA='67';
-UPDATE RUTAS SET COD_CC='755005' , DESCRIP_CC='Ruta San Salvador 1.2.23' WHERE ID_RUTA='68';
-UPDATE RUTAS SET COD_CC='755041' , DESCRIP_CC='Ruta San Salvador 1.2.25' WHERE ID_RUTA='69';
-UPDATE RUTAS SET COD_CC='755042' , DESCRIP_CC='Ruta San Salvador 1.2.26' WHERE ID_RUTA='70';
-UPDATE RUTAS SET COD_CC='751327' , DESCRIP_CC='Ruta San Salvador 1.2.27' WHERE ID_RUTA='71';
-UPDATE RUTAS SET COD_CC='751361' , DESCRIP_CC='Ruta San Salvador 1.3.02' WHERE ID_RUTA='74';
-UPDATE RUTAS SET COD_CC='751363' , DESCRIP_CC='Ruta San Salvador 1.3.04' WHERE ID_RUTA='75';
-UPDATE RUTAS SET COD_CC='755028' , DESCRIP_CC='Ruta San Salvador 1.3.07' WHERE ID_RUTA='76';
-UPDATE RUTAS SET COD_CC='755029' , DESCRIP_CC='Ruta San Salvador 1.3.08' WHERE ID_RUTA='77';
-UPDATE RUTAS SET COD_CC='755037' , DESCRIP_CC='Ruta San Salvador 1.3.09' WHERE ID_RUTA='78';
-UPDATE RUTAS SET COD_CC='751364' , DESCRIP_CC='Ruta San Salvador 1.4.01' WHERE ID_RUTA='79';
-UPDATE RUTAS SET COD_CC='755026' , DESCRIP_CC='Ruta San Salvador 1.4.04' WHERE ID_RUTA='80';
-UPDATE RUTAS SET COD_CC='755027' , DESCRIP_CC='Ruta San Salvador 1.4.05' WHERE ID_RUTA='81';
-UPDATE RUTAS SET COD_CC='755030' , DESCRIP_CC='Ruta San Salvador 1.4.06' WHERE ID_RUTA='82';
-UPDATE RUTAS SET COD_CC='755039' , DESCRIP_CC='Ruta Gudaff San Salvador 1.9.01' WHERE ID_RUTA='88';
-UPDATE RUTAS SET COD_CC='755040' , DESCRIP_CC='Ruta Gudaff San Salvador 1.9.02' WHERE ID_RUTA='89';
-UPDATE RUTAS SET COD_CC='751401' , DESCRIP_CC='Ruta San Miguel 2.1.01' WHERE ID_RUTA='91';
-UPDATE RUTAS SET COD_CC='751402' , DESCRIP_CC='Ruta San Miguel 2.1.02' WHERE ID_RUTA='92';
-UPDATE RUTAS SET COD_CC='751403' , DESCRIP_CC='Ruta San Miguel 2.1.03' WHERE ID_RUTA='93';
-UPDATE RUTAS SET COD_CC='751404' , DESCRIP_CC='Ruta San Miguel 2.1.04' WHERE ID_RUTA='94';
-UPDATE RUTAS SET COD_CC='751405' , DESCRIP_CC='Ruta San Miguel 2.1.05' WHERE ID_RUTA='95';
-UPDATE RUTAS SET COD_CC='751406' , DESCRIP_CC='Ruta San Miguel 2.1.06' WHERE ID_RUTA='96';
-UPDATE RUTAS SET COD_CC='751425' , DESCRIP_CC='Ruta San Miguel 2.1.07' WHERE ID_RUTA='97';
-UPDATE RUTAS SET COD_CC='751407' , DESCRIP_CC='Ruta San Miguel 2.1.08' WHERE ID_RUTA='98';
-UPDATE RUTAS SET COD_CC='751428' , DESCRIP_CC='Ruta San Miguel 2.1.09' WHERE ID_RUTA='99';
-UPDATE RUTAS SET COD_CC='751437' , DESCRIP_CC='Ruta San Miguel 2.1.10' WHERE ID_RUTA='100';
-UPDATE RUTAS SET COD_CC='751409' , DESCRIP_CC='Ruta San Miguel 2.2.02' WHERE ID_RUTA='101';
-UPDATE RUTAS SET COD_CC='751410' , DESCRIP_CC='Ruta San Miguel 2.2.03' WHERE ID_RUTA='102';
-UPDATE RUTAS SET COD_CC='751411' , DESCRIP_CC='Ruta San Miguel 2.2.04' WHERE ID_RUTA='103';
-UPDATE RUTAS SET COD_CC='751412' , DESCRIP_CC='Ruta San Miguel 2.2.05' WHERE ID_RUTA='104';
-UPDATE RUTAS SET COD_CC='751413' , DESCRIP_CC='Ruta San Miguel 2.2.06' WHERE ID_RUTA='105';
-UPDATE RUTAS SET COD_CC='751415' , DESCRIP_CC='Ruta San Miguel 2.2.08' WHERE ID_RUTA='106';
-UPDATE RUTAS SET COD_CC='751416' , DESCRIP_CC='Ruta San Miguel 2.2.09' WHERE ID_RUTA='107';
-UPDATE RUTAS SET COD_CC='751417' , DESCRIP_CC='Ruta San Miguel 2.2.10' WHERE ID_RUTA='108';
-UPDATE RUTAS SET COD_CC='751426' , DESCRIP_CC='Ruta San Miguel 2.2.12' WHERE ID_RUTA='109';
-UPDATE RUTAS SET COD_CC='751427' , DESCRIP_CC='Ruta San Miguel 2.2.13' WHERE ID_RUTA='110';
-UPDATE RUTAS SET COD_CC='751419' , DESCRIP_CC='Ruta San Miguel 2.2.14' WHERE ID_RUTA='111';
-UPDATE RUTAS SET COD_CC='751429' , DESCRIP_CC='Ruta San Miguel 2.2.15' WHERE ID_RUTA='112';
-UPDATE RUTAS SET COD_CC='751430' , DESCRIP_CC='Ruta San Miguel 2.2.16' WHERE ID_RUTA='113';
-UPDATE RUTAS SET COD_CC='751441' , DESCRIP_CC='Ruta San Miguel 2.2.17' WHERE ID_RUTA='114';
-UPDATE RUTAS SET COD_CC='751442' , DESCRIP_CC='Ruta San Miguel 2.2.18' WHERE ID_RUTA='115';
-UPDATE RUTAS SET COD_CC='751444' , DESCRIP_CC='Ruta San Miguel 2.2.19' WHERE ID_RUTA='116';
-UPDATE RUTAS SET COD_CC='751440' , DESCRIP_CC='Ruta San Miguel 2.3.03' WHERE ID_RUTA='118';
-UPDATE RUTAS SET COD_CC='751423' , DESCRIP_CC='Ruta San Miguel 2.4.03' WHERE ID_RUTA='119';
-UPDATE RUTAS SET COD_CC='751435' , DESCRIP_CC='Ruta San Miguel 2.4.04' WHERE ID_RUTA='120';
-UPDATE RUTAS SET COD_CC='751438' , DESCRIP_CC='Ruta San Miguel 2.4.06' WHERE ID_RUTA='121';
-UPDATE RUTAS SET COD_CC='751443' , DESCRIP_CC='Ruta Gudaff San Miguel 2.9.01' WHERE ID_RUTA='125';
-UPDATE RUTAS SET COD_CC='751444' , DESCRIP_CC='Ruta Gudaff San Miguel 2.9.02' WHERE ID_RUTA='126';
-UPDATE RUTAS SET COD_CC='751501' , DESCRIP_CC='Ruta Santa Ana 3.1.01' WHERE ID_RUTA='127';
-UPDATE RUTAS SET COD_CC='751502' , DESCRIP_CC='Ruta Santa Ana 3.1.02' WHERE ID_RUTA='128';
-UPDATE RUTAS SET COD_CC='751503' , DESCRIP_CC='Ruta Santa Ana 3.1.03' WHERE ID_RUTA='129';
-UPDATE RUTAS SET COD_CC='751504' , DESCRIP_CC='Ruta Santa Ana 3.1.04' WHERE ID_RUTA='130';
-UPDATE RUTAS SET COD_CC='751505' , DESCRIP_CC='Ruta Santa Ana 3.1.05' WHERE ID_RUTA='131';
-UPDATE RUTAS SET COD_CC='751506' , DESCRIP_CC='Ruta Santa Ana 3.1.06' WHERE ID_RUTA='132';
-UPDATE RUTAS SET COD_CC='751507' , DESCRIP_CC='Ruta Santa Ana 3.1.07' WHERE ID_RUTA='133';
-UPDATE RUTAS SET COD_CC='751531' , DESCRIP_CC='Ruta Santa Ana 3.1.08' WHERE ID_RUTA='134';
-UPDATE RUTAS SET COD_CC='751508' , DESCRIP_CC='Ruta Santa Ana 3.2.01' WHERE ID_RUTA='135';
-UPDATE RUTAS SET COD_CC='751509' , DESCRIP_CC='Ruta Santa Ana 3.2.02' WHERE ID_RUTA='136';
-UPDATE RUTAS SET COD_CC='751510' , DESCRIP_CC='Ruta Santa Ana 3.2.03' WHERE ID_RUTA='137';
-UPDATE RUTAS SET COD_CC='751511' , DESCRIP_CC='Ruta Santa Ana 3.2.04' WHERE ID_RUTA='138';
-UPDATE RUTAS SET COD_CC='751512' , DESCRIP_CC='Ruta Santa Ana 3.2.05' WHERE ID_RUTA='139';
-UPDATE RUTAS SET COD_CC='751515' , DESCRIP_CC='Ruta Santa Ana 3.2.08' WHERE ID_RUTA='140';
-UPDATE RUTAS SET COD_CC='751516' , DESCRIP_CC='Ruta Santa Ana 3.2.09' WHERE ID_RUTA='141';
-UPDATE RUTAS SET COD_CC='751517' , DESCRIP_CC='Ruta Santa Ana 3.2.10' WHERE ID_RUTA='142';
-UPDATE RUTAS SET COD_CC='751518' , DESCRIP_CC='Ruta Santa Ana 3.2.11' WHERE ID_RUTA='143';
-UPDATE RUTAS SET COD_CC='751519' , DESCRIP_CC='Ruta Santa Ana 3.2.12' WHERE ID_RUTA='144';
-UPDATE RUTAS SET COD_CC='751520' , DESCRIP_CC='Ruta Santa Ana 3.2.13' WHERE ID_RUTA='145';
-UPDATE RUTAS SET COD_CC='751527' , DESCRIP_CC='Ruta Santa Ana 3.2.14' WHERE ID_RUTA='146';
-UPDATE RUTAS SET COD_CC='751528' , DESCRIP_CC='Ruta Santa Ana 3.2.15' WHERE ID_RUTA='147';
-UPDATE RUTAS SET COD_CC='751521' , DESCRIP_CC='Ruta Santa Ana 3.2.16' WHERE ID_RUTA='148';
-UPDATE RUTAS SET COD_CC='751529' , DESCRIP_CC='Ruta Santa Ana 3.2.17' WHERE ID_RUTA='149';
-UPDATE RUTAS SET COD_CC='751532' , DESCRIP_CC='Ruta Santa Ana 3.2.18' WHERE ID_RUTA='150';
-UPDATE RUTAS SET COD_CC='751533' , DESCRIP_CC='Ruta Santa Ana 3.2.19' WHERE ID_RUTA='151';
-UPDATE RUTAS SET COD_CC='751542' , DESCRIP_CC='Ruta Santa Ana 3.2.20' WHERE ID_RUTA='152';
-UPDATE RUTAS SET COD_CC='751544' , DESCRIP_CC='Ruta Santa Ana 3.2.21' WHERE ID_RUTA='153';
-UPDATE RUTAS SET COD_CC='751545' , DESCRIP_CC='Ruta Santa Ana 3.2.22' WHERE ID_RUTA='154';
-UPDATE RUTAS SET COD_CC='751547' , DESCRIP_CC='Ruta Santa Ana 3.2.23' WHERE ID_RUTA='155';
-UPDATE RUTAS SET COD_CC='751539' , DESCRIP_CC='Ruta Santa Ana 3.3.05' WHERE ID_RUTA='158';
-UPDATE RUTAS SET COD_CC='751541' , DESCRIP_CC='Ruta Santa Ana 3.3.07' WHERE ID_RUTA='159';
-UPDATE RUTAS SET COD_CC='751543' , DESCRIP_CC='Ruta Santa Ana 3.3.08' WHERE ID_RUTA='160';
-UPDATE RUTAS SET COD_CC='751546' , DESCRIP_CC='Ruta Gudaff Santa Ana 3.9.01' WHERE ID_RUTA='163';
-
+UPDATE rutas SET COD_CC='751301' , DESCRIP_CC='Ruta San Salvador 1.1.01 ' WHERE ID_RUTA='1';
+UPDATE rutas SET COD_CC='751302' , DESCRIP_CC='Ruta San Salvador 1.1.02' WHERE ID_RUTA='2';
+UPDATE rutas SET COD_CC='751303' , DESCRIP_CC='Ruta San Salvador 1.1.03' WHERE ID_RUTA='3';
+UPDATE rutas SET COD_CC='751304' , DESCRIP_CC='Ruta San Salvador 1.1.04' WHERE ID_RUTA='4';
+UPDATE rutas SET COD_CC='751305' , DESCRIP_CC='Ruta San Salvador 1.1.05' WHERE ID_RUTA='5';
+UPDATE rutas SET COD_CC='751306' , DESCRIP_CC='Ruta San Salvador 1.1.06' WHERE ID_RUTA='6';
+UPDATE rutas SET COD_CC='751307' , DESCRIP_CC='Ruta San Salvador 1.1.07' WHERE ID_RUTA='7';
+UPDATE rutas SET COD_CC='751308' , DESCRIP_CC='Ruta San Salvador 1.1.08' WHERE ID_RUTA='8';
+UPDATE rutas SET COD_CC='751309' , DESCRIP_CC='Ruta San Salvador 1.1.09' WHERE ID_RUTA='9';
+UPDATE rutas SET COD_CC='751310' , DESCRIP_CC='Ruta San Salvador 1.1.10' WHERE ID_RUTA='10';
+UPDATE rutas SET COD_CC='751311' , DESCRIP_CC='Ruta San Salvador 1.1.11' WHERE ID_RUTA='11';
+UPDATE rutas SET COD_CC='751312' , DESCRIP_CC='Ruta San Salvador 1.1.12' WHERE ID_RUTA='12';
+UPDATE rutas SET COD_CC='751313' , DESCRIP_CC='Ruta San Salvador 1.1.13' WHERE ID_RUTA='13';
+UPDATE rutas SET COD_CC='751314' , DESCRIP_CC='Ruta San Salvador 1.1.14' WHERE ID_RUTA='14';
+UPDATE rutas SET COD_CC='751315' , DESCRIP_CC='Ruta San Salvador 1.1.15' WHERE ID_RUTA='15';
+UPDATE rutas SET COD_CC='751316' , DESCRIP_CC='Ruta San Salvador 1.1.16' WHERE ID_RUTA='16';
+UPDATE rutas SET COD_CC='751317' , DESCRIP_CC='Ruta San Salvador 1.1.17' WHERE ID_RUTA='17';
+UPDATE rutas SET COD_CC='751318' , DESCRIP_CC='Ruta San Salvador 1.1.18' WHERE ID_RUTA='18';
+UPDATE rutas SET COD_CC='751319' , DESCRIP_CC='Ruta San Salvador 1.1.19' WHERE ID_RUTA='19';
+UPDATE rutas SET COD_CC='751320' , DESCRIP_CC='Ruta San Salvador 1.1.20' WHERE ID_RUTA='20';
+UPDATE rutas SET COD_CC='751321' , DESCRIP_CC='Ruta San Salvador 1.1.21' WHERE ID_RUTA='21';
+UPDATE rutas SET COD_CC='751322' , DESCRIP_CC='Ruta San Salvador 1.1.22' WHERE ID_RUTA='22';
+UPDATE rutas SET COD_CC='751323' , DESCRIP_CC='Ruta San Salvador 1.1.23' WHERE ID_RUTA='23';
+UPDATE rutas SET COD_CC='751324' , DESCRIP_CC='Ruta San Salvador 1.1.24' WHERE ID_RUTA='24';
+UPDATE rutas SET COD_CC='751325' , DESCRIP_CC='Ruta San Salvador 1.1.25' WHERE ID_RUTA='25';
+UPDATE rutas SET COD_CC='751326' , DESCRIP_CC='Ruta San Salvador 1.1.26' WHERE ID_RUTA='26';
+UPDATE rutas SET COD_CC='751327' , DESCRIP_CC='Ruta San Salvador 1.1.27' WHERE ID_RUTA='27';
+UPDATE rutas SET COD_CC='751328' , DESCRIP_CC='Ruta San Salvador 1.1.28' WHERE ID_RUTA='28';
+UPDATE rutas SET COD_CC='751329' , DESCRIP_CC='Ruta San Salvador 1.1.29' WHERE ID_RUTA='29';
+UPDATE rutas SET COD_CC='751330' , DESCRIP_CC='Ruta San Salvador 1.1.30' WHERE ID_RUTA='30';
+UPDATE rutas SET COD_CC='751331' , DESCRIP_CC='Ruta San Salvador 1.1.31' WHERE ID_RUTA='31';
+UPDATE rutas SET COD_CC='751332' , DESCRIP_CC='Ruta San Salvador 1.1.32' WHERE ID_RUTA='32';
+UPDATE rutas SET COD_CC='751333' , DESCRIP_CC='Ruta San Salvador 1.1.33' WHERE ID_RUTA='33';
+UPDATE rutas SET COD_CC='751334' , DESCRIP_CC='Ruta San Salvador 1.1.34' WHERE ID_RUTA='34';
+UPDATE rutas SET COD_CC='751335' , DESCRIP_CC='Ruta San Salvador 1.1.35' WHERE ID_RUTA='35';
+UPDATE rutas SET COD_CC='751336' , DESCRIP_CC='Ruta San Salvador 1.1.36' WHERE ID_RUTA='36';
+UPDATE rutas SET COD_CC='751337' , DESCRIP_CC='Ruta San Salvador 1.1.37' WHERE ID_RUTA='37';
+UPDATE rutas SET COD_CC='751338' , DESCRIP_CC='Ruta San Salvador 1.1.38' WHERE ID_RUTA='38';
+UPDATE rutas SET COD_CC='751339' , DESCRIP_CC='Ruta San Salvador 1.1.39' WHERE ID_RUTA='39';
+UPDATE rutas SET COD_CC='751340' , DESCRIP_CC='Ruta San Salvador 1.1.40' WHERE ID_RUTA='40';
+UPDATE rutas SET COD_CC='751341' , DESCRIP_CC='Ruta San Salvador 1.1.41' WHERE ID_RUTA='41';
+UPDATE rutas SET COD_CC='751342' , DESCRIP_CC='Ruta San Salvador 1.1.42' WHERE ID_RUTA='42';
+UPDATE rutas SET COD_CC='751343' , DESCRIP_CC='Ruta San Salvador 1.1.43' WHERE ID_RUTA='43';
+UPDATE rutas SET COD_CC='751344' , DESCRIP_CC='Ruta San Salvador 1.1.44' WHERE ID_RUTA='44';
+UPDATE rutas SET COD_CC='755001' , DESCRIP_CC='Ruta San Salvador 1.1.45' WHERE ID_RUTA='45';
+UPDATE rutas SET COD_CC='755002' , DESCRIP_CC='Ruta San Salvador 1.1.46' WHERE ID_RUTA='46';
+UPDATE rutas SET COD_CC='755032' , DESCRIP_CC='Ruta San Salvador 1.1.47' WHERE ID_RUTA='47';
+UPDATE rutas SET COD_CC='755033' , DESCRIP_CC='Ruta San Salvador 1.1.48' WHERE ID_RUTA='48';
+UPDATE rutas SET COD_CC='755034' , DESCRIP_CC='Ruta San Salvador 1.1.49' WHERE ID_RUTA='49';
+UPDATE rutas SET COD_CC='751345' , DESCRIP_CC='Ruta San Salvador 1.2.01' WHERE ID_RUTA='50';
+UPDATE rutas SET COD_CC='751347' , DESCRIP_CC='Ruta San Salvador 1.2.03' WHERE ID_RUTA='51';
+UPDATE rutas SET COD_CC='751348' , DESCRIP_CC='Ruta San Salvador 1.2.04' WHERE ID_RUTA='52';
+UPDATE rutas SET COD_CC='751349' , DESCRIP_CC='Ruta San Salvador 1.2.05' WHERE ID_RUTA='53';
+UPDATE rutas SET COD_CC='751350' , DESCRIP_CC='Ruta San Salvador 1.2.06' WHERE ID_RUTA='54';
+UPDATE rutas SET COD_CC='751351' , DESCRIP_CC='Ruta San Salvador 1.2.07' WHERE ID_RUTA='55';
+UPDATE rutas SET COD_CC='751352' , DESCRIP_CC='Ruta San Salvador 1.2.08' WHERE ID_RUTA='56';
+UPDATE rutas SET COD_CC='751353' , DESCRIP_CC='Ruta San Salvador 1.2.09' WHERE ID_RUTA='57';
+UPDATE rutas SET COD_CC='751354' , DESCRIP_CC='Ruta San Salvador 1.2.10' WHERE ID_RUTA='58';
+UPDATE rutas SET COD_CC='751355' , DESCRIP_CC='Ruta San Salvador 1.2.11' WHERE ID_RUTA='59';
+UPDATE rutas SET COD_CC='751371' , DESCRIP_CC='Ruta San Salvador 1.2.15' WHERE ID_RUTA='60';
+UPDATE rutas SET COD_CC='751372' , DESCRIP_CC='Ruta San Salvador 1.2.16' WHERE ID_RUTA='61';
+UPDATE rutas SET COD_CC='751373' , DESCRIP_CC='Ruta San Salvador 1.2.17' WHERE ID_RUTA='62';
+UPDATE rutas SET COD_CC='751359' , DESCRIP_CC='Ruta San Salvador 1.2.18' WHERE ID_RUTA='63';
+UPDATE rutas SET COD_CC='751374' , DESCRIP_CC='Ruta San Salvador 1.2.19' WHERE ID_RUTA='64';
+UPDATE rutas SET COD_CC='751375' , DESCRIP_CC='Ruta San Salvador 1.2.20' WHERE ID_RUTA='65';
+UPDATE rutas SET COD_CC='755003' , DESCRIP_CC='Ruta San Salvador 1.2.21' WHERE ID_RUTA='66';
+UPDATE rutas SET COD_CC='755004' , DESCRIP_CC='Ruta San Salvador 1.2.22' WHERE ID_RUTA='67';
+UPDATE rutas SET COD_CC='755005' , DESCRIP_CC='Ruta San Salvador 1.2.23' WHERE ID_RUTA='68';
+UPDATE rutas SET COD_CC='755041' , DESCRIP_CC='Ruta San Salvador 1.2.25' WHERE ID_RUTA='69';
+UPDATE rutas SET COD_CC='755042' , DESCRIP_CC='Ruta San Salvador 1.2.26' WHERE ID_RUTA='70';
+UPDATE rutas SET COD_CC='751327' , DESCRIP_CC='Ruta San Salvador 1.2.27' WHERE ID_RUTA='71';
+UPDATE rutas SET COD_CC='751361' , DESCRIP_CC='Ruta San Salvador 1.3.02' WHERE ID_RUTA='74';
+UPDATE rutas SET COD_CC='751363' , DESCRIP_CC='Ruta San Salvador 1.3.04' WHERE ID_RUTA='75';
+UPDATE rutas SET COD_CC='755028' , DESCRIP_CC='Ruta San Salvador 1.3.07' WHERE ID_RUTA='76';
+UPDATE rutas SET COD_CC='755029' , DESCRIP_CC='Ruta San Salvador 1.3.08' WHERE ID_RUTA='77';
+UPDATE rutas SET COD_CC='755037' , DESCRIP_CC='Ruta San Salvador 1.3.09' WHERE ID_RUTA='78';
+UPDATE rutas SET COD_CC='751364' , DESCRIP_CC='Ruta San Salvador 1.4.01' WHERE ID_RUTA='79';
+UPDATE rutas SET COD_CC='755026' , DESCRIP_CC='Ruta San Salvador 1.4.04' WHERE ID_RUTA='80';
+UPDATE rutas SET COD_CC='755027' , DESCRIP_CC='Ruta San Salvador 1.4.05' WHERE ID_RUTA='81';
+UPDATE rutas SET COD_CC='755030' , DESCRIP_CC='Ruta San Salvador 1.4.06' WHERE ID_RUTA='82';
+UPDATE rutas SET COD_CC='755039' , DESCRIP_CC='Ruta Gudaff San Salvador 1.9.01' WHERE ID_RUTA='88';
+UPDATE rutas SET COD_CC='755040' , DESCRIP_CC='Ruta Gudaff San Salvador 1.9.02' WHERE ID_RUTA='89';
+UPDATE rutas SET COD_CC='751401' , DESCRIP_CC='Ruta San Miguel 2.1.01' WHERE ID_RUTA='91';
+UPDATE rutas SET COD_CC='751402' , DESCRIP_CC='Ruta San Miguel 2.1.02' WHERE ID_RUTA='92';
+UPDATE rutas SET COD_CC='751403' , DESCRIP_CC='Ruta San Miguel 2.1.03' WHERE ID_RUTA='93';
+UPDATE rutas SET COD_CC='751404' , DESCRIP_CC='Ruta San Miguel 2.1.04' WHERE ID_RUTA='94';
+UPDATE rutas SET COD_CC='751405' , DESCRIP_CC='Ruta San Miguel 2.1.05' WHERE ID_RUTA='95';
+UPDATE rutas SET COD_CC='751406' , DESCRIP_CC='Ruta San Miguel 2.1.06' WHERE ID_RUTA='96';
+UPDATE rutas SET COD_CC='751425' , DESCRIP_CC='Ruta San Miguel 2.1.07' WHERE ID_RUTA='97';
+UPDATE rutas SET COD_CC='751407' , DESCRIP_CC='Ruta San Miguel 2.1.08' WHERE ID_RUTA='98';
+UPDATE rutas SET COD_CC='751428' , DESCRIP_CC='Ruta San Miguel 2.1.09' WHERE ID_RUTA='99';
+UPDATE rutas SET COD_CC='751437' , DESCRIP_CC='Ruta San Miguel 2.1.10' WHERE ID_RUTA='100';
+UPDATE rutas SET COD_CC='751409' , DESCRIP_CC='Ruta San Miguel 2.2.02' WHERE ID_RUTA='101';
+UPDATE rutas SET COD_CC='751410' , DESCRIP_CC='Ruta San Miguel 2.2.03' WHERE ID_RUTA='102';
+UPDATE rutas SET COD_CC='751411' , DESCRIP_CC='Ruta San Miguel 2.2.04' WHERE ID_RUTA='103';
+UPDATE rutas SET COD_CC='751412' , DESCRIP_CC='Ruta San Miguel 2.2.05' WHERE ID_RUTA='104';
+UPDATE rutas SET COD_CC='751413' , DESCRIP_CC='Ruta San Miguel 2.2.06' WHERE ID_RUTA='105';
+UPDATE rutas SET COD_CC='751415' , DESCRIP_CC='Ruta San Miguel 2.2.08' WHERE ID_RUTA='106';
+UPDATE rutas SET COD_CC='751416' , DESCRIP_CC='Ruta San Miguel 2.2.09' WHERE ID_RUTA='107';
+UPDATE rutas SET COD_CC='751417' , DESCRIP_CC='Ruta San Miguel 2.2.10' WHERE ID_RUTA='108';
+UPDATE rutas SET COD_CC='751426' , DESCRIP_CC='Ruta San Miguel 2.2.12' WHERE ID_RUTA='109';
+UPDATE rutas SET COD_CC='751427' , DESCRIP_CC='Ruta San Miguel 2.2.13' WHERE ID_RUTA='110';
+UPDATE rutas SET COD_CC='751419' , DESCRIP_CC='Ruta San Miguel 2.2.14' WHERE ID_RUTA='111';
+UPDATE rutas SET COD_CC='751429' , DESCRIP_CC='Ruta San Miguel 2.2.15' WHERE ID_RUTA='112';
+UPDATE rutas SET COD_CC='751430' , DESCRIP_CC='Ruta San Miguel 2.2.16' WHERE ID_RUTA='113';
+UPDATE rutas SET COD_CC='751441' , DESCRIP_CC='Ruta San Miguel 2.2.17' WHERE ID_RUTA='114';
+UPDATE rutas SET COD_CC='751442' , DESCRIP_CC='Ruta San Miguel 2.2.18' WHERE ID_RUTA='115';
+UPDATE rutas SET COD_CC='751444' , DESCRIP_CC='Ruta San Miguel 2.2.19' WHERE ID_RUTA='116';
+UPDATE rutas SET COD_CC='751440' , DESCRIP_CC='Ruta San Miguel 2.3.03' WHERE ID_RUTA='118';
+UPDATE rutas SET COD_CC='751423' , DESCRIP_CC='Ruta San Miguel 2.4.03' WHERE ID_RUTA='119';
+UPDATE rutas SET COD_CC='751435' , DESCRIP_CC='Ruta San Miguel 2.4.04' WHERE ID_RUTA='120';
+UPDATE rutas SET COD_CC='751438' , DESCRIP_CC='Ruta San Miguel 2.4.06' WHERE ID_RUTA='121';
+UPDATE rutas SET COD_CC='751443' , DESCRIP_CC='Ruta Gudaff San Miguel 2.9.01' WHERE ID_RUTA='125';
+UPDATE rutas SET COD_CC='751444' , DESCRIP_CC='Ruta Gudaff San Miguel 2.9.02' WHERE ID_RUTA='126';
+UPDATE rutas SET COD_CC='751501' , DESCRIP_CC='Ruta Santa Ana 3.1.01' WHERE ID_RUTA='127';
+UPDATE rutas SET COD_CC='751502' , DESCRIP_CC='Ruta Santa Ana 3.1.02' WHERE ID_RUTA='128';
+UPDATE rutas SET COD_CC='751503' , DESCRIP_CC='Ruta Santa Ana 3.1.03' WHERE ID_RUTA='129';
+UPDATE rutas SET COD_CC='751504' , DESCRIP_CC='Ruta Santa Ana 3.1.04' WHERE ID_RUTA='130';
+UPDATE rutas SET COD_CC='751505' , DESCRIP_CC='Ruta Santa Ana 3.1.05' WHERE ID_RUTA='131';
+UPDATE rutas SET COD_CC='751506' , DESCRIP_CC='Ruta Santa Ana 3.1.06' WHERE ID_RUTA='132';
+UPDATE rutas SET COD_CC='751507' , DESCRIP_CC='Ruta Santa Ana 3.1.07' WHERE ID_RUTA='133';
+UPDATE rutas SET COD_CC='751531' , DESCRIP_CC='Ruta Santa Ana 3.1.08' WHERE ID_RUTA='134';
+UPDATE rutas SET COD_CC='751508' , DESCRIP_CC='Ruta Santa Ana 3.2.01' WHERE ID_RUTA='135';
+UPDATE rutas SET COD_CC='751509' , DESCRIP_CC='Ruta Santa Ana 3.2.02' WHERE ID_RUTA='136';
+UPDATE rutas SET COD_CC='751510' , DESCRIP_CC='Ruta Santa Ana 3.2.03' WHERE ID_RUTA='137';
+UPDATE rutas SET COD_CC='751511' , DESCRIP_CC='Ruta Santa Ana 3.2.04' WHERE ID_RUTA='138';
+UPDATE rutas SET COD_CC='751512' , DESCRIP_CC='Ruta Santa Ana 3.2.05' WHERE ID_RUTA='139';
+UPDATE rutas SET COD_CC='751515' , DESCRIP_CC='Ruta Santa Ana 3.2.08' WHERE ID_RUTA='140';
+UPDATE rutas SET COD_CC='751516' , DESCRIP_CC='Ruta Santa Ana 3.2.09' WHERE ID_RUTA='141';
+UPDATE rutas SET COD_CC='751517' , DESCRIP_CC='Ruta Santa Ana 3.2.10' WHERE ID_RUTA='142';
+UPDATE rutas SET COD_CC='751518' , DESCRIP_CC='Ruta Santa Ana 3.2.11' WHERE ID_RUTA='143';
+UPDATE rutas SET COD_CC='751519' , DESCRIP_CC='Ruta Santa Ana 3.2.12' WHERE ID_RUTA='144';
+UPDATE rutas SET COD_CC='751520' , DESCRIP_CC='Ruta Santa Ana 3.2.13' WHERE ID_RUTA='145';
+UPDATE rutas SET COD_CC='751527' , DESCRIP_CC='Ruta Santa Ana 3.2.14' WHERE ID_RUTA='146';
+UPDATE rutas SET COD_CC='751528' , DESCRIP_CC='Ruta Santa Ana 3.2.15' WHERE ID_RUTA='147';
+UPDATE rutas SET COD_CC='751521' , DESCRIP_CC='Ruta Santa Ana 3.2.16' WHERE ID_RUTA='148';
+UPDATE rutas SET COD_CC='751529' , DESCRIP_CC='Ruta Santa Ana 3.2.17' WHERE ID_RUTA='149';
+UPDATE rutas SET COD_CC='751532' , DESCRIP_CC='Ruta Santa Ana 3.2.18' WHERE ID_RUTA='150';
+UPDATE rutas SET COD_CC='751533' , DESCRIP_CC='Ruta Santa Ana 3.2.19' WHERE ID_RUTA='151';
+UPDATE rutas SET COD_CC='751542' , DESCRIP_CC='Ruta Santa Ana 3.2.20' WHERE ID_RUTA='152';
+UPDATE rutas SET COD_CC='751544' , DESCRIP_CC='Ruta Santa Ana 3.2.21' WHERE ID_RUTA='153';
+UPDATE rutas SET COD_CC='751545' , DESCRIP_CC='Ruta Santa Ana 3.2.22' WHERE ID_RUTA='154';
+UPDATE rutas SET COD_CC='751547' , DESCRIP_CC='Ruta Santa Ana 3.2.23' WHERE ID_RUTA='155';
+UPDATE rutas SET COD_CC='751539' , DESCRIP_CC='Ruta Santa Ana 3.3.05' WHERE ID_RUTA='158';
+UPDATE rutas SET COD_CC='751541' , DESCRIP_CC='Ruta Santa Ana 3.3.07' WHERE ID_RUTA='159';
+UPDATE rutas SET COD_CC='751543' , DESCRIP_CC='Ruta Santa Ana 3.3.08' WHERE ID_RUTA='160';
+UPDATE rutas SET COD_CC='751546' , DESCRIP_CC='Ruta Gudaff Santa Ana 3.9.01' WHERE ID_RUTA='163';
 -- END ACTUALIZAR CENTROS DE COSTOS--
 
-alter table telefonos change  imei_telefono  imei_telefono varchar(20) not null;
+
 
 -- CONSULTA PDF ALTA Y BAJA SERIE--
 select  bs.Id_pdf_baja_serie,a_mh.n_maquina , r.nombre_ruta , d.Nombre_Distribuidora, a_mh.n_resolucion,  a_mh.fecha_autorizacion, t.imei_telefono, bs.estatus,a_mh.n_resolucion_rt, m_c.Nombre_Marca,mo_c.nombre_Modelo,a_mh.software,a_mh.fecha_habilitacion, a_mh.cantidad_tk,a_mh.serie_autorizada
@@ -1701,9 +1665,10 @@ inner join rutas as r on bec.Id_Ruta=r.Id_ruta
 order by bs.Id_baja_serie desc
 ;
 
-select * from autorizaciones_mh;
+
 
 --  MOSTRAR TABLA CONSULTAR PDF ULTIMOS 10--
+
 create table alta_serie(
 Id_baja_serie int(7) zerofill not null auto_increment primary key,
 Id_autorizaciones int(7) zerofill not null,
@@ -1716,9 +1681,7 @@ foreign key (Id_autorizaciones) references autorizaciones_mh(Id_autorizaciones),
 foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv)
 );
 
-describe baja_serie;
-describe bitacora_entrega_celular;
-select * from baja_serie;
+
 
 alter table baja_serie change Id_pdf_baja_serie Id_pdf_baja_serie varchar(50) not null;
 
@@ -1727,9 +1690,6 @@ alter table baja_serie change Id_pdf_baja_serie Id_pdf_baja_serie varchar(50) no
 alter table empleados change Id_distribuidora Id_distribuidora int(7) zerofill not null;
 alter table empleados change Id_Canal Id_Canal int(7) zerofill not null;
 alter table empleados change Id_Ruta Id_Ruta int(7) zerofill not null;
-
-update empleados set Id_distribuidora='0000001' where Id_Distribuidora='0000001';
-
 
 create table Marca_Impresoras(
 Id_marca_impresoras int(7) zerofill not null  auto_increment primary key,
@@ -1742,7 +1702,6 @@ foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
 foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv) 
 );
 
-SELECT * FROM Modelo_Impresoras;
 
 create table Modelo_Impresoras(
 Id_modelo_impresoras int(7) zerofill not null  auto_increment primary key,
@@ -1755,6 +1714,15 @@ foreign key (Id_distribuidora) references distribuidora(Id_distribuidora),
 foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv) ,
 foreign key (Id_marca_impresoras) references Marca_Impresoras(Id_marca_impresoras)
 );
+
+create table deducibles_impresoras(
+Id_deducible_impr int(7) zerofill not null auto_increment primary key,
+primera_ocasion double (4,2) not null,
+segunda_ocasion double(4,2) not null,
+tercera_ocasion double (4,2) not null,
+Id_modelo_impresoras int(7) zerofill not null,
+foreign key (Id_modelo_impresoras) references Modelo_Impresoras(Id_modelo_impresoras)  
+)ENGINE=innoDB;
 
 create table Impresoras(
 Id_Impresoras int(7) zerofill not null  auto_increment primary key,
@@ -1784,11 +1752,6 @@ inner join distribuidora as d on I.Id_Distribuidora=d.Id_Distribuidora
  where I.Id_distribuidora="0000001";
 -- 
 
-
-alter table distribuidora change Id_Distribuidora Id_Distribuidora int(7) zerofill not null auto_increment;
-
-alter table impresoras add column estado_entrega int(2) not null;
-
 create table Bitacora_entrega_impresora(
 Id_bit_entrega int(7) zerofill not null auto_increment primary key,
 Id_Impresoras int(7)zerofill not null,
@@ -1808,28 +1771,34 @@ foreign key (Id_Ruta) references rutas(Id_Ruta),
 foreign key (Id_Empleados) references empleados(Id_Empleados),
 foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv)
 );
-select * from impresoras;
-select * from Bitacora_entrega_impresora;
 
 
 SELECT  r.Nombre_ruta , e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, d.Nombre_Distribuidora,bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp from bitacora_entrega_impresora as bei 
 inner join Impresoras as I on bei.Id_Impresoras=I.Id_Impresoras
 inner join marca_impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
 inner join modelo_impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
-inner join distribuidora as d on bei.Id_Distribuidora=I.Id_Distribuidora
+inner join distribuidora as d on bei.Id_Distribuidora=d.Id_Distribuidora
 inner join canal as c on bei.Id_Canal=c.Id_Canal
 inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
 inner join empleados as e on bei.Id_Empleados=e.Id_Empleados;
 
-SELECT bei.Id_bit_entrega,r.Nombre_ruta , e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, d.Nombre_Distribuidora,bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp 
+SELECT bei.Id_bit_entrega,r.Nombre_ruta ,d.Id_Distribuidora, e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp 
       from bitacora_entrega_impresora as bei 
+      inner join distribuidora as d on bei.Id_Distribuidora=d.Id_Distribuidora
                 inner join Impresoras as I on bei.Id_Impresoras=I.Id_Impresoras
-                right join distribuidora as d on bei.Id_Distribuidora=I.Id_Distribuidora
 				inner join canal as c on bei.Id_Canal=c.Id_Canal
                 inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
                 inner join empleados as e on bei.Id_Empleados=e.Id_Empleados
                 inner join marca_impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
                 inner join modelo_impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
-               
-             
+                where bei.Id_Distribuidora=1
                 limit 10;
+-- Finaliza avance 3 modulos Telefonos Autorizaciones MH e Impresoras---
+                
+                
+                
+                
+                
+                
+                
+                
