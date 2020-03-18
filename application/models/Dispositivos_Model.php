@@ -708,9 +708,9 @@ class Dispositivos_Model extends CI_Model {
                                                     En caso de robo , o daño me hago responsable de reponer el celular <br>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     asignado por aparato de igual o similar modelo
-                                                    <br>PRIMERA OCACION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->primera_ocacion.'</b><br>
-                                                    SEGUNDA OCACION &nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->segunda_ocacion.'</b><br>
-                                                    TERCERA OCACION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->tercera_ocacion.'</b> 
+                                                    <br>PRIMERA OCASION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->primera_ocacion.'</b><br>
+                                                    SEGUNDA OCASION &nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->segunda_ocacion.'</b><br>
+                                                    TERCERA OCASION &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>$'.$data->row()->tercera_ocacion.'</b> 
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                     F.______________________________
                                                   </p>

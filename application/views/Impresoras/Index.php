@@ -25,66 +25,62 @@
             <button class="btn btn-outline-success button" data-toggle="modal" data-target="#Modal_Marca"><i class="fab fa-medium-m"></i></button><br><br>
             <button class="btn btn-outline-info button" data-toggle="modal" data-target="#Modal_Modelo"><i class="fab fa-modx" ></i></button><br><br>
             <button class="btn btn-outline-dark button" data-toggle="modal" data-target="#Modal_Entrega"><i class="fas fa-plane" ></i></button>
-
         </div>
         <!--  -->
+
 
 
         <!-- Formulario Agregar Impresora  -->
         <div class="fondo_form">
             <div class="form_impresoras">
                     <p style=" font-size:26px; font-weight:bold; color:#000; text-align:center;"> <i class="fas fa-print"></i>Añadir Impresora <i class="fas fa-plus" style="display:none; cursor:pointer;" id="btnrgt"></i></p><br>
-                <form>
+                
                     <div id="Form_Imp" style="font-size:16px;">
 
+                    <form id="form">
                             <div class="form-group " style="display:none;">
-                            <label for="Marca">Id_Impresora</label>
-                            <input type="text" class="form-control" id="txtidimpresora">
-
-            
-                            </select>
+                                <label for="Marca">Id_Impresora</label>
+                                <input type="text" class="form-control" id="txtidimpresora">
                             </div>
-
-                           
-
+                            
                             <div class="form-group ">
-                            <label for="Marca">Distribuidora</label>
-                            <select id="txtdistribuidora" class="form-control">
-            
-                            </select>
+                                <label for="Marca">Distribuidora</label>
+                                <select id="txtdistribuidora" class="form-control">
+                
+                                </select>
                             </div>
                             
 
                             <div class="form-group ">
-                            <label for="Marca">Marca</label>
-                            <select id="txtmarca" class="form-control">
-                             
-                            </select>
+                                <label for="Marca">Marca</label>
+                                <select id="txtmarca" class="form-control">
+                                
+                                </select>
                             </div>
 
                             <div class="form-group ">
-                            <label for="Modelo">Modelo</label>
-                            <select id="txtmodelo" class="form-control">
-                       
-                            </select>
+                                <label for="Modelo">Modelo</label>
+                                <select id="txtmodelo" class="form-control">
+                        
+                                </select>
                             </div>
                             
                             <div class="form-group">
                                 <label for="Activo">Activo Fijo</label>
-                                <input type="number" class="form-control" id="txtactivofijo" >
+                                <input type="number" class="form-control" id="txtactivofijo" ></input>
                             </div>
 
                             <div class="form-group">
                                 <label for="Activo">Numero De Serie</label>
-                                <input type="text" class="form-control" id="txtn_serie"  value="" >
+                                <input type="text" class="form-control" id="txtn_serie"  value="" ></input>
                             </div>
 
                             <div class="form-group">
                                 <label for="Activo">Codigo Impresora</label>
-                                <input type="text" class="form-control" id="txtcodigoimpresora" disabled="disabled">
+                                <input type="text" class="form-control" id="txtcodigoimpresora" disabled="disabled"></input>
                             </div>
-                </form>
-
+                    </form>
+    
                             <div class="form-row" >
                         
                                     <button class="btn btn-primary form-control col-md-4" style="margin-left: 50px; " id="btningresarimpresora">Guardar</button>   
@@ -124,8 +120,7 @@
         </div>
         <!--  -->
 
-        
-      
+
         <!-- Modal Agregar Marca Impresora-->
         <div class="modal fade" id="Modal_Marca" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -136,7 +131,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                    <div class="modal-body">
                             <div class="form-group">
                                 <label for="Activo">Nombre Marca</label>
                                 <input type="text" class="form-control" id="txtnombremarca" >
@@ -168,12 +163,12 @@
                 </div>
                 <div class="modal-body">
 
-                <div class="form-group ">
+                            <div class="form-group ">
 
-                            <label for="Marca">Marca Impresora</label>
-                            <select id="txtmarcaimpresora" class="form-control">
-                               
-                            </select>
+                                <label for="Marca">Marca Impresora</label>
+                                <select id="txtmarcaimpresora" class="form-control">
+                                
+                                </select>
                             </div>
                            
 
@@ -209,7 +204,7 @@
                                 <div class="form-group " style="display:none;">
                                     <label for="Malta">Id_Impresora</label>
                                     <input type="text" class="form-control" id="modtxtidimpresoraalta">
-                                    </select>
+                            
                                 </div>
                             
 
@@ -253,7 +248,7 @@
                                     <div class="form-group " style="display:none;">
                                         <label for="Impresora">Id_Impresora</label>
                                         <input type="text" class="form-control" id="modtxtidimpresorabaja">
-                                        </select>
+                                     
                                     </div>
                                 
 
@@ -283,35 +278,134 @@
           <!-- Modal Entrega Impresora-->
           <div class="modal fade" id="Modal_Entrega" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                <h2 class="modal-title" id="exampleModalLabel" style="font-size:22px; color:black; margin:0 auto;"><i class="fas fa-plane"></i> Asignacion De Impresora </h2>
 
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="exampleModalLabel" style="font-size:22px; color:black; margin:0 auto;"><i class="fas fa-plane"></i> Asignacion De Impresora </h2>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" style="font-size:16px;">
+                    
+                                <div class="form-group ">
+                                    <label for="Marca"> N. Serie Impresora</label>
+                                    <select id="n_serie_impresoraEntrega" class="form-control">
+                    
+                                    </select>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="Marca"> Distribuidora</label>
+                                    <select id="mtxtditribuidoraentrega" class="form-control">
+                    
+                                    </select>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="Marca"> Canal</label>
+                                    <select id="mtxtcanalentrega" class="form-control">
+                                    <option value="" disabled="disabled" selected>Seleccione el Canal</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="Marca"> Ruta</label>
+                                    <select id="mtxtrutaentrega" class="form-control">
+                                    <option value="" disabled="disabled" selected>Seleccione la Ruta</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group " >
+                                    <label for="EMPLEDAO"> Empleado </label>
+                                    <div for="EMPLEADO" id="NombreEmpleado">
+                                    <input disabled="disabled" type="text" id="idEmpleado" class="form-control" style="display:none;" >
+                                    </div>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="MBaja"> Motivo De Baja </label>
+                                    <select id="mtxtmotivobajaentrega" class="form-control">
+                                        <option value="" disabled="disabled" selected>Seleccione Motivo</option>
+                                        <option value="Primera Vez">Primera Vez</option>
+                                        <option value="DAÑO">Daño</option>
+                                        <option value="HURTO">Hurto</option>
+                                        <option value="ROBO">Robo</option>
+                                        <option value="REVISION IT">Revision IT</option>
+
+                                    </select>
+                                </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="mbtncerrarentrega" >Cerrar</button>
+                        <button type="button" class="btn btn-primary" id="mbtnentregaimpresora" >Guardar</button>
+                        
+                    </div>
+
                 </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
-                </div>
-                </div>
+                
             </div>
-        </div>
+          </div>
         <!--  -->
+       
 
 
 
 
     </section>
+
+    <input type="radio" id="mostrar-modal" name="modal"/>
+            <label  class="PdfDispositivos" for="mostrar-modal"><span style="font-size:22px;"><i class="fas fa-file-pdf"></i></span></label>
+            <input type="radio" id="cerrar-modal" name="modal"/>
+            <label for="cerrar-modal">X</label>
+            
+            <div id="modal">
+            <h1 style="color:white; margin-left:15vw;"> Asignacion de Impresora </hr>
+            <h1 style="color: white;    float: right;    margin-right: 100px;    margin-top: 75px; cursor:pointer;"></a><span style="font-size:70px;"><i onclick="ConsultarPDF();"class="fab fa-sistrix"></i></span> </h1><br>
+                <div id="tablapdf"> 
+
+                    <div class="buscador" style="">
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
+                                <select class="form-control" id="bdistribuidora" name="bdistribuidora" > 
+                                <option  disabled="disabled" value="" selected="selected">Seleccione Distribuidora</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Canal</h6></strong></label>
+                                <select class="form-control" id="bcanal" name="bcanal" >
+                                <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
+                                </select>
+                            </div> 
+
+                            <div class="form-group col-md-12" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Ruta Asignada</h6></strong></label>
+                                <select class="form-control" id="bruta" name="bruta" >
+                                <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
+                                </select>
+                            </div>  
+
+                    </div>
+                     
+                    <div class="tabla">
+
+                   
+
+                    </div>
+
+                </div>
+             
+            </div>
   </main>
 </div>
 
 <script>
-
+// Al cargar la pagina realizar estas funciones
 $(document).ready(function() {
 
     
@@ -320,7 +414,7 @@ $(document).ready(function() {
         $('#txtcodigoimpresora').val('_'+codigo.substr(-6,6));
     });
 
-    // Carga distribuidoras para formulario 
+    // Cargar distribuidoras
     $.ajax({
             url:"<?php echo base_url();?>index.php/Impresoras/fetch_distribuidora",
             method:"POST",
@@ -329,29 +423,18 @@ $(document).ready(function() {
             success:function(data)
             {
             
-              $('#txtdistribuidora').html(data);
+              $('#txtdistribuidora').html(data); //Distribuidoras de formulario de impresoras
+              $('#ctxtdistribuidora').html(data); // Distribuidora para consulta de impresoras
+              $('#mtxtditribuidoraentrega').html(data); // Distribuidora para entrega    de impresoras
+              $('#bdistribuidora').html(data); // Distribuidora para consultar PDF
+             
+              
               
             }
-          });
+    });
 
-     // Carga distribuidoras para consulta de impresoras 
-     $.ajax({
-            url:"<?php echo base_url();?>index.php/Impresoras/fetch_distribuidora",
-            method:"POST",
-          
-
-            success:function(data)
-            {
-            
-              $('#ctxtdistribuidora').html(data);
-              
-            }
-          });
-
-          
-
-    // Carga marca impresora a formulario de creacion de impresora 
-          $.ajax({
+    // Carga marca impresora a formulario de creacion de impresora y creacion de modelo
+    $.ajax({
             url:"<?php echo base_url();?>index.php/Impresoras/fetch_marca_impresora",
             method:"POST",
           
@@ -360,26 +443,13 @@ $(document).ready(function() {
             {
             
               $('#txtmarca').html(data);
-              
-            }
-          });
-
-     // Carga marca impresora a formulario de creacion de modelo 
-     $.ajax({
-            url:"<?php echo base_url();?>index.php/Impresoras/fetch_marca_impresora",
-            method:"POST",
-          
-
-            success:function(data)
-            {
-            
               $('#txtmarcaimpresora').html(data);
               
             }
-          });
+    });
 
-     // Carga modelo impresora a formulario de creacion de impresoras 
-     $.ajax({
+    // Carga modelo impresora a formulario de creacion de impresoras 
+    $.ajax({
             url:"<?php echo base_url();?>index.php/Impresoras/fetch_modelo_impresora",
             method:"POST",
           
@@ -390,14 +460,143 @@ $(document).ready(function() {
               $('#txtmodelo').html(data);
               
             }
-          });
+    });
 
+    //   Al apretar la tecla enter no hacer nada
     $("form").keypress(function(e) {
-        if (e.which == 13) {
-            return false;
-        }
+            if (e.which == 13) {
+                return false;
+            }
+    });
+
+    // Carga impresoras para asignar con numero de serie. 
+    $.ajax({
+                url:"<?php echo base_url();?>index.php/Impresoras/fetch_N_SerieImpresoras",
+                method:"POST",
+            
+
+                success:function(data)
+                {
+                
+                $('#n_serie_impresoraEntrega').html(data);
+                
+                }
+    });
+
+    // Cargar canal segun distribuidora de formulario entrega
+    $('#mtxtditribuidoraentrega').change(function(){
+
+        var Id_Distribuidora = $('#mtxtditribuidoraentrega').val();
+
+            if(Id_Distribuidora != '')
+            {
+                $.ajax({
+                url:"<?php echo base_url();?>index.php/Impresoras/fetch_canal",
+                method:"POST",
+                data:{Id_Distribuidora:Id_Distribuidora},
+
+                success:function(data)
+                {
+                
+                    $('#mtxtcanalentrega').html(data);
+
+                }
+                });
+            }
+            else
+            {
+            $('#mtxtcanalentrega').html('<option value="" selected disabled="disabled">Selecccion el canal</option>');
+
+            }
+    });
+
+    // Cargar ruta segun canal de formulario entrega
+    $('#mtxtcanalentrega').change(function(){
+
+        var Id_Canal = $('#mtxtcanalentrega').val();
+
+            if(Id_Canal != '')
+            {
+                $.ajax({
+                url:"<?php echo base_url();?>index.php/Impresoras/fetch_ruta",
+                method:"POST",
+                data:{Id_Canal:Id_Canal},
+
+                success:function(data)
+                {
+                
+                    $('#mtxtrutaentrega').html(data);
+
+                }
+                });
+            }
+            else
+            {
+            $('#mtxtrutaentrega').html('<option value="" selected disabled="disabled">Selecccion el canal</option>');
+
+            }
     });
     
+    // obtener empleado segun ruta
+    $('#mtxtrutaentrega').change(function(){
+
+          var Id_Ruta = $('#mtxtrutaentrega').val();
+
+          if(Id_Ruta != '')
+          {
+            $.ajax({
+                url:"<?php echo base_url(); ?>index.php/Impresoras/fetch_empleado",
+                method:"POST",
+                data:{Id_Ruta:Id_Ruta},
+                success:function(data)
+                {
+                
+                $('#NombreEmpleado').html(data);
+
+                }
+            });
+          }
+          else
+          {
+            $('#NombreEmpleado').html('NO ENCONTRADO');
+          }
+    });
+
+    //Muestra listado pdf de impresoras entregadas 
+    $.ajax({
+            url:"<?php echo base_url();?>index.php/Impresoras/Consultar_PDF",
+            method:"POST",
+          
+
+            success:function(respuesta)
+            {
+                var registros =eval(respuesta);
+            
+            html ="<table class='table' style='margin: auto; border:white 2px solid; width:55%;   margin-bottom:5%;'>";
+            html +="<tr><th class='th'>Ruta</th><th class='th'>Nombre</th><th class='th'>Impresora</th><th class='th'> Fecha Entrega</th><th class='th'>PDF</th></tr>";
+            html +="<tbody>"; 
+            
+            for (var i = 0; i <registros.length; i++) {
+              html +="<tr><td style='display:none;'>"+registros[i]["Id_Ruta"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_ruta"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["nombre_marca"]+"<br> "+registros[i]["nombre_modelo"]+registros[i]["codigo_impresora"]+
+              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["fecha_registro"]+ 
+              "</td><td style='display:none;'>"+registros[i]["Id_pdf_imp"]+
+              "</td><td><a href='<?php echo base_url();?>index.php/Impresoras/pdfdetails/"+registros[i]["Id_pdf_imp"]+"' target='_blank'><span style='color: red; font-size:30px;'><i class='fas fa-file-pdf'></i></span></a>"+
+              "</td></tr>";
+              
+
+            };
+
+
+            html +="</tbody></table>";
+
+            
+            $(".tabla").html(html);
+            }
+        });
+ 
 
 });
 
@@ -578,61 +777,69 @@ $(document).ready(function() {
             {
                 var registros =eval(respuesta);
             
-            html ="<table class='table'>";
-            html +="<tr><th>Distribuidora</th><th>Impresora</th><th>Activo Fijo</th><th> N de Serie</th><th >Codigo Impresora</th><th >Editar</th><th>Baja/Alta</th></tr>";
-            html +="<tbody>"; 
-            
-            for (var i = 0; i <registros.length; i++) {
-              html +="<tr><td style='display:none;'>"+registros[i]["Id_impresoras"]+
-              "</td><td  style='display:none;'>"+registros[i]["Id_Distribuidora"]+
-              "</td><td  style='display:none;'>"+registros[i]["Id_marca_impresoras"]+
-              "</td><td  style='display:none;'>"+registros[i]["Id_modelo_impresoras"]+
-              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Distribuidora"]+
-              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["nombre_marca"]+" "+registros[i]["nombre_modelo"]+
-              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["activo_fijo"]+
-              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["n_serie"]+ 
-              "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["codigo_impresora"]+ 
-              "</td>";
-              
-              if(registros[i]["estado"]==1 || registros[i]["estado"]==2){
-                html+="<td style='vertical-align : middle;text-align:center;'><span style='color:blue; font-size:24px; cursor:pointer;'><i class='fas fa-pen-fancy' onClick='Enviar_Datos_modal(\""+registros[i]["Id_impresoras"]+
-                "\",\""+registros[i]["Id_Distribuidora"]+
-                "\",\""+registros[i]["Id_marca_impresoras"]+
-                "\",\""+registros[i]["Id_modelo_impresoras"]+
-                "\",\""+registros[i]["activo_fijo"]+
-                "\",\""+registros[i]["n_serie"]+
-                "\",\""+registros[i]["codigo_impresora"]+"\");'></i></span></td>";
-
-                }else if(registros[i]["estado"]==0){
-                    html+="<td><span style='color: #9A9A9A; font-size:30px;'><i class='fas fa-ban'></i></span></td>";
-                }
-                html+="<td style='display:none;'>"+registros[i]["estado"]+
-                "</td>";
-              
-                if(registros[i]["estado"]==0){
-                    html+="<td style='vertical-align : middle;text-align:center;'><span style='color: #9A9A9A; font-size:30px;'><i class='fas fa-ban'></i></span></td>";
-
-                }else if(registros[i]["estado"]==1){
-                    html+="<td style='vertical-align : middle;text-align:center;'>"+
-                            "<span style='color: green; cursor:pointer; font-size:30px;'><i data-toggle='modal' data-target='#Modal_Baja' onClick='Inactivar_Impresora(\""+registros[i]["Id_impresoras"]+"\");' class='fas fa-sort-amount-down'></i></span></a>";
-                }else if(registros[i]["estado"]==2){
-                    html+="<td style='vertical-align : middle;text-align:center;'>"+
-                            "<span style='color: red; cursor:pointer; font-size:30px;'><i data-toggle='modal' data-target='#Modal_Alta' onClick='Activar_Impresora(\""+registros[i]["Id_impresoras"]+"\");'class='fas fa-sort-amount-up'></i></span></a>";
-                }
-                    
-                    html+="</td></tr>";
+                html ="<table class='table'>";
+                html +="<tr><th>Distribuidora</th><th>Impresora</th><th>Activo Fijo</th><th> N de Serie</th><th >Codigo Impresora</th><th >Editar</th><th>Baja/Alta</th></tr>";
+                html +="<tbody>"; 
                 
+                for (var i = 0; i <registros.length; i++) {
+                    html +="<tr><td style='display:none;'>"+registros[i]["Id_impresoras"]+
+                    "</td><td  style='display:none;'>"+registros[i]["Id_Distribuidora"]+
+                    "</td><td  style='display:none;'>"+registros[i]["Id_marca_impresoras"]+
+                    "</td><td  style='display:none;'>"+registros[i]["Id_modelo_impresoras"]+
+                    "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Distribuidora"]+
+                    "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["nombre_marca"]+" "+registros[i]["nombre_modelo"]+
+                    "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["activo_fijo"]+
+                    "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["n_serie"]+ 
+                    "</td><td  style='vertical-align : middle;text-align:center;'>"+registros[i]["codigo_impresora"]+ 
+                    "</td>";
 
-                };
+    
+                    if(registros[i]["estado"]==1 || registros[i]["estado"]==2){
+
+                        if(registros[i]["estado_entrega"]==1){
+                            html+="<td style='vertical-align : middle;text-align:center;'><span style='color:#3498DB; font-size:24px;'><i class='fas fa-compress-alt'></i></span></td>";
+
+                        }else{
+                            html+="<td style='vertical-align : middle;text-align:center;'><span style='color:blue; font-size:24px; cursor:pointer;'><i class='fas fa-pen-fancy' onClick='Enviar_Datos_modal(\""+registros[i]["Id_impresoras"]+
+                                "\",\""+registros[i]["Id_Distribuidora"]+
+                                "\",\""+registros[i]["Id_marca_impresoras"]+
+                                "\",\""+registros[i]["Id_modelo_impresoras"]+
+                                "\",\""+registros[i]["activo_fijo"]+
+                                "\",\""+registros[i]["n_serie"]+
+                                "\",\""+registros[i]["codigo_impresora"]+"\");'></i></span></td>";
+                        }
+                       
+
+                    }else if(registros[i]["estado"]==0){
+                            html+="<td><span style='color: #9A9A9A; font-size:30px;'><i class='fas fa-ban'></i></span></td>";
+                    }
+                    html+="<td style='display:none;'>"+registros[i]["estado"]+"</td>";
+                
+                    if(registros[i]["estado"]==0){
+                        html+="<td style='vertical-align : middle; text-align:center;'><span style='color: #9A9A9A; font-size:30px;'><i class='fas fa-ban'></i></span></td>";
+
+                    }else if(registros[i]["estado"]==1){
+                        html+="<td style='vertical-align : middle; text-align:center;'>"+
+                                "<span style='color: green; cursor:pointer; font-size:30px;'><i data-toggle='modal' data-target='#Modal_Baja' onClick='Inactivar_Impresora(\""+registros[i]["Id_impresoras"]+"\");' class='fas fa-sort-amount-down'></i></span>";
+                    }else if(registros[i]["estado"]==2){
+                        html+="<td style='vertical-align : middle; text-align:center;'>"+
+                                "<span style='color: red; cursor:pointer; font-size:30px;'><i data-toggle='modal' data-target='#Modal_Alta' onClick='Activar_Impresora(\""+registros[i]["Id_impresoras"]+"\");'class='fas fa-sort-amount-up'></i></span>";
+                    }
+                        
+                        html+="</td></tr>";
+                    
+
+                }
 
 
-            html +="</tbody></table>";
+                html +="</tbody></table>";
 
-            
-            $(".tabla_impr").html(html);
+                
+                $(".tabla_impr").html(html);
             }
-    });
+        });
 
+    });
 
      // Mostrar boton de agregar
      $('#btnrgt').click(function(){
@@ -640,8 +847,20 @@ $(document).ready(function() {
         document.getElementById('btningresarimpresora').style.display = 'block';
         document.getElementById('btnmodificarimpresora').style.display = 'none';
         document.getElementById('btnrgt').style.display = 'none';
+            
 
         $('#limpiar').click();
+    });
+
+     // Boton limpiar formulario
+     $('#limpiar').click(function(){
+        $('#txtidimpresora').val('');
+        $('#txtdistribuidora').val('');
+        $('#txtmarca').val('');
+        $('#txtmodelo').val('');
+        $('#txtactivofijo').val('');
+        $('#txtn_serie').val('');
+        $('#txtcodigoimpresora').val('');
     });
 
      // Modificar  Impresora
@@ -655,7 +874,7 @@ $(document).ready(function() {
         var N_serie = document.getElementById("txtn_serie").value;
         var Codigo = document.getElementById("txtcodigoimpresora").value;
 
-        if(Id_Impresoras=='' || Distribuidora =='' || Marca =='' || Modelo =='' || ActivoFijo=='' || N_serie=='' || Codigo==''){
+        if(Id_Impresoras=='' || Distribuidora=='' || Marca=='' || Modelo=='' || ActivoFijo=='' || N_serie=='' || Codigo==''){
             swal.fire({title:'Todos los campos son obligatorios', type: 'error'});
             return false;
         }else{ 
@@ -674,31 +893,32 @@ $(document).ready(function() {
                 function(data){
                     if (data == 1) {
 
-                let timerInterval
-                    Swal.fire({
-                    title: 'Impresora correctamente Modificada',
-                    type: 'success',
-                    html: '',
-                    timer: 2000,
-                    onBeforeOpen: () => {
-                        Swal.showLoading()
-                        timerInterval = setInterval(() => {
-                            
-                        }, 100)
-                        },
-                        onClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                    }).then((result) => {
-                        if (
-                            result.dismiss === Swal.DismissReason.timer
-                        ){  
-                            $('#btnrgt').click();
-                            $('#limpiar').click();
-                            $('#consult_impr').click();
-                        // location.reload();
-                        }
-                    });
+                        let timerInterval
+                            Swal.fire({
+                            title: 'Impresora correctamente Modificada',
+                            type: 'success',
+                            html: '',
+                            timer: 2000,
+                            onBeforeOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                    
+                                }, 100)
+                                },
+                                onClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            })
+                            .then((result) => {
+                                if (
+                                    result.dismiss === Swal.DismissReason.timer
+                                ){  
+                                    $('#btnrgt').click();
+                                    $('#limpiar').click();
+                                    $('#consult_impr').click();
+                                
+                                }
+                            });
                     
                     }
                 });
@@ -726,32 +946,33 @@ $(document).ready(function() {
                 function(data){
                     if (data == 1) {
 
-                let timerInterval
-                    Swal.fire({
-                    title: 'Impresora correctamente Modificada',
-                    type: 'success',
-                    html: '',
-                    timer: 2000,
-                    onBeforeOpen: () => {
-                        Swal.showLoading()
-                        timerInterval = setInterval(() => {
-                            
-                        }, 100)
-                        },
-                        onClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                    }).then((result) => {
-                        if (
-                            result.dismiss === Swal.DismissReason.timer
-                        ){  
-                            
-                            $('#cerrarbaja').click();
-                            $('#consult_impr').click();
-                            $('#mtxtmotivobaja').val('');
-                        // location.reload();
-                        }
-                    });
+                        let timerInterval
+                            Swal.fire({
+                            title: 'Impresora correctamente Modificada',
+                            type: 'success',
+                            html: '',
+                            timer: 2000,
+                            onBeforeOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                    
+                                }, 100)
+                                },
+                                onClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            })
+                            .then((result) => {
+                                if (
+                                    result.dismiss === Swal.DismissReason.timer
+                                ){  
+                                    
+                                    $('#cerrarbaja').click();
+                                    $('#consult_impr').click();
+                                    $('#mtxtmotivobaja').val('');
+                     
+                                }
+                            });
                     
                     }
                 });
@@ -779,32 +1000,32 @@ $(document).ready(function() {
                 function(data){
                     if (data == 1) {
 
-                let timerInterval
-                    Swal.fire({
-                    title: 'Impresora correctamente Modificada',
-                    type: 'success',
-                    html: '',
-                    timer: 2000,
-                    onBeforeOpen: () => {
-                        Swal.showLoading()
-                        timerInterval = setInterval(() => {
-                            
-                        }, 100)
-                        },
-                        onClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                    }).then((result) => {
-                        if (
-                            result.dismiss === Swal.DismissReason.timer
-                        ){  
-                            
-                            $('#cerraralta').click();
-                            $('#consult_impr').click();
-                            $('#mtxtmotivoalta').val('');
-                        // location.reload();
-                        }
-                    });
+                        let timerInterval
+                            Swal.fire({
+                            title: 'Impresora correctamente Modificada',
+                            type: 'success',
+                            html: '',
+                            timer: 2000,
+                            onBeforeOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                    
+                                }, 100)
+                                },
+                                onClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            }).then((result) => {
+                                if (
+                                    result.dismiss === Swal.DismissReason.timer
+                                ){  
+                                    
+                                    $('#cerraralta').click();
+                                    $('#consult_impr').click();
+                                    $('#mtxtmotivoalta').val('');
+                         
+                                }
+                            });
                     
                     }
                 });
@@ -812,7 +1033,66 @@ $(document).ready(function() {
 
     });
 
-});
+    // Entrega de impresora
+    $('#mbtnentregaimpresora').click(function(){
+        
+        var Id_Impresoras=document.getElementById("n_serie_impresoraEntrega").value;
+        var Id_Distribuidora = document.getElementById("mtxtditribuidoraentrega").value;
+        var Id_Canal = document.getElementById("mtxtcanalentrega").value;
+        var Id_Ruta = document.getElementById("mtxtrutaentrega").value;
+        var Id_Empleado = document.getElementById("idEmpleado").value;
+        var Motivo = document.getElementById("mtxtmotivobajaentrega").value;
+
+
+        if(Id_Impresoras=='' || Id_Distribuidora=='' || Id_Canal=='' || Id_Ruta=='' || Id_Empleado=='' || Motivo==''){
+            swal.fire({title:'Todos los campos son obligatorios', type: 'error'});
+            return false;
+        }else{ 
+
+                $.post("<?php echo base_url(); ?>index.php/Impresoras/Entrega_Impresora",	
+                {   
+                    n_serie_impresoraEntrega:Id_Impresoras,
+                    mtxtditribuidoraentrega:Id_Distribuidora,
+                    mtxtcanalentrega:Id_Canal,
+                    mtxtrutaentrega:Id_Ruta,
+                    idEmpleado:Id_Empleado,
+                    mtxtmotivobajaentrega:Motivo
+
+                },			
+                function(data){
+                    if (data == 1) {
+
+                        let timerInterval
+                            Swal.fire({
+                            title: 'Entrega Realizada Correctamente',
+                            type: 'success',
+                            html: '',
+                            timer: 2000,
+                            onBeforeOpen: () => {
+                                Swal.showLoading()
+                                timerInterval = setInterval(() => {
+                                    
+                                }, 100)
+                                },
+                                onClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                            })
+                            .then((result) => {
+                                if (
+                                    result.dismiss === Swal.DismissReason.timer
+                                ){  
+                                    
+                                
+                                location.reload();
+                                }
+                            });
+                    
+                    }
+                });
+        }
+
+    });
 
     // Click modificar impresora
     function Enviar_Datos_modal(Id_Impresora,Id_Distribuidora,Id_marca_impresoras,Id_modelo_impresoras,activofijo,NSerie,CodigoImpresora){
@@ -840,6 +1120,12 @@ $(document).ready(function() {
     function Activar_Impresora(Id_Impresora){
         $('#modtxtidimpresoraalta').val(Id_Impresora);
     }
+
+    function ConsultarPDF(){
+        alert("Realmente Funciona Pero No Funciona")
+    }
+
+
 
 </script>
 

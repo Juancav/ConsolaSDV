@@ -1463,11 +1463,23 @@ Id_deducible_telefonos int(7) zerofill not null auto_increment primary key,
 primera_ocacion double (4,2) not null,
 segunda_ocacion double(4,2) not null,
 tercera_ocacion double (4,2) not null,
-Id_modelo_cell int(7) zerofill not null,
+Id_modelo_ int(7) zerofill not null,
 foreign key (Id_modelo_cell) references modelo_cell(Id_modelo_cell)  
 )ENGINE=innoDB;
 
-select * from deducibles_telefonos;
+select * from modelo_impresoras;
+
+create table deducibles_impresoras(
+Id_deducible_impr int(7) zerofill not null auto_increment primary key,
+primera_ocasion double (4,2) not null,
+segunda_ocasion double(4,2) not null,
+tercera_ocasion double (4,2) not null,
+Id_modelo_impresoras int(7) zerofill not null,
+foreign key (Id_modelo_impresoras) references modelo_impresoras(Id_modelo_impresoras)  
+)ENGINE=innoDB;
+
+select * from deducibles_impresoras , modelo_impresoras;
+insert into deducibles_impresoras values(0,'50.29','60.22','84.3',2);
 
 insert into deducibles_telefonos values(0,'50.29','60.22','84.3',8);
 insert into deducibles_telefonos values(0,'53.36','66.69','93.37',9);
@@ -1775,8 +1787,49 @@ inner join distribuidora as d on I.Id_Distribuidora=d.Id_Distribuidora
 
 alter table distribuidora change Id_Distribuidora Id_Distribuidora int(7) zerofill not null auto_increment;
 
-select * from impresoras;
 alter table impresoras add column estado_entrega int(2) not null;
 
+create table Bitacora_entrega_impresora(
+Id_bit_entrega int(7) zerofill not null auto_increment primary key,
+Id_Impresoras int(7)zerofill not null,
+Id_Distribuidora int(7) zerofill not null,
+Id_Canal int(7) zerofill not null,
+Id_Ruta int(7) zerofill not null,
+Id_Empleados int(7) zerofill	 not null,
+Id_u_sdv int(7) zerofill not null,
+fecha_registro date not null,
+motivo_entrega varchar(30) not null,
+estado int (2) not null,
+Id_pdf_imp varchar(50) not null,
+foreign key (Id_Impresoras) references Impresoras(Id_Impresoras),
+foreign key (Id_Distribuidora) references distribuidora(Id_Distribuidora),
+foreign key (Id_Canal) references canal(Id_Canal),
+foreign key (Id_Ruta) references rutas(Id_Ruta),
+foreign key (Id_Empleados) references empleados(Id_Empleados),
+foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv)
+);
+select * from impresoras;
+select * from Bitacora_entrega_impresora;
 
 
+SELECT  r.Nombre_ruta , e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, d.Nombre_Distribuidora,bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp from bitacora_entrega_impresora as bei 
+inner join Impresoras as I on bei.Id_Impresoras=I.Id_Impresoras
+inner join marca_impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
+inner join modelo_impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
+inner join distribuidora as d on bei.Id_Distribuidora=I.Id_Distribuidora
+inner join canal as c on bei.Id_Canal=c.Id_Canal
+inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
+inner join empleados as e on bei.Id_Empleados=e.Id_Empleados;
+
+SELECT bei.Id_bit_entrega,r.Nombre_ruta , e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, d.Nombre_Distribuidora,bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp 
+      from bitacora_entrega_impresora as bei 
+                inner join Impresoras as I on bei.Id_Impresoras=I.Id_Impresoras
+                right join distribuidora as d on bei.Id_Distribuidora=I.Id_Distribuidora
+				inner join canal as c on bei.Id_Canal=c.Id_Canal
+                inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
+                inner join empleados as e on bei.Id_Empleados=e.Id_Empleados
+                inner join marca_impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
+                inner join modelo_impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
+               
+             
+                limit 10;

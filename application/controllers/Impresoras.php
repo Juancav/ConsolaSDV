@@ -154,4 +154,90 @@ class Impresoras extends CI_Controller {
 
 	}
 
+	public function fetch_N_SerieImpresoras()
+	{
+		if($this->input->is_ajax_request()){
+			
+			echo $this->Impresoras_Model->fetch_N_SerieImpresoras();
+		}
+		
+			
+	}
+
+
+	public function fetch_canal()
+	{
+		if($this->input->is_ajax_request()){
+			if($this->input->post('Id_Distribuidora'))
+			{
+			echo $this->Impresoras_Model->fetch_canal($this->input->post('Id_Distribuidora'));
+			
+			}
+		}
+	}
+
+	public function fetch_ruta()
+	{
+		if($this->input->post('Id_Canal'))
+			{
+			echo $this->Impresoras_Model->fetch_ruta($this->input->post('Id_Canal'));
+			}
+	}
+
+	public function fetch_empleado()
+	{
+		if($this->input->post('Id_Ruta'))
+			{
+			echo $this->Impresoras_Model->fetch_empleado($this->input->post('Id_Ruta'));
+			}
+	}
+
+	public function Entrega_Impresora(){
+
+		if($this->input->post('mtxtmotivobajaentrega')=="REVISION IT"){
+			$param['estado']= 2;
+		}else{
+			$param['estado']= 0;
+		}
+		$param['Id_Impresoras'] = $this->input->post('n_serie_impresoraEntrega');
+		$param['Id_Distribuidora'] = $this->input->post('mtxtditribuidoraentrega');
+        $param['Id_Canal'] = $this->input->post('mtxtcanalentrega');
+		$param['Id_Ruta'] = $this->input->post('mtxtrutaentrega');
+		$param['Id_Empleado'] = $this->input->post('idEmpleado');
+		$param['Motivo'] = $this->input->post('mtxtmotivobajaentrega');
+
+		echo $this->Impresoras_Model->Entrega_Impresora($param);
+
+	}
+
+	public function Consultar_PDF()
+	{
+		if ($this->input->is_ajax_request()) {
+
+		
+			$Datos = $this->Impresoras_Model->Consultar_PDF();
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
+
+	public function pdfdetails()
+	{
+
+		if($this->uri->segment(3))
+		{
+			$Id_PDF = $this->uri->segment(3);
+		
+			
+			$html_content ='';
+			$html_content .= $this->Impresoras_Model->fetch_single_details($Id_PDF);
+			$this->pdf->loadHtml($html_content);
+			$this->pdf->render();
+			$this->pdf->stream("".$Id_PDF.".pdf", array("Attachment"=>0));
+		
+		}
+	}
+
 }

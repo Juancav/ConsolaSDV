@@ -2025,13 +2025,7 @@ $(document).ready(function(){
 /*==================Registrar entrega de telefono autorizado==================================*/
 $('#btnguardarnoautorizados').click(function(){
 
-
-    
-                    
-                    
-              
-    
-                            
+                           
     var Id_distribuidora = document.getElementById("mtxtdistribuidoranocell").value;
     var Id_canal = document.getElementById("mtxtcanalnocell").value;
     var Id_ruta = document.getElementById("mtxtrutanocell").value;
@@ -2169,7 +2163,7 @@ function ConsultarPDF(){
 /*==================END MOSTRAR REGISTROS PDF CON PARAMETROS==================================*/
 
 
-$.ajax({
+        $.ajax({
             url:"<?php echo base_url();?>index.php/Dispositivos/Consultar_PDF",
             method:"POST",
           
@@ -2201,7 +2195,7 @@ $.ajax({
             
             $(".tabla").html(html);
             }
-          });
+        });
 
     </SCRIPT>
 </html>
