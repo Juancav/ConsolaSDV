@@ -1337,7 +1337,7 @@ $(document).ready(function(){
             $("#mtxtmarcacellm").val(Id_marca_cell);
             $('#mtxtmarcacellm').change();
             
-            $("#Tdistribuidoram option[value='00"+Id_Distribuidora+"']").attr("selected",true);
+            $("#Tdistribuidoram option[value='"+Id_Distribuidora+"']").attr("selected",true);
             $("#Tdistribuidoram").change();
 
             $("#mAñoCell option[value='"+año_telefono+"']").attr("selected",true);

@@ -596,7 +596,7 @@ class Dispositivos_Model extends CI_Model {
                 inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
                 LIMIT 10 ) PDF
                 where Id_Distribuidora= '.$this->session->userdata('Id_Distribuidora').'
-                  order by Id_entrega_cell DESC 
+                  order by fecha_registro DESC,Id_entrega_cell DESC  
           ;';
 
     $resultados = $this->db->query($query);
@@ -639,7 +639,7 @@ class Dispositivos_Model extends CI_Model {
 
        
        
-        $data = $this->db->query($data  );
+        $data = $this->db->query($data);
 
         $count=$data->num_rows();
       
@@ -1030,7 +1030,7 @@ class Dispositivos_Model extends CI_Model {
                           EN <B>5 CUOTAS QUINCENALES DE $'.number_format(($data->row()->primera_ocacion/5),2).' C/U</B><BR><BR> Y TAMBIÉN PARA QUE EN CASO DE MI RETIRO 
                           Y SI FUERA OBJETO DE INDEMNIZACIÓN, SE ME DEDUZCA EL SALDO ADEUDADO, EL CUAL FIRMO EN SEÑAL 
                           DE ACEPTACIÓN COMPLETA.<BR><BR>PARA SER PRESENTADA A <b>DISTRIBUIDORA';
-                          if($this->session->userdata('Nombre_Distribuidora')=='SAN SALVADOR'){
+                          if($this->session->userdata('Nombre_Distribuidora')=='SAN SALVADOR' || $this->session->userdata('Nombre_Distribuidora')=='CHALATENANGO'){
                               $output.=' DEL CENTRO';
                           }elseif($this->session->userdata('Nombre_Distribuidora')=='SAN MIGUEL'){
                             $output.=' DE ORIENTE';

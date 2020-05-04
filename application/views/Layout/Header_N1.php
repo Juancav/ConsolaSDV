@@ -124,14 +124,10 @@
           </li>
 
           <li class="sidebar-dropdown">
-            <a href="#">
-            <i class="fas fa-binoculars"></i>
-              <span>Informes</span> </a> 
-             <div class="sidebar-submenu">
-              <ul>
-                <li><a href="EstadisticaVenta"><i class="fas fa-percentage"></i>Estadistica De Venta Diaria</a></li>
-                <li><a href="IndiceVolumen"><i class="far fa-chart-bar"></i></i>Indice de Volumen</a></li>
-             </div>
+            <a href="Informes"><i class="fas fa-binoculars"></i>
+              <span>Informes</span> 
+            </a> 
+            
           </li>
 
         </ul>

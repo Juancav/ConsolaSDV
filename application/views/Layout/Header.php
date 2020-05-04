@@ -23,6 +23,9 @@
 
     <!--jsPDF-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+    <!-- Echarts Graficas -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.min.js"></script>
+
 
     <!--Html2Canvas-->
     <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.js')?>"></script>
@@ -114,10 +117,11 @@
           <!-- Catalogos-->
           <!--Para que funcione el dropwon es de agregarle la letra n-->
           <li class="sidebar-dropdown">
-            <a href="#">
-                <i class="fas fa-copy"></i>
+
+            <a href="#"><i class="fas fa-copy"></i>
+
               <span>Catalogos</span> </a> 
-             <div class="sidebar-submenu">
+                <div class="sidebar-submenu">
               <ul>
                 
                 <li><a href="Dispositivos"><i class="fas fa-mobile-alt"></i>Dispositivos</a></li>
@@ -139,14 +143,9 @@
           </li>
 
           <li class="sidebar-dropdown">
-            <a href="#">
-            <i class="fas fa-binoculars"></i>
-              <span>Informes</span> </a> 
-             <div class="sidebar-submenu">
-              <ul>
-                <li><a href="EstadisticaVenta"><i class="fas fa-percentage"></i>Estadistica De Venta Diaria</a></li>
-                <li><a href="IndiceVolumen"><i class="far fa-chart-bar"></i></i>Indice de Volumen</a></li>
-             </div>
+            <a href="Informes"><i class="fas fa-binoculars"></i>
+              <span>Informes</span> 
+            </a>
           </li>
 
         </ul>

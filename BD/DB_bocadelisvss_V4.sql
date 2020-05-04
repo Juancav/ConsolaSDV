@@ -1782,6 +1782,12 @@ inner join canal as c on bei.Id_Canal=c.Id_Canal
 inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
 inner join empleados as e on bei.Id_Empleados=e.Id_Empleados;
 
+
+create procedure EntregaImpresoras 
+(
+Id_Distribuidora  int
+)
+
 SELECT bei.Id_bit_entrega,r.Nombre_ruta ,d.Id_Distribuidora, e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp 
       from bitacora_entrega_impresora as bei 
       inner join distribuidora as d on bei.Id_Distribuidora=d.Id_Distribuidora
@@ -1795,10 +1801,195 @@ SELECT bei.Id_bit_entrega,r.Nombre_ruta ,d.Id_Distribuidora, e.Nombre,mip.nombre
                 limit 10;
 -- Finaliza avance 3 modulos Telefonos Autorizaciones MH e Impresoras---
                 
-                
-                
-                
-                
-                
-                
-                
+               
+describe rutas;
+alter table rutas change Id_Ruta Id_Ruta int(7) zerofill not null auto_increment;
+
+
+call EntregaImpresoras (1);
+
+
+select * from impresoras;
+
+create table Historial_Entregas(
+Id_historial int(7) zerofill not null  auto_increment primary key,
+Motivo_Traspaso varchar(20) not null,
+fecha_registro date not null,
+estado int(2) not null,
+PB int(3) not null, 
+CU int(3) not null,
+VT int(3) not null,
+EP int(3) not null,
+EI int(3) not null,
+CT int(3) not null,
+CI int(3) not null,
+Observacion varchar(250) not null,
+Id_Distribuidora int(7) zerofill not null,
+Id_Canal int(7) zerofill not null,
+Id_Ruta int(7) zerofill not null,
+Id_Empleados int(7) zerofill not null ,
+Id_telefono int(7) zerofill not null,
+Id_Impresoras int(7) zerofill not null,
+Id_u_sdv int(7) zerofill not null,
+Id_PDF varchar(50) not null,
+foreign key (Id_Distribuidora) references distribuidora(Id_Distribuidora),
+foreign key (Id_Canal) references canal(Id_Canal),
+foreign key (Id_Ruta) references rutas(Id_Ruta),
+foreign key (Id_Empleados) references empleados(Id_Empleados),
+foreign key (Id_telefono) references telefonos(Id_telefono),
+foreign key (Id_Impresoras) references impresoras(Id_Impresoras)
+);
+
+select * from (
+select bec.Id_telefono as Id_Telefono,bec.estado as Estado,bec.Id_ruta as Ruta from bitacora_entrega_celular as bec
+union all
+select becno.Id_telefono as Id_Telefono,becno.estado as Estado, becno.Id_ruta as Ruta from bitacora_entrega_celular_noautorizado as becno )  TT
+where Ruta=1 and Estado=1;
+
+SELECT r.Nombre_Ruta, e.Nombre,he.fecha_registro,he.Id_PDF,he.estado,he.Motivo_Traspaso from Historial_Entregas as he
+                    inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+                    inner join canal as c on he.Id_Canal=c.Id_Canal
+                    inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+                    inner join empleados as e on he.Id_Empleados=e.Id_Empleados 
+                    where he.Id_u_sdv=1 and he.estado=1;
+        
+select r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora=1 and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, he.Id_PDF  
+from Historial_Entregas as he
+inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+inner join canal as c on he.Id_Canal=c.Id_Canal
+inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+inner join empleados as e on he.Id_Empleados=e.Id_Empleados
+inner join telefonos as t on  he.Id_telefono=t.Id_telefono
+inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
+inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
+inner join autorizaciones_mh as mh on t.Id_telefono=mh.Id_telefono
+inner join impresoras as i on he.Id_Impresoras=i.Id_Impresoras
+inner join marca_impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
+inner join modelo_impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
+inner join deducibles_telefonos as dt on mo.Id_modelo_cell=dt.Id_modelo_cell
+inner join deducibles_impresoras as di on moi.Id_modelo_impresoras=di.Id_modelo_impresoras
+where he.Id_Ruta=1 and he.Estado=1;
+
+
+select * from deducibles_impresoras;
+
+
+
+
+
+SELECT mi.nombre_marca,
+moi.nombre_modelo,
+I.codigo_impresora,
+r.cod_cc,
+r.descrip_cc,
+I.activo_fijo,
+I.n_serie,
+di.primera_ocasion,
+he.estado,r.Nombre_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,d.Nombre_Distribuidora, 	,.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora=1 and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, he.Id_PDF  
+                    from Historial_Entregas as he
+                    inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+                    inner join canal as c on he.Id_Canal=c.Id_Canal
+                    inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+                    inner join empleados as e on he.Id_Empleados=e.Id_Empleados
+                    inner join telefonos as t on  he.Id_telefono=t.Id_telefono
+                    inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
+                    inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
+                    inner join autorizaciones_mh as mh on t.Id_telefono=mh.Id_telefono
+                    inner join impresoras as i on he.Id_Impresoras=i.Id_Impresoras
+                    inner join marca_impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
+                    inner join modelo_impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
+                    inner join deducibles_telefonos as dt on mo.Id_modelo_cell=dt.Id_modelo_cell
+                    inner join deducibles_impresoras as di on moi.Id_modelo_impresoras=di.Id_modelo_impresoras 
+                 ;
+                 
+                 select * from autorizaciones_mh;
+                 
+                 
+                 
+                 
+                 SELECT he.Id_historial,r.Nombre_Ruta, e.Nombre,he.fecha_registro,he.Id_PDF,he.estado,he.Motivo_Traspaso from Historial_Entregas as he
+                    inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+                    inner join canal as c on he.Id_Canal=c.Id_Canal
+                    inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+                    inner join empleados as e on he.Id_Empleados=e.Id_Empleados 
+                   
+                    where he.Id_u_sdv='1' and he.estado=1
+                     order by he.Id_historial DESC;
+                     
+					
+select  e.Nombre,e.Carnet,e.Cargo from historial_entregas as he
+inner join empleados as e on he.Id_Empleados=e.Id_Empleados
+where he.Id_Ruta=1 and he.estado=0
+order by he.Id_historial DESC
+limit 1;
+
+SELECT * FROM historial_entregas;
+
+INSERT INTO historial_entregas values (0,'VACACIONES','2020-04-16',1,0,0,1,1,0,1,0,'completo',1,2,74,100,57,20,1,'2020-04-16_00:'); 
+
+
+
+ SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="1" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion, he.Observacion,he.Id_PDF  
+                    from Historial_Entregas as he
+                    inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+                    inner join canal as c on he.Id_Canal=c.Id_Canal
+                    inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+                    inner join empleados as e on he.Id_Empleados=e.Id_Empleados
+                    inner join telefonos as t on  he.Id_telefono=t.Id_telefono
+                    inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
+                    inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
+                    inner join impresoras as i on he.Id_Impresoras=i.Id_Impresoras
+                    inner join marca_impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
+                    inner join modelo_impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
+                    inner join deducibles_telefonos as dt on mo.Id_modelo_cell=dt.Id_modelo_cell
+                    inner join deducibles_impresoras as di on moi.Id_modelo_impresoras=di.Id_modelo_impresoras
+                  WHERE he.Id_PDF="2020-04-16_21:24:17_0000099";
+                  
+                  
+create table Informes(
+Id_Informe int(7) zerofill auto_increment not null primary key,
+nombre_informe varchar(25)not null ,
+fecha_registro datetime not null,
+fecha_actualizacion datetime not null,
+url_informe varchar(100) not null,
+Id_u_sdv int(7) zerofill not null ,
+foreign key (Id_u_sdv) references usuarios_consolasdv(Id_u_sdv)
+);
+drop table Informes;
+select * from Informes;
+
+create table VENTA_DIARIA(
+Id_Inf_venta int(7) zerofill not null auto_increment  key,
+Ruta varchar(8) not null,
+Codigo int(15) not null,
+Cliente varchar(100) not null,
+Fecha date not null,
+No_Docto int(15) not null,
+Serie_Docto	varchar(100) not null,
+Estado int(2) not null,
+Vendedor int(10) not null,
+Total float(4,2) not null,
+Condicion varchar(20) not null,
+Nombre_Vendedor varchar(200) not null,
+FechaServer datetime not null,
+FechaMovil datetime not null,
+Latitud	varchar(50) not null,
+Longitud varchar(50) not null,
+Cantidad float(4,2) not null,
+CodigoProducto int(15) not null,
+Descripcion	varchar(200) not null,
+Precio float(4,2) not null,
+Venta float(4,2) not null,
+Familia	varchar(100) not null,
+SubFamila varchar(100) not null,
+SubSubFamilia varchar(100) not null,
+Categoria varchar(50) not null,
+Canal varchar(50) not null,
+Grupo varchar(50) not null,
+Distribuidora varchar(50) not null,
+División varchar(50) not null,
+Pais varchar(50) not null);
+
+drop table VENTA_DIARIA;
+SELECT * FROM VENTA_DIARIA;
+

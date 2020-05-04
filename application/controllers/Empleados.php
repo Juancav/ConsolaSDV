@@ -13,6 +13,7 @@ class Empleados extends CI_Controller
 		$this->load->helper(array('url'));
 		$this->load->library(array('session'));
 		$this->load->model('Empleados_Model');
+		$this->load->library('Pdf');
 		
 	}
 
@@ -168,6 +169,101 @@ class Empleados extends CI_Controller
 			echo json_encode (array('CantidadActivos' =>$Datos->CantidadActivos));
 			
 		}
+	}
+
+
+	function fetch_empleado()
+	{
+		if($this->input->post('Id_Ruta'))
+			{
+			echo $this->Empleados_Model->fetch_empleado($this->input->post('Id_Ruta'));
+			}
+	}
+
+
+	public function Registrar_Historial(){
+
+		$param['Id_Distribuidora'] = $this->input->post('asigtxtdistribuidora');
+		$param['Id_Canal'] = $this->input->post('asigtxtcanal');
+		$param['Id_Ruta'] = $this->input->post('asigtxtruta');
+		$param['Id_Empleado'] = $this->input->post('asigtxtempleado');
+		$param['Motivo'] = $this->input->post('asigtxtmotivo');
+		$param['PW'] = $this->input->post('PW');
+		$param['CU'] = $this->input->post('CU');
+		$param['VT'] = $this->input->post('VT');
+		$param['EP'] = $this->input->post('EP');
+		$param['EI'] = $this->input->post('EI');
+		$param['CT'] = $this->input->post('CT');
+		$param['CI'] = $this->input->post('CI');
+		$param['Observacion'] = $this->input->post('txtobservacion');
+
+
+		echo $this->Empleados_Model->Registrar_Historial($param);
+
+	}
+
+	public function Consultar_PDF()
+	{
+		if ($this->input->is_ajax_request()) {
+
+		
+			$Datos = $this->Empleados_Model->Consultar_PDF();
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
+
+	public function pdfdetails()
+	{
+
+		if($this->uri->segment(3))
+		{
+			$Id_PDF = $this->uri->segment(3);
+		
+			
+			$html_content ='';
+			$html_content .= $this->Empleados_Model->fetch_single_details($Id_PDF);
+			$this->pdf->loadHtml($html_content);
+			$this->pdf->render();
+			$this->pdf->stream("".$Id_PDF.".pdf", array("Attachment"=>0));
+		
+		}
+	}
+
+	function fetch_impulsadora()
+	{
+		if($this->input->post('Carnet'))
+			{
+			$Datos=$this->Empleados_Model->fetch_impulsadora($this->input->post('Carnet'));
+			}
+
+			$arreglo=[];
+
+			foreach ($Datos as $key ) {
+				$arreglo['Nombre']=$key->Nombre;
+				
+			}
+			echo json_encode($arreglo);
+	}
+
+	public function Insert_Historial_Impulso(){
+
+		
+		$param['Carnetbaja'] = $this->input->post('carnetbaja');
+		$param['ImpulsadoraBaja'] = $this->input->post('nombrebaja');
+		$param['CarnetAlta'] = $this->input->post('carnetalta');
+		$param['ImpulsadoraAlta'] = $this->input->post('nombrealta');
+		$param['Motivo'] = $this->input->post('asigtxtmotivoImp');
+		$param['VT'] = $this->input->post('VT');
+		$param['EP'] = $this->input->post('EP');
+		$param['CT'] = $this->input->post('CT');
+		$param['Observacion'] = $this->input->post('txtobservacionimp');
+
+
+		echo $this->Empleados_Model->Insert_Historial_Impulso($param);
+
 	}
 
 }

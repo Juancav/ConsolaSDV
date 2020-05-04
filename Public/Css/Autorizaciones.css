@@ -156,6 +156,7 @@ padding: 10px;
      background: linear-gradient(to bottom left,rgb(0, 0, 0) 1px, rgb(25, 0, 251)  ,rgb(0, 0, 0));
      border-radius: 10px;
      cursor: move; 
+
       }
 
       .draggableACT {
