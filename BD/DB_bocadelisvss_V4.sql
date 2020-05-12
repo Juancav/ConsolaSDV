@@ -797,7 +797,7 @@ alter table salida_accesorios add column Id_Categoria int(7) not null;
 alter table categoria_accesorio add column fecha_registro date not null;
 alter table categoria_accesorio add column Id_u_sdv int(7)zerofill not null;
 alter table categoria_accesorio add column estado int(2) not null;
-update categoria_accesorio set estado=1;
+-- update categoria_accesorio set estado=1;
 
 
 ALTER TABLE accesorios change Descripcion nombre_accesorio varchar(25);
@@ -2216,25 +2216,25 @@ create table Informes(
 create table VENTA_DIARIA(
 	Id_Inf_venta int(7) zerofill not null auto_increment  key,
 	Ruta varchar(8) not null,
-	Codigo int(15) not null,
+	Codigo varchar(15) not null,
 	Cliente varchar(100) not null,
-	Fecha date not null,
-	No_Docto int(15) not null,
+	Fecha varchar(40) not null,
+	No_Docto varchar(15) not null,
 	Serie_Docto	varchar(100) not null,
-	Estado int(2) not null,
-	Vendedor int(10) not null,
-	Total float(4,2) not null,
+	Estado varchar(10) not null,
+	Vendedor varchar(10) not null,
+	Total varchar(10) not null,
 	Condicion varchar(20) not null,
 	Nombre_Vendedor varchar(200) not null,
-	FechaServer datetime not null,
-	FechaMovil datetime not null,
+	FechaServer varchar(40) not null,
+	FechaMovil varchar(40) not null,
 	Latitud	varchar(50) not null,
 	Longitud varchar(50) not null,
-	Cantidad float(4,2) not null,
-	CodigoProducto int(15) not null,
+	Cantidad varchar(20) not null,
+	CodigoProducto varchar(15) not null,
 	Descripcion	varchar(200) not null,
-	Precio float(4,2) not null,
-	Venta float(4,2) not null,
+	Precio varchar(10) not null,
+	Venta varchar(10) not null,
 	Familia	varchar(100) not null,
 	SubFamila varchar(100) not null,
 	SubSubFamilia varchar(100) not null,
@@ -2248,8 +2248,8 @@ create table VENTA_DIARIA(
 
 
 
-
-
-
-
-
+drop table VENTA_DIARIA;
+use dbsdv;
+select count(*) from VENTA_DIARIA;
+select * from VENTA_DIARIA;
+update usuarios_consolasdv set Rol=3 where id_u_sdv=1;

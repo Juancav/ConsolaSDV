@@ -58,16 +58,16 @@ class Informes extends CI_Controller {
 		$config['file_name'] =$this->input->post('txtinforme', TRUE); 
 		$config['upload_path'] = './Uploads/Informes/';
 		$config['allowed_types'] = 'xlsx';
-        $config['max_size'] = '200000';
+        $config['max_size'] = '0';
         $config['max_width'] = '0';
 		$config['max_height'] = '0';
-		$config['overwrite'] = True;
+		$config['overwrite'] = TRUE;
 
 		$this->load->library('upload',$config);
 
 		if (!$this->upload->do_upload("excel_file")) {
             echo $data['error'] = $this->upload->display_errors();
-			// $this->load->view('Empleados/Index',$data);
+			// $this->load->view('Informes/Index',$data);
         }else {
 
 			$file_info = $this->upload->data();
@@ -87,8 +87,8 @@ class Informes extends CI_Controller {
 		sleep(2);
 
 		if($dat){
-			
-			redirect('index.php/Informes');
+			// echo "memoria utilizada ".$dat;
+			// redirect('index.php/Informes');
 			
 		}else{
 

@@ -1,12 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 require 'vendor/autoload.php';
+require_once 'vendor/box/spout/src/Spout/Autoloader/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use CodeIgniter\HTTP\IncomingRequest;
-use Codeigniter\Database\Query;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Informes_Model extends CI_Model {
 
@@ -17,163 +14,126 @@ class Informes_Model extends CI_Model {
     }
     
     function Actualizar_Informe($data){
-        ini_set('MAX_EXECUTION_TIME', '-1');
-      
-        $Afecha = date('Y-m-d H:i:s');
+        ini_set ('max_execution_time', 1000); 
 
+        ini_set ('mysql.connect_timeout', 1000); // ejecuta sql grande
+
+        ini_set ('default_socket_timeout', 1000);
+       
+      
+        // Saber si existe registro de este informe
         $this->db->where('nombre_informe',$data['nombre_informe']);
         $query=$this->db->get('Informes');
         $Count=$query->num_rows();
-        $Acumulador=0;
+      
+        $reader = ReaderEntityFactory::createReaderFromFile('Uploads/Informes/'.$data['nombre_informe'].'.xlsx');   
+        $reader->open('Uploads/Informes/'.$data['nombre_informe'].'.xlsx');
+        $arr_data_produts=[];
+        $FilasTotal=0;
 
-        if($Count>0){
+            foreach ($reader->getSheetIterator() as $sheet) {  
 
-        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
-            $filename='Uploads/Informes/'.$data['nombre_informe'].'.xlsx';
 
-            $reader->setReadDataOnly(TRUE);
-            $spreadsheet = $reader->load($filename);
-            $sheet =$spreadsheet->getSheet(0);
+                
 
-            // $db = \Config\Database::connect();
-            // $builder = $db->table('VENTA_DIARIA');
+                foreach ($sheet->getRowIterator() as $rownumber=>$row) {
 
-            foreach($sheet->getRowIterator(2) as $row){
-       
-                $Ruta = trim($sheet->getCellByColumnAndRow(1,$row->getRowIndex()));
-                $Codigo = trim($sheet->getCellByColumnAndRow(2,$row->getRowIndex()));
-                $Cliente = trim($sheet->getCellByColumnAndRow(3,$row->getRowIndex()));
-                $Fecha = trim($sheet->getCellByColumnAndRow(4,$row->getRowIndex()));
-                $No_Docto = trim($sheet->getCellByColumnAndRow(5,$row->getRowIndex()));
-                $Serie_Docto= trim($sheet->getCellByColumnAndRow(6,$row->getRowIndex()));
-                $Estado = trim($sheet->getCellByColumnAndRow(7,$row->getRowIndex()));
-                $Vendedor= trim($sheet->getCellByColumnAndRow(8,$row->getRowIndex()));
-                $Total = trim($sheet->getCellByColumnAndRow(9,$row->getRowIndex()));
-                $Condicion = trim($sheet->getCellByColumnAndRow(10,$row->getRowIndex()));
-                $Nombre_Vendedor = trim($sheet->getCellByColumnAndRow(11,$row->getRowIndex()));
-                $FechaServer = trim($sheet->getCellByColumnAndRow(12,$row->getRowIndex()));
-                $FechaMovil = trim($sheet->getCellByColumnAndRow(13,$row->getRowIndex()));
-                $Latitud	= trim($sheet->getCellByColumnAndRow(14,$row->getRowIndex()));
-                $Longitud = trim($sheet->getCellByColumnAndRow(15,$row->getRowIndex()));
-                $Cantidad = trim($sheet->getCellByColumnAndRow(16,$row->getRowIndex()));
-                $CodigoProducto = trim($sheet->getCellByColumnAndRow(17,$row->getRowIndex()));
-                $Descripcion= trim($sheet->getCellByColumnAndRow(18,$row->getRowIndex()));
-                $Precio = trim($sheet->getCellByColumnAndRow(19,$row->getRowIndex()));
-                $Venta = trim($sheet->getCellByColumnAndRow(20,$row->getRowIndex()));
-                $Familia= trim($sheet->getCellByColumnAndRow(21,$row->getRowIndex()));	
-                $SubFamila = trim($sheet->getCellByColumnAndRow(22,$row->getRowIndex()));
-                $SubSubFamilia = trim($sheet->getCellByColumnAndRow(23,$row->getRowIndex()));
-                $Categoria = trim($sheet->getCellByColumnAndRow(24,$row->getRowIndex()));
-                $Canal = trim($sheet->getCellByColumnAndRow(25,$row->getRowIndex()));
-                $Grupo = trim($sheet->getCellByColumnAndRow(26,$row->getRowIndex()));
-                $Distribuidora = trim($sheet->getCellByColumnAndRow(27,$row->getRowIndex()));
-                $División = trim($sheet->getCellByColumnAndRow(28,$row->getRowIndex()));
-                $Pais = trim($sheet->getCellByColumnAndRow(29,$row->getRowIndex()));
+                  
+                        
+                      
 
-                if(
-                    $Ruta == '' ||
-                    $Codigo == '' ||
-                    $Cliente == '' ||
-                    $Fecha == '' ||
-                    $No_Docto == '' ||
-                    $Serie_Docto== '' ||
-                    $Estado == '' ||
-                    $Vendedor== '' ||
-                    $Total == '' ||
-                    $Condicion == '' ||
-                    $Nombre_Vendedor == '' ||
-                    $FechaServer == '' ||
-                    $FechaMovil == '' ||
-                    $Latitud	== '' ||
-                    $Longitud == '' ||
-                    $Cantidad == '' ||
-                    $CodigoProducto == '' ||
-                    $Descripcion== '' ||
-                    $Precio == '' ||
-                    $Venta == '' ||
-                    $Familia== '' ||
-                    $SubFamila == '' ||
-                    $SubSubFamilia == '' ||
-                    $Categoria == '' ||
-                    $Canal == '' ||
-                    $Grupo == '' ||
-                    $Distribuidora == '' ||
-                    $División == '' ||
-                    $Pais == '' 
+                    if($rownumber>1){
 
-                )
-                    continue;
+                        $cells = $row->getCells();
 
+                        $Ruta = $cells[0];
+                        $Codigo =$cells[1];
+                        $Cliente =$cells[2];
+                        $Fecha =$cells[3];
+                        $No_Docto =$cells[4];
+                        $Serie_Docto=$cells[5];
+                        $Estado =$cells[6];
+                        $Vendedor=$cells[7];
+                        $Total =$cells[8];
+                        $Condicion =$cells[9];
+                        $Nombre_Vendedor =$cells[10];
+                        $FechaServer =$cells[11];
+                        $FechaMovil =$cells[12];
+                        $Latitud =$cells[13];
+                        $Longitud =$cells[14];
+                        $Cantidad =$cells[15];
+                        $CodigoProducto =$cells[16];
+                        $Descripcion=$cells[17];
+                        $Precio =$cells[18];
+                        $Venta =$cells[19];
+                        $Familia=$cells[20];
+                        $SubFamila =$cells[21];
+                        $SubSubFamilia =$cells[22];
+                        $Categoria =$cells[23];
+                        $Canal =$cells[24];
+                        $Grupo =$cells[25];
+                        $Distribuidora =$cells[26];
+                        $División =$cells[27];
+                        $Pais =$cells[28];
                     
-    $data_venta[]=[
-                 'Id_Inf_venta'=>0,
-                 'Ruta'=>$Ruta ,
-                 'Codigo'=>$Codigo, 
-                 'Cliente'=>$Cliente, 
-                 'Fecha'=> date ( 'Y-m-j H:i:s' , $Fecha ), 
-                 'No_Docto'=>$No_Docto, 
-                 'Serie_Docto'=>$Serie_Docto,
-                 'Estado'=>$Estado, 
-                 'Vendedor'=>$Vendedor,
-                 'Total'=>$Total, 
-                 'Condicion'=>$Condicion, 
-                 'Nombre_Vendedor'=>$Nombre_Vendedor,
-                 'FechaServer'=> date ( 'Y-m-j H:i:s' , $FechaServer), 
-                 'FechaMovil'=>date ( 'Y-m-j H:i:s' , $FechaMovil) ,
-                 'Latitud'=>$Latitud,	
-                 'Longitud'=>$Longitud, 
-                 'Cantidad'=>$Cantidad, 
-                 'CodigoProducto'=>$CodigoProducto, 
-                 'Descripcion'=>$Descripcion,
-                 'Precio'=>$Precio ,
-                 'Venta'=>$Venta, 
-                 'Familia'=>$Familia,
-                 'SubFamila'=>$SubFamila, 
-                 'SubSubFamilia'=>$SubSubFamilia,
-                 'Categoria'=>$Categoria,
-                 'Canal'=>$Canal, 
-                 'Grupo'=>$Grupo,
-                 'Distribuidora'=>$Distribuidora,
-                 'División'=>$División,
-                 'Pais'=>$Pais 
-                    ];
 
-        $arr_data_venta[]=$data_venta;
+                     $data_venta=[
+                                'Id_Inf_venta'=>0,
+                                'Ruta'=>$Ruta ,
+                                'Codigo'=>$Codigo, 
+                                'Cliente'=>$Cliente, 
+                                'Fecha'=>  $Fecha , 
+                                'No_Docto'=>$No_Docto, 
+                                'Serie_Docto'=>$Serie_Docto,
+                                'Estado'=>$Estado, 
+                                'Vendedor'=>$Vendedor,
+                                'Total'=>$Total, 
+                                'Condicion'=>$Condicion, 
+                                'Nombre_Vendedor'=>$Nombre_Vendedor,
+                                'FechaServer'=>$FechaServer, 
+                                'FechaMovil'=> $FechaMovil,
+                                'Latitud'=>$Latitud,	
+                                'Longitud'=>$Longitud, 
+                                'Cantidad'=>$Cantidad, 
+                                'CodigoProducto'=>$CodigoProducto, 
+                                'Descripcion'=>$Descripcion,
+                                'Precio'=>$Precio ,
+                                'Venta'=>$Venta, 
+                                'Familia'=>$Familia,
+                                'SubFamila'=>$SubFamila, 
+                                'SubSubFamilia'=>$SubSubFamilia,
+                                'Categoria'=>$Categoria,
+                                'Canal'=>$Canal, 
+                                'Grupo'=>$Grupo,
+                                'Distribuidora'=>$Distribuidora,
+                                'División'=>$División,
+                                'Pais'=>$Pais 
+                                 ];
 
-        $Acumulador++;
+                     $arr_data_venta[]=$data_venta;  
+
+
+                    }
+                                       
+                    
+                }
+                
 
             }
+            
 
-            $this->db->insert_batch('VENTA_DIARIA', $data_venta);
+            $this->db->insert_batch('VENTA_DIARIA', $arr_data_venta);
 
+            $reader->close();
+       
+           
 
-        
+        //   if($this->db->affected_rows() > 0 ){
+        //         return true;
+        //     }else{
+        //         return false;
+        //     }
 
-
-            $campos=array(
-                'fecha_actualizacion'=>$data['fecha_actualizacion'],
-                'url_informe'=>$data['url_informe'],
-                'Id_u_sdv'=>$this->session->userdata('Id_u_sdv')
-            );
-            $this->db->where('nombre_informe', $data['nombre_informe']);
-            $this->db->update('Informes',$campos);
-
-            if($this->db->affected_rows() > 0 ){
-                return true;
-            }else{
-                return false;
-            }
-  
-
-        }else{
-            $this->db->insert('Informes',$data);
-        
-            if($this->db->affected_rows() > 0 ){
-                return true;
-            }else{
-                return false;
-            }
-        }
        
     }
     
