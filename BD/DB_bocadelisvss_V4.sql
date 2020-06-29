@@ -2218,7 +2218,7 @@ create table VENTA_DIARIA(
 	Ruta varchar(8) not null,
 	Codigo varchar(15) not null,
 	Cliente varchar(100) not null,
-	Fecha varchar(40) not null,
+	Fecha date not null,
 	No_Docto varchar(15) not null,
 	Serie_Docto	varchar(100) not null,
 	Estado varchar(10) not null,
@@ -2226,8 +2226,8 @@ create table VENTA_DIARIA(
 	Total varchar(10) not null,
 	Condicion varchar(20) not null,
 	Nombre_Vendedor varchar(200) not null,
-	FechaServer varchar(40) not null,
-	FechaMovil varchar(40) not null,
+	FechaServer datetime not null,
+	FechaMovil datetime not null,
 	Latitud	varchar(50) not null,
 	Longitud varchar(50) not null,
 	Cantidad varchar(20) not null,
@@ -2247,9 +2247,8 @@ create table VENTA_DIARIA(
 )ENGINE=InnoDB;
 
 
-
-drop table VENTA_DIARIA;
-use dbsdv;
-select count(*) from VENTA_DIARIA;
+drop table venta_diaria;
 select * from VENTA_DIARIA;
 update usuarios_consolasdv set Rol=3 where id_u_sdv=1;
+
+

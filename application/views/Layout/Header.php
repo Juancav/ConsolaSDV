@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +14,7 @@
     <link href="<?php echo base_url('Public/Img/favicon.png')?>" rel="icon">
 
     
-
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -23,9 +25,12 @@
 
     <!--jsPDF-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+    
     <!-- Echarts Graficas -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.min.js"></script>
 
+    <!-- Tema Echarts -->
+    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/macarons.js')?>"></script>
 
     <!--Html2Canvas-->
     <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.js')?>"></script>
@@ -49,12 +54,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/style.css')?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/Css.css')?>">
 
-    
-
-    <style type="text/css">
-
-   
-  </style>
+ 
 </head>
 <body>
 <header>
@@ -202,6 +202,7 @@
 
 <!--Effect Dropdown jquery-->
 <script type="text/javascript">
+
 jQuery(function ($) {
 
       $(".sidebar-dropdown > a").click(function() {
@@ -236,10 +237,6 @@ $("#show-sidebar").click(function() {
 
 // *****************************************NOTIFICACIONES*****************************//
 $(document).ready(function () {
-
-    // setInterval(recontar_notificaciones, 6000);
-    // setInterval(notificaciones, 6000);
-
 
     // Al cargar la pagina el contador de notificaciones tendra efecto
    $.ajax({
@@ -342,23 +339,23 @@ $(document).ready(function () {
  
 
 });
-// *****************************************END, NOTIFICACIONES*****************************//
+
      
 
-function Borrar_Noti(Id_Notificacion){
+      function Borrar_Noti(Id_Notificacion){
       
-      $.post("<?php echo base_url(); ?>index.php/Header/Borrar_Noti",	
-      {
-        txtid:Id_Notificacion,
-      },			
+        $.post("<?php echo base_url(); ?>index.php/Header/Borrar_Noti",	
+        {
+          txtid:Id_Notificacion,
+        },			
 
-      function(data){
-        if (data == 1) {
-          // $("#recontar").click();
-        }
-        
-      });
-}
+        function(data){
+          if (data == 1) {
+            // $("#recontar").click();
+          }
+          
+        });
+      }
 
       // Despues de  1 minuto se volvera a consultar si hay nuevas notificaciones
       function recontar_notificaciones(){
@@ -385,79 +382,78 @@ function Borrar_Noti(Id_Notificacion){
 
       }
 
-// Despues de  1 minuto se volvera a cargar las notificaciones
-function notificaciones(){
-    $.ajax({
-      url:"<?php echo base_url();?>index.php/Header/Notificaciones",
-      method:"POST",
-      dataType:"JSON",
+      // Despues de  1 minuto se volvera a cargar las notificaciones
+      function notificaciones(){
+          $.ajax({
+            url:"<?php echo base_url();?>index.php/Header/Notificaciones",
+            method:"POST",
+            dataType:"JSON",
 
 
-      success:function(respuesta)
-      {
-            var registros =eval(respuesta);
+            success:function(respuesta)
+            {
+                  var registros =eval(respuesta);
+
+                        
+                    html="";
+                    htmla="";
+                    for (var i = 0; i <registros.length; i++) {
+
+                                      
+                                      
+                      html +="<div class='notificacion "+registros[i]["descripcion_notificacion"]+"' id='notificacion"+i+"'>"
+                      html +="<a  class='ui-state-default ui-corner-all'><i  id='button"+i+"' Onclick='Borrar_Noti(\""+registros[i]["Id_notificacion"]+"\");' class='fas fa-times iconx'></i></a>"+
+                      "<p class='title'>"+registros[i]["titulo"]+"</p>"+registros[i]["descripcion_noti"]+
+                      "<b style='float:right; margin-top:5px;'>"+registros[i]["Nombre"]+"</b>";
+                      html+="</div>";
+
+                      }
+
+                      for(var i = 0; i <registros.length; i++){
+                      htmla+="<script>"+
+                      "$( '#button"+i+"' ).on( 'click', function() {"+
+                      "$( '#notificacion"+i+"' ).effect( 'drop', {}, 500 );"+
+                      "return false;"+
+                      "});";
+                      htmla+="<\/script>";
+
+                      }
+                  
 
                   
-              html="";
-              htmla="";
-              for (var i = 0; i <registros.length; i++) {
+                    
+                    $("#ContentNoti").html(html);
+                    $("#js").html(htmla);
+            }
 
-                                
-                                
-                html +="<div class='notificacion "+registros[i]["descripcion_notificacion"]+"' id='notificacion"+i+"'>"
-                html +="<a  class='ui-state-default ui-corner-all'><i  id='button"+i+"' Onclick='Borrar_Noti(\""+registros[i]["Id_notificacion"]+"\");' class='fas fa-times iconx'></i></a>"+
-                "<p class='title'>"+registros[i]["titulo"]+"</p>"+registros[i]["descripcion_noti"]+
-                "<b style='float:right; margin-top:5px;'>"+registros[i]["Nombre"]+"</b>";
-                html+="</div>";
+          });
 
-                }
-
-                for(var i = 0; i <registros.length; i++){
-                htmla+="<script>"+
-                "$( '#button"+i+"' ).on( 'click', function() {"+
-                "$( '#notificacion"+i+"' ).effect( 'drop', {}, 500 );"+
-                "return false;"+
-                "});";
-                htmla+="<\/script>";
-
-                }
-            
-
-            
-              
-              $("#ContentNoti").html(html);
-              $("#js").html(htmla);
       }
 
-    });
-
-}
-
-function Actualizar_todas(){
-  $.ajax({
-      url:"<?php echo base_url();?>index.php/Header/Actualizar_todas",
-      method:"POST",
-      dataType:"JSON",
+      function Actualizar_todas(){
+        $.ajax({
+            url:"<?php echo base_url();?>index.php/Header/Actualizar_todas",
+            method:"POST",
+            dataType:"JSON",
 
 
-      success:function(data)
-      {   if(data==1){
+            success:function(data)
+            {   if(data==1){
 
-              $( ".notificacion:last-child" ).hide( "slow", function() {
-          // Use arguments.callee so we don't need a named function
-          $( this ).prev().hide( "slow", arguments.callee );
-        });
-            $('#recontar').click();
-            
-          }
-            
+                    $( ".notificacion:last-child" ).hide( "slow", function() {
+                // Use arguments.callee so we don't need a named function
+                $( this ).prev().hide( "slow", arguments.callee );
+              });
+                  $('#recontar').click();
+                  
+                }
+                  
+            }
+
+          });
       }
 
-    });
-}
 
-    
-  // *****************************************END, NOTIFICACIONES*****************************//
 </script>
 
 </header>

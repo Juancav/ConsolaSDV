@@ -165,11 +165,7 @@ iframe {
 }
 
 .container-login100 {
-  /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQPpnRZGIvxeSolGMCBXLFPiwDmk2qZyLbE1zg1UVJAJfcvXULD");
-  background-repeat: no-repeat;
-  background-size: cover; */
-  /* height: 100px;
-  background-image: radial-gradient(#00000093, rgb(197, 197, 197)); */
+
   width: 100%;  
   min-height: 100vh;
   display: -webkit-box;
@@ -420,7 +416,7 @@ iframe {
 /*------------------------------------------------------------------
 [ Responsive ]*/
 
-@media (max-width: 576px) {
+@media screen and (max-width: 576px) {
   .wrap-login100 {
     padding: 77px 15px 33px 15px;
   }
@@ -763,7 +759,7 @@ body {
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {
   content: "";
   font-family: "Font Awesome 5 Free";
-  font-weight: -200;
+  font-weight: 100;
   font-style: normal;
   display: inline-block;
   text-align: center;

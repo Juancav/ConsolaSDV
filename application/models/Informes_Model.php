@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-require 'vendor/autoload.php';
+
+require  'vendor/autoload.php';
 require_once 'vendor/box/spout/src/Spout/Autoloader/autoload.php';
 
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
@@ -14,23 +15,38 @@ class Informes_Model extends CI_Model {
     }
     
     function Actualizar_Informe($data){
-        ini_set ('max_execution_time', 1000); 
 
-        ini_set ('mysql.connect_timeout', 1000); // ejecuta sql grande
+        $arr_data_venta=[];
+        $FilasTotal=0;
+        $filas=10001;
 
-        ini_set ('default_socket_timeout', 1000);
-       
       
         // Saber si existe registro de este informe
         $this->db->where('nombre_informe',$data['nombre_informe']);
         $query=$this->db->get('Informes');
         $Count=$query->num_rows();
-      
-        $reader = ReaderEntityFactory::createReaderFromFile('Uploads/Informes/'.$data['nombre_informe'].'.xlsx');   
-        $reader->open('Uploads/Informes/'.$data['nombre_informe'].'.xlsx');
-        $arr_data_produts=[];
-        $FilasTotal=0;
 
+        if($Count>0){
+            $campos=array(
+                'fecha_actualizacion'=>$data['fecha_actualizacion'],
+                'Id_u_sdv'=> $this->session->userdata('Id_u_sdv')
+            );
+            $this->db->where('nombre_informe',$data['nombre_informe']);
+            $this->db->update('Informes',$campos);
+          
+        }else{
+
+            $this->db->insert('Informes',$data);
+
+        }
+
+        
+  
+        $reader = ReaderEntityFactory::createReaderFromFile('Uploads/Informes/'.$data['nombre_informe'].'.csv');  
+        $reader->setShouldFormatDates(true); // Permite recibir del excel en formato fecha
+        $reader->open('Uploads/Informes/'.$data['nombre_informe'].'.csv');
+
+       
             foreach ($reader->getSheetIterator() as $sheet) {  
 
 
@@ -38,18 +54,15 @@ class Informes_Model extends CI_Model {
 
                 foreach ($sheet->getRowIterator() as $rownumber=>$row) {
 
-                  
-                        
-                      
-
+       
                     if($rownumber>1){
 
                         $cells = $row->getCells();
-
+                       
                         $Ruta = $cells[0];
                         $Codigo =$cells[1];
                         $Cliente =$cells[2];
-                        $Fecha =$cells[3];
+                        $Fecha =date('Y-m-d',strtotime($cells[3])); 
                         $No_Docto =$cells[4];
                         $Serie_Docto=$cells[5];
                         $Estado =$cells[6];
@@ -57,8 +70,8 @@ class Informes_Model extends CI_Model {
                         $Total =$cells[8];
                         $Condicion =$cells[9];
                         $Nombre_Vendedor =$cells[10];
-                        $FechaServer =$cells[11];
-                        $FechaMovil =$cells[12];
+                        $FechaServer =date('Y-m-d H:i:s',strtotime($cells[11])); 
+                        $FechaMovil = date('Y-m-d H:i:s',strtotime($cells[12]));
                         $Latitud =$cells[13];
                         $Longitud =$cells[14];
                         $Cantidad =$cells[15];
@@ -77,6 +90,8 @@ class Informes_Model extends CI_Model {
                         $Pais =$cells[28];
                     
 
+                
+                        
                      $data_venta=[
                                 'Id_Inf_venta'=>0,
                                 'Ruta'=>$Ruta ,
@@ -110,7 +125,18 @@ class Informes_Model extends CI_Model {
                                 'Pais'=>$Pais 
                                  ];
 
+                            
+
                      $arr_data_venta[]=$data_venta;  
+
+                     if($rownumber==$filas){
+
+                        $this->db->insert_batch($data['nombre_informe'], $arr_data_venta);
+                        
+                        $filas=$filas+10000;
+                        unset($data_venta,$arr_data_venta);
+                        
+                     }
 
 
                     }
@@ -121,20 +147,292 @@ class Informes_Model extends CI_Model {
 
             }
             
-
-            $this->db->insert_batch('VENTA_DIARIA', $arr_data_venta);
-
+            
+            $this->db->insert_batch($data['nombre_informe'], $arr_data_venta);
+            
             $reader->close();
-       
-           
 
-        //   if($this->db->affected_rows() > 0 ){
-        //         return true;
-        //     }else{
-        //         return false;
-        //     }
+            if($this->db->affected_rows() > 0 ){
+                return true;
+            }else{
+                return false;
+            }
 
-       
     }
+
+
+    public function Fecha_Informe(){
+
+        $this->db->select('fecha_actualizacion');
+        $this->db->from('Informes');
+        $this->db->where('nombre_informe','VENTA_DIARIA');
+        $query = $this->db->get();
+
+        $Datos = $query->result();
+
+        if(empty($Datos)){
+
+            return array();
+        }else{
+            return $Datos;
+        } 
+    }
+
+
+    public function VentaXDia(){
+
+        $query='SELECT Fecha, round(sum(total),2) as Total from VENTA_DIARIA group by Fecha;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function Top_Productos(){
+
+        $query=' SELECT Descripcion , round(sum(total),2) as Total 
+        from VENTA_DIARIA
+        group by Descripcion 
+        order by Total desc
+        limit 10 ;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function VentaFamilia(){
+
+        $query=' SELECT TRIM(Familia) As name , round(sum(total),2) as value 
+        from VENTA_DIARIA
+        group by name 
+        order by Total desc
+        limit 10 ;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function VentaDistribuidora(){
+
+        $query='SELECT Distribuidora As name , round(sum(total),2) as value 
+                from VENTA_DIARIA
+                group by name 
+                order by Total desc;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    function Agregar_clientes($data){
+
+        $arr_data_clientes=[];
+        $FilasTotal=0;
+        $filas=10001;
+
+      
+        // Saber si existe registro de este informe
+        $this->db->where('nombre_informe',$data['nombre_informe']);
+        $query=$this->db->get('Informes');
+        $Count=$query->num_rows();
+
+        if($Count>0){
+            $campos=array(
+                'fecha_actualizacion'=>$data['fecha_actualizacion'],
+                'Id_u_sdv'=> $this->session->userdata('Id_u_sdv')
+            );
+            $this->db->where('nombre_informe',$data['nombre_informe']);
+            $this->db->update('Informes',$campos);
+          
+        }else{
+
+            $this->db->insert('Informes',$data);
+
+        }
+
+        
+  
+        $reader = ReaderEntityFactory::createReaderFromFile('Uploads/Informes/'.$data['nombre_informe'].'.csv');  
+        $reader->setShouldFormatDates(true); // Permite recibir del excel en formato fecha
+        $reader->open('Uploads/Informes/'.$data['nombre_informe'].'.csv');
+
+       
+            foreach ($reader->getSheetIterator() as $sheet) {  
+
+
+                
+
+                foreach ($sheet->getRowIterator() as $rownumber=>$row) {
+
+     
+                    if($rownumber>1){
+
+                        $cells = $row->getCells();
+                       
+                        $Codigo = $cells[0];
+                        $Nombre =$cells[1];
+                        $Direccion =$cells[2];
+                        $Id_Municipio =$cells[3]; 
+                        $Telefono =$cells[4];
+                        $Contacto=$cells[5];
+                        $Propietario =$cells[6];
+                        $Id_Tfacturacion=$cells[7];
+                        $Dui =$cells[8];
+                        $Numero_Registro =$cells[9];
+                        $Nit =$cells[10];
+                        $Id_Condicionc =$cells[11]; 
+                        $Dia_Cobro = $cells[12];
+                        $Monto_Credito =$cells[13];
+                        $Id_Tcompra =$cells[14];
+                        $Id_Tcontribuyente =$cells[15];
+                        $Cantidad_Exhibidor =$cells[16];
+                        $Exhibiror_Uno=$cells[17];
+                        $Exhibiror_Dos =$cells[18];
+                        $Exhibiror_Tres =$cells[19];
+                        $Orden_Visita=$cells[20];
+                        $Dias =$cells[21];
+                        $RefUno =$cells[22];
+                        $Latitud =$cells[23];
+                        $Longitud =$cells[24];
+                        $Id_Usuarios =$cells[25];
+                        $Id_Ref =$cells[26];
+                        $Id_Gironegocio =$cells[27];
+                        $Foto_Negocio =$cells[28];
+                        $Foto_Exhibidor=$cells[29];
+                        $CompraS_B=$cells[30];
+                        $CompraS_D=$cells[31];
+                        $CompraS_Y=$cells[32];
+                        $CompraS_F=$cells[33];
+                        $Fecha_Ingreso= date('Y-m-d',strtotime($cells[34])); 
+                        $Estado=$cells[35];
+                        $Fecha_Resolucion=date('Y-m-d',strtotime($cells[36])); 
+                        $estado_w=$cells[37];
+                        $Fecha_Procesado=date('Y-m-d',strtotime($cells[38]));
+                        $Editado=$cells[39];
+                        $Comentario_E=$cells[40];
+                        $Estado_Analista=$cells[41];
+                        $Fecha_Resolucion_R=date('Y-m-d',strtotime($cells[42]));
+                        $Fecha_AprobacionA=date('Y-m-d',strtotime($cells[43]));
+                        $quienresolucion=$cells[44];
+                        $EstadoDescarga=$cells[45];
+                    
+
+                
+                        
+                     $data_clientes=[
+                        'Id_Cliente'=> 0,
+                        'Codigo'=>$Codigo,
+                        'Nombre'=>$Nombre,
+                        'Direccion'=>$Direccion,
+                        'Id_Municipio'=>$Id_Municipio,
+                        'Telefono'=>$Telefono,
+                        'Contacto'=>$Contacto,
+                        'Propietario'=>$Propietario,
+                        'Id_Tfacturacion'=>$Id_Tfacturacion,
+                        'Dui'=>$Dui,
+                        'Numero_Registro'=>$Numero_Registro,
+                        'Nit'=>$Nit,
+                        'Id_Condicionc'=>$Id_Condicionc,
+                        'Dia_Cobro'=>$Dia_Cobro,
+                        'Monto_Credito'=> $Monto_Credito,
+                        'Id_Tcompra'=> $Id_Tcompra,
+                        'Id_Tcontribuyente'=> $Id_Tcontribuyente,
+                        'Cantidad_Exhibidor'=> $Cantidad_Exhibidor,
+                        'Exhibiror_Uno'=>$Exhibiror_Uno,
+                        'Exhibiror_Dos'=>$Exhibiror_Dos,
+                        'Exhibiror_Tres'=>$Exhibiror_Tres,
+                        'Orden_Visita'=> $Orden_Visita,
+                        'Dias'=> $Dias,
+                        'RefUno'=> $RefUno,
+                        'Latitud'=> $Latitud,
+                        'Longitud'=> $Longitud,
+                        'Id_Usuarios'=> $Id_Usuarios,
+                        'Id_Ref'=> $Id_Ref,
+                        'Id_Gironegocio'=> $Id_Gironegocio,
+                        'Foto_Negocio'=> $Foto_Negocio,
+                        'Foto_Exhibidor'=> $Foto_Exhibidor,
+                        'CompraS_B'=> $CompraS_B,
+                        'CompraS_D'=> $CompraS_D,
+                        'CompraS_Y'=> $CompraS_Y,
+                        'CompraS_F'=> $CompraS_F,
+                        'Fecha_Ingreso'=> $Fecha_Ingreso,
+                        'Estado'=> $Estado,
+                        'Fecha_Resolucion'=> $Fecha_Resolucion,
+                        'estado_w'=>$estado_w,
+                        'Fecha_Procesado'=> $Fecha_Procesado,
+                        'Editado'=> $Editado,
+                        'Comentario_E'=> $Comentario_E,
+                        'Estado_Analista'=> $Estado_Analista,
+                        'Fecha_Resolucion_R'=> $Fecha_Resolucion_R,
+                        'Fecha_AprobacionA'=> $Fecha_AprobacionA,
+                        'quienresolucion'=> $quienresolucion,
+                        'EstadoDescarga'=> $EstadoDescarga
+                                 ];
+
+                            
+
+                     $arr_data_clientes[]=$data_clientes;  
+
+                     if($rownumber==$filas){
+
+                        $this->db->insert_batch('clientes', $arr_data_clientes);
+                        
+                        $filas=$filas+10000;
+                        unset($data_clientes,$arr_data_clientes);
+                        
+                     }
+
+
+                    }
+                                       
+                    
+                }
+                
+
+            }
+            
+            
+            $this->db->insert_batch('clientes', $arr_data_clientes);
+            
+            $reader->close();
+
+            if($this->db->affected_rows() > 0 ){
+                return true;
+            }else{
+                return false;
+            }
+
+    }
+
     
 }
