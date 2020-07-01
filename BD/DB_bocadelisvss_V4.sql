@@ -1,4 +1,4 @@
-DROP DATABASE dbsdv;
+
 CREATE DATABASE dbsdv;
 USE dbsdv;
 
@@ -35,6 +35,8 @@ INSERT INTO departamento VALUES
 	(null,'CABAÑAS',1),
 	(null,'SAN VICENTE',1),
 	(null,'SONSONATE',1);
+    
+INSERT INTO departamento VALUES	(null,'DESCONOCIDO',1);
 
 CREATE TABLE municipio(
 	Id_Municipio INT(7) zerofill AUTO_INCREMENT PRIMARY KEY NOT NULL,
@@ -307,6 +309,8 @@ INSERT INTO municipio (Id_Municipio, NombreMunicipio, Id_Departamento) VALUES
 (0000261, 'TECAPAN', 0000009),
 (0000262, 'USULUTAN', 0000009);
 
+insert into municipio values ('0000263','DESCONOCIDO', 0000015);
+
 CREATE TABLE distribuidora(
 	Id_Distribuidora INT(7) zerofill PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	Nombre_Distribuidora VARCHAR(28) NOT NULL,
@@ -573,7 +577,16 @@ CREATE TABLE clientes(
 	FOREIGN KEY (Id_Ref) REFERENCES ref(Id_Ref),
 	FOREIGN KEY (Id_Gironegocio) REFERENCES giro_negocio(Id_Gironegocio)
 )ENGINE=InnoDB;
-
+alter table clientes add column  `Fecha_Resolucion` datetime DEFAULT NULL;
+alter table clientes add column  `estado_w` char(1) DEFAULT NULL;
+alter table clientes add column  `Fecha_Procesado` datetime DEFAULT NULL;
+alter table clientes add column  `Editado` char(1) DEFAULT NULL;
+alter table clientes add column  `Comentario_E` varchar(200) DEFAULT NULL;
+alter table clientes add column  `Estado_Analista` char(1) DEFAULT NULL;
+alter table clientes add column  `Fecha_Resolucion_R` datetime DEFAULT NULL;
+alter table clientes add column  `Fecha_AprobacionA` datetime DEFAULT NULL;
+alter table clientes add column  `quienresolucion` varchar(25) DEFAULT NULL;
+alter table clientes add column  `EstadoDescarga` char(1) DEFAULT NULL;
 CREATE TABLE tipo_exhibidor(
 	Id_Texhibidor INT(7) zerofill AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	NombretExhibidor VARCHAR(150)
@@ -2246,9 +2259,22 @@ create table VENTA_DIARIA(
 	Pais varchar(50) not null
 )ENGINE=InnoDB;
 
-
 drop table venta_diaria;
-select * from VENTA_DIARIA;
-update usuarios_consolasdv set Rol=3 where id_u_sdv=1;
 
+select * from venta_diaria;
 
+select Familia,sum(Total) as Total from venta_diaria group by Fecha;
+select Descripcion , sum(total) as Total 
+from venta_diaria
+group by Descripcion 
+order by Total desc
+limit 10 ;
+
+select * from venta_diaria;
+
+SELECT TRIM(Codigo) As name , format(sum(total),2) as value 
+        from VENTA_DIARIA
+        group by name 
+        order by Total desc;
+        
+describe clientes;
