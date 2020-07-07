@@ -108,12 +108,12 @@
   }
 
 .dispo{
-    background:rgba(116, 117, 111, 0.068);  
-    width:71%; 
+    background:rgba(116, 117, 111, 0.028);  
+    width:70%; 
     float:right; 
     margin-bottom:50px; 
     margin-right:25px; 
-    border-radius:2%;
+    border-radius:1%;
 
 }
 

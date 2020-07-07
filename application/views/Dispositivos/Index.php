@@ -11,42 +11,6 @@
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/Dispositivos.css')?>">
 
-    <style>
-    input[type="color"] {
-        -webkit-appearance: none;
-        border: none;
-        width: 70px;
-        height: 30px;
-    }
-    input[type="color"]::-webkit-color-swatch-wrapper {
-        padding: 0;
-    }
-    input[type="color"]::-webkit-color-swatch {
-        border: none;
-    }
-
-    table {
-    
-        border-collapse: collapse;
-        overflow: hidden;
-        box-shadow: 2px 5px 5px rgba(116, 117, 111);
-        }
-
-        th {
-        padding: 15px;
-        background-color:#000000;
-        text-align: center;
-        
-        color: #fff;
-        }
-
-
-        }
-
-
-
-</style>
-
 </head>
 
 <body>
@@ -104,16 +68,18 @@
             <!-- Div Formulario Agregar telefono -->
             <div id="FormAddCell" style="display: none; padding:5%; margin:0 auto;">
 
-                <h1 align="center"><span style="color:black;"><i class="fas fa-mobile"></i> Añadir Telefonos</span></h1><br><br>
+                <h3 style="text-align:center;"><i class="fas fa-mobile"></i> Añadir Telefonos</h3>
+                <br>
 
-                <div style="margin-left:10%; margin-right:10%;">
+              
 
-                  <form method='POST' id='form_addtelefonos' name='form_addtelefonos'  enctype="multipart/form-data">
+                  <form method='POST' id='form_addtelefonos' name='form_addtelefonos'  enctype="multipart/form-data" style="font-size:16px;">
 
-                    <div class="form-row" >
-
-                            <div class="col-md-5 mb-3">
-                                <label for="input" style="font-size: 20px;">Marca De Telefono</label>
+                    
+                    <div class="form-row">
+                    
+                            <div class="form-group col-md-6">
+                                <label for="input" >Marca De Telefono</label>
                                 <select class="form-control " id="ftxtmarcacell" name="ftxtmarcacell" required>
                                 <option selected="true" disabled="disabled" value="">Seleccione Categoria</option>
                                     <?php
@@ -125,83 +91,90 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-5 mb-3">
-                                <label for="input" style="font-size: 20px;">Modelo</label>
+                            <div class="form-group col-md-6">
+                                <label for="input" >Modelo</label>
                                 <select class="form-control " id="ftxtmodeloAsignar" name="ftxtmodeloAsignar" >
                                 <option selected="true" disabled="disabled" value="">Seleccione Producto</option>
                                 </select>
                             </div>
-
-                            <div class="col-md-2 mb-3">
-                                <label for="input" style="font-size: 20px;">Año</label>
+                    </div>
+                    <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="input" >Año</label>
                                 <select   value="" class="form-control " id="AñoCell" name="year">
                                 <option disabled="disabled" selected="true" value="" id="AñoCell">Año</option>
                                 <?php  for($i=2010;$i<=2020;$i++) { echo "<option value='".$i."'>".$i."</option>"; } ?>
                                 </select>
                             </div>
-
-                            <div class="col-md-3 mb-2">
-                                <label for="input" style="font-size: 20px;">Color</label>
-                            <input type="text" class="form-control" id="txtcolor" value="">
+                    
+                            <div class="form-group col-md-6">
+                                <label for="input" >Color</label>
+                                <input type="text" class="form-control" id="txtcolor" value="">
+                            </div>
+                    </div>
+                    
+                    <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="input" >Imei</label>
+                                <input type="number" class="form-control" id="txtimei"  name="txtimei">
                             </div>
 
-                            <div class="col-md-4 mb-2">
-                                <label for="input" style="font-size: 20px;">Imei</label>
-                            <input type="number" class="form-control" id="txtimei"  name="txtimei">
+                            <div class="form-group col-md-6">
+                                <label for="input" >N° de Serie</label>
+                                <input type="text" class="form-control" id="txtserie" >
+                            </div>
+                    </div>
+                    <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="input" >Activo Fijo</label>
+                                <input type="number" class="form-control" id="txtactivof" >
                             </div>
 
-                            <div class="col-md-4 mb-2">
-                                <label for="input" style="font-size: 20px;">N° de Serie</label>
-                            <input type="text" class="form-control" id="txtserie" >
-                            </div>
-
-                            <div class="col-md-4 mb-2">
-                                <label for="input" style="font-size: 20px;">Activo Fijo</label>
-                            <input type="number" class="form-control" id="txtactivof" >
-                            </div>
-
-                            <div class="col-md-4 mb-2" >
-                                <label for="exampleFormControlSelect1" style="font-size: 20px;">Distribuidora</label>
+                            <div class="form-group col-md-6" >
+                                <label for="exampleFormControlSelect1" >Distribuidora</label>
                                 <select class="form-control" id="mtxtdistribuidoraAsignar" name="mtxtdistribuidoraAsignar" > 
                                 <option  disabled="disabled" value="" selected="selected">Seleccione Distribuidora</option>
                                 </select>
                             </div>
-
-                            <div class="col-md-4 mb-2" >
-                                <label for="exampleFormControlSelect1" style="font-size: 20px;">Canal</label>
+                    </div>
+                    <div class="form-row">
+                            <div class="form-group col-md-6" >
+                                <label for="exampleFormControlSelect1" >Canal</label>
                                 <select class="form-control" id="mtxtcanalAsignar" name="mtxtcanalAsignar" >
                                 <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
                                 </select>
                             </div> 
-
-                            <div style="margin:auto; margin-top:5%;">
-                                    <button type="button" name='btnregistrartelefono' class="btn btn-primary" id="btnregistrartelefono" >Guardar</button>
-                                    <button type="reset" name='limpiar' class="btn btn-danger">Limpiar</button>
-                            </div>
                     </div>
+           
+                            <div style="    padding: 10px;   text-align: right;    margin-right: 60px;    margin-top: -60px;">
+                                    <button type="reset" name='limpiar' class="btn btn-outline-danger">Limpiar</button>
+                                    <button type="button" name='btnregistrartelefono' class="btn btn-primary" id="btnregistrartelefono" >Guardar</button>
+                                    
+                            </div>
+               
                     
                   </form>
 
-                </div>
+           
             </div>    
             <!-- End Div , Formulario Agregar Telefono -->
 
 
             <!--  Div Visualizar Telefonos -->
             <div id="Imagen" style="display: none; padding:5%; margin:0 auto;">
-                <h1><span style="color:black;"> Visualizacion De Telefonos  <i class="fas fa-satellite"></i></span></h1>
+                <h3 style="text-align:center;"> <i class="fas fa-satellite"></i> Visualizacion De Telefonos  </h3><br><br>
 
                 <form id="form-vis">
                  <div class="form-row">
           
-                        <div class="col-md-4 mb-2" >
+                        <div class="form-group col-md-4" >
                             <label for="exampleFormControlSelect1" style="font-size: 20px;">Distribuidora</label>
                             <select class="form-control" id="Tdistribuidora" name="Tdistribuidora" > 
                             <option  disabled="disabled" value="" selected="selected">Seleccione Distribuidora</option>
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-2" >
+                        <div class="form-group col-md-4" >
                             <label for="exampleFormControlSelect1" style="font-size: 20px;">Canal</label>
                             <select class="form-control" id="Tcanal" name="Tcanal" >
                             <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
@@ -241,7 +214,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
                     <button type="button" id="btnmarcacell" class="btn btn-primary">Guardar</button>
                 </div>
                 </div>
@@ -278,7 +251,7 @@
             
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
                     <button type="button" class="btn btn-primary" id="btnmodelocell" >Guardar</button>
                 </div>
                 </div>
@@ -292,7 +265,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                       <h1 style="color:black;" class="modal-title" id="exampleModalLabel">Modificar Telefono  <span style="size:10px;"><i class="fas fa-pen-fancy"></i></span> </h1>
+                       <h3 class="modal-title" id="exampleModalLabel"><i class="fas fa-pen-fancy"></i> Editar Telefono  </h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -303,7 +276,7 @@
 
                             <div class="form-row" >
 
-                                    <div class="col-md-5 mb-3">
+                                    <div class="form-group col-md-6">
                                         <label for="input" style="font-size: 20px;">Marca De Telefono</label>
                                         <select class="form-control " id="mtxtmarcacellm" name="mtxtmarcacellm" required>
                                         <option selected="true" disabled="disabled" value="">Seleccione Categoria</option>
@@ -316,14 +289,14 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-5 mb-3">
+                                    <div class="form-group col-md-6">
                                         <label for="input" style="font-size: 20px;">Modelo</label>
                                         <select class="form-control " id="mtxtmodeloasignar" name="mtxtmodeloasignar" >
                                         <option selected="true" disabled="disabled" value="">Seleccione Producto</option>
                                         </select>
                                     </div>
 
-                                    <div class="col-md-2 mb-3">
+                                    <div class="form-group col-md-6">
                                         <label for="input" style="font-size: 20px;">Año</label>
                                         <select   value="" class="form-control " id="mAñoCell" name="year">
                                         <option disabled="disabled" selected="true" value="" id="AñoCell">Año</option>
@@ -331,34 +304,34 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-3 mb-2">
+                                    <div class="form-group col-md-6">
                                         <label for="input" style="font-size: 20px;">Color</label>
                                     <input type="text" class="form-control" id="mtxtcolor" value="">
                                     </div>
 
-                                    <div class="col-md-4 mb-2">
+                                    <div class="form-group col-md-6">
                                         <label for="input" style="font-size: 20px;">Imei</label>
                                     <input type="number" class="form-control" id="mtxtimei" >
                                     </div>
 
-                                    <div class="col-md-4 mb-2">
+                                    <div class="form-group col-md-6">
                                         <label for="input" style="font-size: 20px;">N° de Serie</label>
                                     <input type="text" class="form-control" id="mtxtserie" >
                                     </div>
 
-                                    <div class="col-md-4 mb-2">
+                                    <div class="form-group col-md-6">
                                         <label for="input" style="font-size: 20px;">Activo Fijo</label>
                                     <input type="number" class="form-control" id="mtxtactivof" >
                                     </div>
 
-                                    <div class="col-md-4 mb-2" >
+                                    <div class="form-group col-md-6" >
                                         <label for="exampleFormControlSelect1" style="font-size: 20px;">Distribuidora</label>
                                         <select class="form-control" id="Tdistribuidoram" name="Tdistribuidoram" > 
                                         <option  disabled="disabled" value="" selected="selected">Seleccione Distribuidora</option>
                                         </select>
                                     </div>
 
-                                    <div class="col-md-4 mb-2" >
+                                    <div class="form-group col-md-6" >
                                         <label for="exampleFormControlSelect1" style="font-size: 20px;">Canal</label>
                                         <select class="form-control" id="Tcanalm" name="Tcanalm" >
                                         <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
@@ -372,8 +345,9 @@
                     </div>
 
                     <div class="modal-footer" >
+                    <button type="button" class="btn btn-outline-danger" id="mbtncerrarmodal" data-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn btn-primary" id='mbtnUpCell' name='mbtnUpCell'>Guardar</button>
-                        <button type="button" class="btn btn-danger" id="mbtncerrarmodal" data-dismiss="modal">Cerrar</button>
+                        
                     </div>
 
                     </div>
@@ -687,7 +661,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"  >Cerrar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"  >Cerrar</button>
                     <button type="button" class="btn btn-primary" id="btnguardarautorizados" style="display:none;">Guardar</button>
                     <button type="button" class="btn btn-success" id="btnguardarnoautorizados" style="display:none;">Guardar</button>
                 </div>
@@ -1245,9 +1219,9 @@ $(document).ready(function(){
         var registros =eval(respuesta);
   
 
-        html ="<table class='table  table-bordered' align='center'><thead>";
-        html +="<th style='display:none; '>ID</th><th>Telefono</th><th style='display:none;'>Id Marca</th><th style='display:none;'>Id Modelo</th><th>Imei</th><th style='display:none;'>Año</th><th style='display:none;'>Color</th><th>Activo Fijo</th><th style='display:none;'>Id_Distribuidora</th><th> Distribuidora</th><th style='display:none;'>Id_Canal</th><th>Canal</th><th style='display:none;'>Estado</th><th width='90px'>Modificar</th><th width='90px'>Baja/alta</th></tr>";
-        html +="</thead><tbody>"; 
+        html ="<table class='table'><thead>";
+        html +="<tr style='text-align:center;'><th style='display:none; '>ID</th><th>Telefono</th><th style='display:none;'>Id Marca</th><th style='display:none;'>Id Modelo</th><th>Imei</th><th style='display:none;'>Año</th><th style='display:none;'>Color</th><th style='display:none;'>Id_Distribuidora</th><th> Distribuidora</th><th style='display:none;'>Id_Canal</th><th>Canal</th><th style='display:none;'>Estado</th><th width='90px'>Modificar</th><th width='90px'>Baja/alta</th></tr>";
+        html +="</tr></thead><tbody style='text-align:center;'>"; 
         
         for (var i = 0; i <registros.length; i++) {
           html +="<tr><td style='display:none;'>"+registros[i]["Id_telefono"]+
@@ -1257,7 +1231,6 @@ $(document).ready(function(){
           "</td><td>"+registros[i]["imei_telefono"]+
           "</td><td style='display:none;'>"+registros[i]["año_telefono"]+
           "</td><td style='display:none;'>"+registros[i]["color_telefono"]+
-          "</td><td >"+registros[i]["activo_fijo"]+
           "</td><td style='display:none;'>"+registros[i]["Id_Distribuidora"]+
           "</td><td>"+registros[i]["Nombre_Distribuidora"]+
           "</td><td style='display:none;'>"+registros[i]["Id_Canal"]+
@@ -1276,7 +1249,7 @@ $(document).ready(function(){
           "\",\""+registros[i]["activo_fijo"]+
           "\",\""+registros[i]["Id_Distribuidora"]+
           "\",\""+registros[i]["Id_Canal"]+"\");'>"+
-          "<span style='font-size: 30px; color: #0109FF; margin:22%;'><i class='fas fa-tools'></i></span></a></td>";
+          "<span style='font-size: 30px;'><i class='far fa-edit'></i></span></a></td>";
           }else{
               html+="<td></td>";
           }
@@ -1293,7 +1266,7 @@ $(document).ready(function(){
                     "</select>"+
                 "</div>";
            
-            html+="<a href='#' class='InactivarTelefono' id='InactivarTelefono' onClick='InactivarTelefono(\""+registros[i]["Id_telefono"]+"\");'><span style='font-size: 25px; color:GREEN; margin-left:10px;'><i class='fas fa-level-down-alt'></i></span></a></div>"+
+            html+="<a href='#' class='InactivarTelefono' id='InactivarTelefono' onClick='InactivarTelefono(\""+registros[i]["Id_telefono"]+"\");'><span style='font-size: 25px; color:#70FF00; margin-left:10px;'><i class='fas fa-level-down-alt'></i></span></a></div>"+
             "</td></tr>";
           }
           else if(registros[i]['estado_telefono']==0){
@@ -1307,7 +1280,7 @@ $(document).ready(function(){
                 "</div>";
 
                 
-            html+="<a href='#' class='ActivarTelefono' id='ActivarTelefono' onClick='ActivarTelefono(\""+registros[i]["Id_telefono"]+"\");'><span style='font-size: 25px; color:red; margin-left:10px;'><i class='fas fa-level-up-alt'></i></span></a></div>"+
+            html+="<a href='#' class='ActivarTelefono' id='ActivarTelefono' onClick='ActivarTelefono(\""+registros[i]["Id_telefono"]+"\");'><span style='font-size: 25px; color:#FF2D00; margin-left:10px;'><i class='fas fa-level-up-alt'></i></span></a></div>"+
             "</td></tr>";
         }else if(registros[i]['estado_telefono']==7){
             html+="<td ><div class='form-row'>"+

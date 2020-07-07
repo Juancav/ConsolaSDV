@@ -39,6 +39,7 @@ class Login extends CI_Controller {
 			$distribuidora=$Run->Nombre_Distribuidora;
 			$id=$Run->Id_u_sdv;
 			$Id_Distribuidora=$Run->Id_Distribuidora;
+			$Id_pais=$Run->Id_pais;
 
 		}
 
@@ -49,7 +50,8 @@ class Login extends CI_Controller {
 			'Nombre_Pais'=>$pais,
 			'Nombre_Distribuidora'=>$distribuidora,
 			'Id_u_sdv'=>$id,
-			'Id_Distribuidora'=>$Id_Distribuidora
+			'Id_Distribuidora'=>$Id_Distribuidora,
+			'Id_pais'=>$Id_pais
 		);
 		
 		//Setea la sesion

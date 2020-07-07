@@ -4,31 +4,6 @@
   <head>
 
     <style>
-
-            .table{   
-                
-                  border-collapse: collapse;
-                  box-shadow: 2px 5px 12px #000DFD;
-                  overflow: hidden;
-                  text-align: center;
-                  border-radius:5px;
-                  font-size:11.5px;  
-                  font-weight:bold ;
-
-      
-            }
-            .th {
-                  
-                  background-color:#000DFD;
-                  text-align: center;
-                  color: #fff;
-            }
-            .td {
-                
-                  text-align: center;      
-            }
-
-
                 
             .cntr {
               margin: auto;
@@ -137,11 +112,11 @@
               <div class="tab-pane fade show active" id="nav-visualizar" role="tabpanel" aria-labelledby="nav-visualizar-tab">
 
                     <!-- Filtros -->
-                    <div class="Filtros">
-
-                      <form id="form-vis">
-                      
-                        <div style="width:25%; float:right; margin-top:10%; margin-right:-5%;">
+                    <div class='form-row' style='float:right; margin-top:50px; margin-right: -50px;'>
+                    
+                      <form id="form-vis" >
+                      <h4 style="color:blue;"> <i class="fas fa-users"></i> Consultar Empleados</h4><br><br>
+                        <div >
 
                           <!-- Filtro dsitribuidora -->
                           <div class="form-group " >
@@ -179,8 +154,9 @@
                                       
                           <!--Botones -->
                           <div>
+                          <button type="button" class="btn btn-outline-success " disabled="disabled">Exportar</button>
                               <button type="button" name='buscar' id='buscar' class="btn btn-primary" OnClick="mostrarDatos();">Consultar</button>
-                              <button type="button" class="btn btn-success " disabled="disabled">Exportar</button>
+                              
                           </div>
 
                         </div> 
@@ -188,9 +164,9 @@
                       </form>
 
                     </div>
-                    
+                    <br><br>
                     <!-- Se inserta tabla de datos consultados -->
-                    <div id="listaEmpleados">
+                    <div id="listaEmpleados" style='float:left;'>
                       <input type="hidden" class="form-control" id="txtid"  name="txtid" >
                     </div>
 
@@ -290,9 +266,10 @@
                                       </div>
                                 <!-- Botones -->
                                 <div class="form-row" style='padding-top: 40px; padding-left: 100px;'>
+                                <button type="reset" name='limpiar' class="btn btn-outline-danger" style="margin-right:10px;">Limpiar</button>
                                   <button type="submit" name='guardar'  id="btnguardarempleado" class="btn btn-primary" style="display: none;">Guardar</button>
                                   <button type="button" name='comprobar'  id="btncomprobar" class="btn btn-primary" OnClick="validar()" >Guardar</button>
-                                  <button type="reset" name='limpiar' class="btn btn-danger">Limpiar</button>
+                                  
                                 </div>
 
                               </form>
@@ -307,10 +284,10 @@
               <div class="tab-pane fade" id="nav-asignar" role="tabpanel" aria-labelledby="nav-asignar-tab">
 
                  <!-- Botones lateral derecho -->
-                  <div class="colc_buttons">
+                  <!-- <div class="colc_buttons">
                       <button class="btn btn-outline-primary button" id="btnAsigVend" OnClick="btnAsigVend();"><i class="fas fa-male"></i></button><br><br>
                       <button class="btn btn-outline-danger button" id="btnAsigImp" OnClick="btnAsigImp();"><i class="fas fa-female"></i></button><br><br>
-                  </div>
+                  </div> -->
                   <!--  -->
                  
                       <!-- Campos Accesorios Vendedores-->
@@ -406,7 +383,7 @@
                       <div id="formAsigEqui" style=" width:35%;  padding:10px; background:#D1D1D1; border-radius:10px; margin-bottom:20px;">
                                     
                           <div style="ma width:100%;  padding:20px; font-size:16px; background:white; border-radius:10px;">
-                                          <h2 style="font-size:20px; text-align:center;">Asignacion de Equipo</h2><br>
+                                          <h2 style="font-size:20px; text-align:center;">Asignacion de Equipo Vendedores</h2><br>
                                             <!-- Campo Distribuidora -->
                                             <div class="form-group" >
                                               <label for="exampleFormControlSelect1">Distribuidora</label>
@@ -457,8 +434,9 @@
                                               </select>
                                             </div> 
                                             <!-- Botones -->
+                                            <button class="btn btn-outline-danger" style="margin-left:60px;"> Limpiar</button>
                                             <button class="btn btn-primary" OnClick="AsignacionEquipo();">Asignar</button>
-                                            <button class="btn btn-danger">Limpiar</button>
+                                           
 
                           </div>
 
@@ -566,8 +544,9 @@
                                               </select>
                                             </div> 
                                             <!-- Botones -->
+                                            <button class="btn btn-outline-danger" style="margin-left:60px;">Limpiar</button>
                                             <button class="btn btn-success" OnClick="AsignacionEquipoI();">Asignar</button>
-                                            <button class="btn btn-danger">Limpiar</button>
+                                           
 
                           </div>
 
@@ -1016,18 +995,15 @@
           var registros =eval(respuesta);
 
           html='';
-          html +="<table class='table' style='float:left; margin-left:-3%; border:white 2px solid; width:55%; margin-top:2%; margin-bottom:5%;'>";
-          html +="<tr style=' filter: drop-shadow(5px 5px 10px #444); margin-bottom:50px;'>"+
+          html +="<table class='table' style='width:100%;'>";
+          html +="<tr style='text-align:center;'>"+
           "<th class='th' style='display:none; '>ID</th>"+
-          "<th class='th' >Foto Empleado</th>"+
+          "<th class='th' >Foto</th>"+
           "<th class='th' >Carnet</th>"+
           "<th class='th' >Dui</th>"+
-          "<th class='th' >Nombre</th>"+
-          "<th class='th' >Cargo</th>"+
-          "<th class='th' >Fecha</th>"+
-          "<th class='th' >Nombre Distribuidora</th>"+
-          "<th class='th' >Nombre Canal</th>"+
-          "<th class='th' >Nombre Ruta</th>"+
+          "<th class='th' >Empleado</th>"+
+          "<th class='th' >Canal</th>"+
+          "<th class='th' >Ruta</th>"+
           "<th class='th' style='display:none;'>Estado</th>"+
           "<th class='th' >Accion</th>"+
           "</tr>";
@@ -1037,13 +1013,10 @@
           
           for (var i = 0; i <registros.length; i++) {
             html +="<tr><td class='td' style='display:none; '>"+registros[i]["Id_Empleados"]+
-            "</td><td class='td' style='padding: 5px;' ><img  width='90px' height='90px' src='"+registros[i]["foto_empleado"]+
+            "</td><td class='td'><img  width='90px' height='90px' src='"+registros[i]["foto_empleado"]+
             "'></td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Carnet"]+
             "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Dui"]+
             "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre"]+
-            "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Cargo"]+
-            "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Fecha"]+
-            "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Distribuidora"]+
             "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Canal"]+
             "</td><td class='td' style='vertical-align : middle;text-align:center;'>"+registros[i]["Nombre_Ruta"]+
             "</td><td class='td' style='vertical-align : middle;text-align:center; display:none;'>"+registros[i]["Estado"]+
@@ -1057,14 +1030,14 @@
             "\",\""+registros[i]["Id_Distribuidora"]+
             "\",\""+registros[i]["Id_Canal"]+
             "\",\""+registros[i]["Id_Ruta"]+"\");'>"+
-            "<span style='font-size: 25px; color: #0109FF;'><i class='fas fa-user-edit'></a></i></span>";
+            "<span style='font-size: 25px;'><i class='far fa-edit'></i></span>";
 
             if(registros[i]['Estado']==1){ 
 
-              html+="<a href='#' class='InactivarEmpleado' id='InactivarEmpleado' onClick='InactivarEmpleado(\""+registros[i]["Id_Empleados"]+"\");'><span style='font-size: 25px; color:green;'><i class='fas fa-user-check'></i></span></a>"+"</td></tr>";
+              html+="<a href='#' class='InactivarEmpleado' id='InactivarEmpleado' onClick='InactivarEmpleado(\""+registros[i]["Id_Empleados"]+"\");'><span style='margin-left:5px; font-size: 30px; color:#70FF00;'><i class='fas fa-angle-double-down'></i></span></a>"+"</td></tr>";
             }
             else{
-              html+="<a href='#' class='ActivarEmpleado' id='ActivarEmpleado' onClick='ActivarEmpleado(\""+registros[i]["Id_Empleados"]+"\");'><span style='font-size: 25px; color:red;'><i class='fas fa-user-slash'></i></span></a>"+"</td></tr>";
+              html+="<a href='#' class='ActivarEmpleado' id='ActivarEmpleado' onClick='ActivarEmpleado(\""+registros[i]["Id_Empleados"]+"\");'><span style='margin-left:5px; font-size: 30px; color:#FF2D00;'><i class='fas fa-angle-double-up'></i></span></a>"+"</td></tr>";
             }
           };
           html +="</tbody></table>";
@@ -1343,12 +1316,6 @@
             if (result.value) {
 
               Registrar_Historial();
-
-              // Swal.fire(
-              //   'Guardado!',
-              //   'Su registro ha sido guardado con exito',
-              //   'success'
-              // )
             }
           })
           

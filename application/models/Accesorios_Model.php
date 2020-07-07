@@ -128,7 +128,8 @@ class Accesorios_Model extends CI_Model {
                 INNER JOIN Accesorios AS A on T1.Id_Accesorios = A.Id_Accesorios  
                 INNER JOIN distribuidora AS D on A.Id_Distribuidora = D.Id_Distribuidora
                 INNER JOIN Categoria_Accesorio as c_a on A.Id_Categoria=c_a.Id_Categoria
-        GROUP BY T1.Id_Accesorios order by A.Id_Distribuidora asc;';
+                WHERE D.Id_Pais='.$this->session->userdata('Id_pais').'
+        GROUP BY T1.Id_Accesorios order by A.Id_Distribuidora asc, c_a.Nombre asc ';
 
         $resultados = $this->db->query($query);
         return $resultados->result();
@@ -153,7 +154,7 @@ class Accesorios_Model extends CI_Model {
     }
 
     public function fetch_distribuidora(){
-
+        $this->db->where('Id_Pais',$this->session->userdata('Id_pais'));
         $query = $this->db->get('distribuidora');
          $output = '<option value="" disabled="disabled" selected="selected">Seleccione Distribuidora</option>';
          foreach($query->result() as $row)
@@ -346,7 +347,7 @@ class Accesorios_Model extends CI_Model {
             $query.='and S_A.Id_Distribuidora="000000004"';
 
         }else{
-            $query.='group by S_A.Id_PDF order by S_A.Id_S_Accesorios desc';
+            $query.='group by S_A.Id_PDF order by S_A.Id_S_Accesorios desc limit 10';
         }
 
         $resultados = $this->db->query($query);

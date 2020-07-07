@@ -10,7 +10,7 @@
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/Autorizaciones.css')?>">
 <style>
- .table{
+        .table{
               border-collapse: collapse;
                padding:20px;
               box-shadow: 2px 5px 5px #999;

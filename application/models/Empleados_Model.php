@@ -10,6 +10,7 @@ class Empleados_Model extends CI_Model {
 
     function fetch_distribuidora(){
 
+        $this->db->where('Id_Pais',$this->session->userdata('Id_pais'));
         $query = $this->db->get("distribuidora");
         return $query->result();
     }
@@ -47,7 +48,7 @@ class Empleados_Model extends CI_Model {
         $this->db->where('Cargo', 'VENDEDOR');
       
         
-        $query = $this->db->get('empleados');
+        $query = $this->db->get('Empleados');
         $output = '<option value="" disabled="disabled" selected="true">Seleccione el Empleado</option>';
         foreach($query->result() as $row)
         {
@@ -77,6 +78,7 @@ class Empleados_Model extends CI_Model {
             $this->db->join('rutas as r ',' e.Id_Ruta=r.Id_Ruta ');
             $this->db->where('e.Id_Distribuidora',$distribuidora);
             $this->db->where('e.Cargo',$cargo);
+            $this->db->order_by('r.Nombre_Ruta', 'ASC');
 
         $query = $this->db->get();
 
@@ -160,7 +162,7 @@ class Empleados_Model extends CI_Model {
         $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
         $nuevafecha = date ( 'Y-m-j_H:i:s' , $nuevafecha );
 
-
+        // vVerificar si se ha entregado telefono
             $query='SELECT * FROM (
                     select bec.Id_telefono as Id_telefono,bec.estado as Estado ,bec.Id_ruta as Ruta 
                     from bitacora_entrega_celular as bec
@@ -170,12 +172,12 @@ class Empleados_Model extends CI_Model {
                     where Ruta='.$param['Id_Ruta'].' and Estado=1;';
 
             $data = $this->db->query($query);
-
-            $query2='SELECT Id_Impresoras from bitacora_entrega_impresora where Id_ruta='.$param['Id_Ruta'].' and estado=1;';
+        // Verificar si se le ha entregado impresora
+            $query2='SELECT Id_Impresoras from Bitacora_entrega_impresora where Id_ruta='.$param['Id_Ruta'].' and estado=1;';
             $data2 = $this->db->query($query2);
 
             $campos = array(
-                'Id_empleados' => $param['Id_Empleado'],
+                'Id_Empleados' => $param['Id_Empleado'],
     
             );
             $this->db->where('Id_Ruta', $param['Id_Ruta']);
@@ -188,13 +190,15 @@ class Empleados_Model extends CI_Model {
             
             $this->db->where('Id_Ruta', $param['Id_Ruta']);
             $this->db->where('estado', 1);
-            $this->db->update('bitacora_entrega_impresora',$campos);
+            $this->db->update('Bitacora_entrega_impresora',$campos);
 
 
             $campos2 = array(
                 'estado' => 0,
     
             );
+
+
             $this->db->where('Id_Ruta', $param['Id_Ruta']);
             $this->db->where('estado', 1);
             $this->db->update('Historial_Entregas',$campos2);
@@ -229,10 +233,10 @@ class Empleados_Model extends CI_Model {
             
             
 
-            return $this->db->insert('Historial_Entregas',$campos);;
+                return $this->db->insert('Historial_Entregas',$campos);;
 
             }else{
-                return 0;
+                return  false;
             } 
  
     }
@@ -243,7 +247,7 @@ class Empleados_Model extends CI_Model {
                     inner join rutas as r on he.Id_Ruta=r.Id_Ruta
                     inner join canal as c on he.Id_Canal=c.Id_Canal
                     inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
-                    inner join empleados as e on he.Id_Empleados=e.Id_Empleados 
+                    inner join Empleados as e on he.Id_Empleados=e.Id_Empleados 
                     where he.Id_u_sdv='.$this->session->userdata('Id_u_sdv').' and he.estado=1 
                     order by he.Id_historial DESC';
     
@@ -259,7 +263,7 @@ class Empleados_Model extends CI_Model {
 
         $this->db->select('e.Cargo');
         $this->db->from('Historial_Entregas as he');
-        $this->db->join('empleados as  e','he.Id_Empleados=e.Id_Empleados');
+        $this->db->join('Empleados as  e','he.Id_Empleados=e.Id_Empleados');
         $this->db->where('he.Id_PDF',$Id_PDF);
         $query=$this->db->get();
 
@@ -271,7 +275,7 @@ class Empleados_Model extends CI_Model {
                     inner join rutas as r on he.Id_Ruta=r.Id_Ruta
                     inner join canal as c on he.Id_Canal=c.Id_Canal
                     inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
-                    inner join empleados as e on he.Id_Empleados=e.Id_Empleados
+                    inner join Empleados as e on he.Id_Empleados=e.Id_Empleados
                     inner join telefonos as t on  he.Id_telefono=t.Id_telefono
                     inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
                     inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
@@ -295,7 +299,7 @@ class Empleados_Model extends CI_Model {
                 inner join rutas as r on he.Id_Ruta=r.Id_Ruta
                 inner join canal as c on he.Id_Canal=c.Id_Canal
                 inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
-                inner join empleados as e on he.Id_Empleados=e.Id_Empleados
+                inner join Empleados as e on he.Id_Empleados=e.Id_Empleados
                 inner join telefonos as t on  he.Id_telefono=t.Id_telefono
                 inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
                 inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
@@ -325,7 +329,7 @@ class Empleados_Model extends CI_Model {
 
         
         $data2='SELECT e.Nombre,e.Carnet,e.Cargo from historial_entregas as he
-                    inner join empleados as e on he.Id_Empleados=e.Id_Empleados
+                    inner join Empleados as e on he.Id_Empleados=e.Id_Empleados
                     where he.Id_Ruta='.$data->row()->Id_Ruta.' and he.estado=0
                     order by he.Id_historial DESC
                     limit 1;';
@@ -1395,7 +1399,7 @@ class Empleados_Model extends CI_Model {
         $this->db->where('Carnet', $Carnet);
         $this->db->where('Estado', 1);
         $this->db->where('Cargo',$Impulsadora);
-        $data = $this->db->get('empleados');
+        $data = $this->db->get('Empleados');
 
 
 
@@ -1420,7 +1424,7 @@ class Empleados_Model extends CI_Model {
         $nuevafecha = date ( 'Y-m-d_H:i:s' , $nuevafecha );
 
         $this->db->select('Id_Empleados,Id_Distribuidora,Id_Canal,Id_Ruta');
-        $this->db->from('empleados');
+        $this->db->from('Empleados');
         $this->db->where('Carnet',$param['Carnetbaja']);
         $this->db->where('Cargo','IMPULSADORA');
         $this->db->where('Estado','1');
@@ -1429,7 +1433,7 @@ class Empleados_Model extends CI_Model {
 
 
         $this->db->select('Id_Empleados,Id_Distribuidora,Id_Canal,Id_Ruta');
-        $this->db->from('empleados');
+        $this->db->from('Empleados');
         $this->db->where('Carnet',$param['CarnetAlta']);
         $this->db->where('Cargo','IMPULSADORA');
         $this->db->where('Estado','1');

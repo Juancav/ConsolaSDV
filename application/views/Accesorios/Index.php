@@ -131,36 +131,9 @@
           border-radius: 25px;
         }
 
-        .table{
-            border-collapse: collapse;
-            padding:20px;
-              box-shadow: 2px 5px 5px #999;
-              overflow: hidden;
-              margin: auto;
-              border-radius:5px;  
-        }
-        .th {
-              
-              background-color:#007DFF;
-              text-align: center;
-              color: #fff;
-        }
-        .td {
-            
-              text-align: center;      
-        }
+      
 
-
-
-            th {
-              padding: 15px;
-              background-color:#007DFF;
-              text-align: center;
-              
-              color: #fff;
-            }
-
-            .radios {
+        .radios {
         
           display: flex;
           font-size:17px;
@@ -192,6 +165,7 @@
           padding: 0 8px 0 6px;
           cursor: pointer;
           transition: background-color 0.3s ease;
+          font-size:16px;
         }
         .radio label:hover {
           background: #eeeeff;
@@ -216,7 +190,7 @@
     <div class="page-wrapper chiller-theme toggled">
       <main class="page-content">
 
-        <section id="hero" class="wow fadeIn">
+      <section id="hero" class="wow fadeIn">
           <br>
           <h1>Accesorios</h1>
           <br>
@@ -229,59 +203,75 @@
           </nav>
 
          
-          <div class="tab-content" id="nav-tabContent"  style="margin-bottom:5px;">
+          <div class="tab-content" id="nav-tabContent" >
         
             <!-- STAR REGISTRO ACCESORIOS-->
-            <div class="tab-pane fade show active" id="nav-Add" role="tabpanel" aria-labelledby="nav-Add-tab">
-
-                <!-- ENTREGA DE ACCESORIOS A IMPULSADORAS Y VENDEDORES -->
-                  <button type="button" class="btn btn-outline-primary btn-circle btn-lg"  data-toggle="modal" data-target="#AsignarAccesorioVendedor" style=" margin-left: 80%; margin-top: -170px; margin-bottom: -80px;"><i class="fas fa-child"></i></button>
-                  <button type="button" class="btn btn-outline-danger btn-circle btn-lg"  data-toggle="modal" data-target="#AsignarAccesorioImpulsadoras" style=" margin-top: -170px; margin-bottom: -80px;"><i class="fas fa-female"></i></button>
-                <!-- END,ENTREGA DE ACCESORIOS A IMPULSADORAS Y VENDEDORES -->
-
-                  <!-- CAMBIAR BOTONES, MODIFICAR O REGISTRAR -->
-                  <button type="button" id="btnmostrar" class="btn btn-primary btn-circle btn-lg" OnClick="MostrarBtnModificar();" style="float:left; margin-top:30px; "><i class="fas fa-tools"></i></button>
-                  <button type="button" id="btnocultar" class="btn btn-primary btn-circle btn-lg" OnClick="OcultarbtnModificar();" style="float:rigth; display:none;"><i class="fas fa-external-link-alt"></i></button>  
-                  <!-- END,  CAMBIAR BOTONES, MODIFICAR O REGISTRAR -->
-
-                  <div class="form-row"  id="divregistrar" style="margin: 20px 0px 20px 249px; ">
-                    <button type="button" class="btn btn-outline-primary btn-xl" style="margin-left:5px; " data-toggle="modal" data-target="#RegistrarCategoria">Registrar Categoria</button> 
-                    <button type="button" class="btn btn-outline-success btn-xl" style="margin-left:5px; " data-toggle="modal" data-target="#RegistrarProducto">Registrar Accesorio</button> 
-                    <button type="button" class="btn btn-outline-warning btn-xl" style="margin-left:5px; " data-toggle="modal" data-target="#AñadirProducto">Añadir</button>
-                    <button type="button" class="btn btn-outline-dark btn-xl" style="margin-left:5px; "  OnClick="Mostrar_Stock();">Mostrar</button>
-                    <?php 
-                      if($this->session->userdata('Id_Distribuidora')==1){
-                        echo "<button type='button' class='btn btn-outline-light btn-xl' style='margin-left:5px;' OnClick='All_Stock();'>Mostrar Todo</button>";
-                      }else{
-                      }
-                    ?>  
-                  </div>
-
-                  <div class="form-row"  id="divmodificar" style="margin: -50px 0px 20px 100px; display:none;">
-
-                        <label for="input" style="font-size: 20px;">Distribuidora</label>
-                        <select name="txtdistribuidora" id="txtdistribuidora" class="form-control col-md-3" >       
-                        </select>
-                        <br>
-
-                      <div class="form-row" style="margin-left:30%; margin-top:-5%;  position:relative;">
+            <div class="tab-pane fade show active" id="nav-Add" role="tabpanel" aria-labelledby="nav-Add-tab"><br>
+       
+          
+            <div>
+            
+            
+                          <div style="float:right; width:200px;">
+                                <!-- ENTREGA DE ACCESORIOS A IMPULSADORAS Y VENDEDORES -->
+                                <div class="form-group" style="text-align:center;">      
+                                        <button class="btn btn-outline-success col-md-5"  data-toggle="modal" data-target="#AsignarAccesorioVendedor"><i class="fas fa-child"></i></button>
+                                        <button class="btn btn-outline-danger col-md-5"  data-toggle="modal" data-target="#AsignarAccesorioImpulsadoras"><i class="fas fa-female"></i></button>
+                                </div>
+                            
+                                <div class="form-group">
+                                  <button class="btn btn-outline-primary col-md-12" data-toggle="modal" data-target="#RegistrarCategoria">Registrar Categoria</button> 
+                                </div>
+                            
+                                <div class="form-group">
+                                  <button class="btn btn-outline-primary col-md-12" data-toggle="modal" data-target="#RegistrarProducto">Registrar Accesorio</button>
+                                </div>
+                            
+                                <div class="form-group">
+                                  <button class="btn btn-outline-primary col-md-12" data-toggle="modal" data-target="#AñadirProducto">Añadir</button>
+                                </div>
+                            
+                                <div class="form-group">
+                                  <button class="btn btn-outline-primary col-md-12"    OnClick="Mostrar_Stock();">Mostrar</button>
+                                </div>
+                            
+                                <div class="form-group">
+                                
+                                  <?php 
+                                    if($this->session->userdata('Id_Distribuidora')==1){
+                                      echo "<button  class='btn btn-outline-primary col-md-12'  OnClick='All_Stock();'>Mostrar Todo</button>";
+                                    }else{
+                                    }
+                                  ?>  
+                                </div>
+                          </div>
                           
-                              <button type="button" class="btn btn-primary" OnClick="CCategoria();" id="btnbuscarcategoria">Consultar Categorias</button>
-                              <button type="button" class="btn btn-secondary" OnClick="CAccesorios();" id="btnbuscaraccesorios" style="margin-left:1px;">Consultar Accesorios</button>
-                      </div>
-                  </div>
+                          <div style="float:left; width:850px; margin-bottom:50px;">
+                          
+                          
+                            <div class="form-group">                 
+                              <label for="input" style="font-size: 20px;">Distribuidora</label>
+                                <select name="txtdistribuidora" id="txtdistribuidora" class="form-control col-md-8" >       
+                                </select>
+                            </div>
 
                       
-                  
-                  <div class="form-row" style="padding: 50px;">
-
-                    <div id="ContenidoAcce_Cat" style="margin: auto; text-transform: uppercase;"></div>
+                            <button  class="btn btn-outline-primary " OnClick="CCategoria();" id="btnbuscarcategoria">Consultar Categorias</button>
+                            <button  class="btn btn-outline-primary " OnClick="CAccesorios();" id="btnbuscaraccesorios" style="margin-left:1px;">Consultar Accesorios</button>
+                     
+                          </div>
+                          <br>
+      
+            
                     <!-- TABLA DE DATOS ACCESORIOS -->
-                    <div id="MostrarStock" style="margin: auto; text-transform: uppercase;"></div>
+                    <div id="ContenidoAcce_Cat" style="width:900px; margin-bottom:5%;">
+
+                    </div>
+                   
+
                     <!-- FINISH TABLA DE DATOS ACCESORIOS -->
-                    
-                  </div>
-                    
+      
+            </div>    
 
               <!--============= MODAL ASIGNAR ACCESORIO VENDEDORES========= -->
               <div class="modal fade" id="AsignarAccesorioVendedor" tabindex="-1" role="dialog" aria-labelledby="AsignarAccesorioVendedor" aria-hidden="true">
@@ -290,50 +280,50 @@
                     <div class="modal-content">
 
                       <div class="modal-header">
-                        <strong><h3 class="modal-title" id="AsignarAccesorioVendedor">Entrega De Accesorio Vendedores</h3></strong>
+                        <h3 class="modal-title" id="AsignarAccesorioVendedor"> <i class="fas fa-male"></i> Entrega De Accesorios </h3>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
 
                       <div class="modal-body">
-                      
-                          <div class="form-row" style="margin-left:30px;">
 
-                              <div class="form-group col-md-5" >
+                            <div class="form-row">
+                        
+                        
+                              <div class="form-group col-md-6" >
                                 <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
                                 <select class="form-control" id="mtxtdistribuidoraAsignar" name="mtxtdistribuidoraAsignar" > 
                                 <option  disabled="disabled" value="" selected="selected">Seleccione Distribuidora</option>
                                 </select>
                               </div>
 
-                              <div class="form-group col-md-5" >
+                              <div class="form-group col-md-6" >
                                 <label for="exampleFormControlSelect1"><strong><h6>Canal</h6></strong></label>
                                 <select class="form-control" id="mtxtcanalAsignar" name="mtxtcanalAsignar" >
                                 <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
                                 </select>
                               </div> 
 
-                          </div>
-
-                          <div class="form-row" style="margin-left:30px;">
-                            <div class="form-group col-md-5" >
-                              <label for="exampleFormControlSelect1"><strong><h6>Ruta Asignada</h6></strong></label>
-                              <select class="form-control" id="mtxtrutaAsignar" name="mtxtrutaAsignar" >
-                              <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
-                              </select>
-                            </div>
-
-                            <div class="form-group col-md-5" >
-                              <label for="inputEmail4"><h6>Empleado</h6></label>
-                              <div for="inputEmail4" id="NombreEmpleado">
+                              <div class="form-group col-md-6" >
+                                <label for="exampleFormControlSelect1"><strong><h6>Ruta Asignada</h6></strong></label>
+                                <select class="form-control" id="mtxtrutaAsignar" name="mtxtrutaAsignar" >
+                                <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
+                                </select>
                               </div>
-                            </div>
-                          </div>
 
-                          <div class="form-row" >
+                              <div class="form-group col-md-6" >
+                                <label for="inputEmail4"><h6>Empleado</h6></label>
+                                <div for="inputEmail4" id="NombreEmpleado">
+                                </div>
+                              </div>
 
-                            <div class="form-group col-md-3" >
+                              <div class="form-group col-md-6">
+                                <label for="inputAddress2"><strong><h6>Fecha Registro</h6></strong></label>
+                                <input type="date" class="form-control" id="mtxtfechaVendedor" name="mtxtfechaVendedor"  >
+                              </div>
+
+                              <div class="form-group col-md-6" >
                                 <label for="exampleFormControlSelect1"><strong><h6>Categoria</h6></strong></label>
                                 <select class="form-control" id="mtxtcategoriaprodAsignar" name="mtxtcategoriaprod" >
                                 <option selected="true" disabled="disabled" value="">Seleccione Categoria</option>
@@ -344,117 +334,104 @@
                                     }
                                     ?>
                                 </select>
-                            </div>
+                              </div>
                                     
-                            <div class="form-group col-md-3" >
-                                <label for="exampleFormControlSelect1"><strong><h6>Producto</h6></strong></label>
-                                <select class="form-control" id="mtxtproductoAsignar" name="mtxtproductoAsignar" >
-                                <option selected="true" disabled="disabled" value="">Seleccione Producto</option>
-                                </select>
-                            </div> 
+                              <div class="form-group col-md-6" >
+                                  <label for="exampleFormControlSelect1"><strong><h6>Producto</h6></strong></label>
+                                  <select class="form-control" id="mtxtproductoAsignar" name="mtxtproductoAsignar" >
+                                  <option selected="true" disabled="disabled" value="">Seleccione Producto</option>
+                                  </select>
+                              </div> 
 
-                            <div class="form-group col-md-2" >
-                              <label for="input"><strong><h6>Existencia</h6></strong></label>
-                              <input type="number" class="form-control"  id="existenciasprod" disabled="disabled">
-                            </div> 
+                              <div class="form-group col-md-6" >
+                                <label for="input"><strong><h6>Existencia</h6></strong></label>
+                                <input type="number" class="form-control"  id="existenciasprod" disabled="disabled">
+                              </div> 
                           
-                            <div class="form-group col-md-4">
-
-                              <label for="inputAddress2"><strong><h6>Fecha Registro</h6></strong></label>
-                              <input type="date" class="form-control" id="mtxtfechaVendedor" name="mtxtfechaVendedor"  >
                             </div>
 
-                          </div> 
-
-                          <div class="form-group">
-
-                          <label for="inputradiosmotivos" style="margin-left:16%; font-size:20px;"> Motivo De Entrega</label>
-                              
-                          <div class="radios">
-                                            
-                              <div class="radio">
-                                <input type="radio" id="radio1" name="radio" value="ROBO" >
-                                <label for="radio1">
-                                  <div class="checker"></div>
-                                  Robo
-                                </label>
-                              </div>
-                              
-                              <div class="radio">
-                                <input type="radio" id="radio2" name="radio" value="HURTO" >
-                                <label for="radio2">
-                                  <div class="checker"></div>
-                                  Hurto
-                                </label>
-                              </div>
-                              
-                              <div class="radio">
-                                <input type="radio" id="radio3" name="radio" value="DAÑO" >
-                                <label for="radio3">
-                                  <div class="checker"></div>
-                                  Daño
-                                </label>
-                              </div>
-                              
-                              <div class="radio">
-                                <input type="radio" id="radio4" name="radio" value="PRIMERA VEZ" >
-                                <label for="radio4">
-                                  <div class="checker"></div>
-                                  Primera Vez
-                                </label>
-                              </div>
-
-                              <a href="#" OnClick="addTable();" style="margin-top: 15px; margin-left: 70px;"> <span style="font-size: 30px; color: #3AB812;"><i class="fas fa-check-square"></span></i></a>
-
-                          </div>
-
-
-                          </div>
-
-                          <form action="" id="Form-table">
-
-                            <div id="metric_results" style="color: black;" >
-
-                              <hr color="black">
-                                          <br>
-                              <h2 style="color: black; font-weight: bold; font-size:25px; text-align:center;"> Detalle De Accesorios </h2>
-
-                              <table class="table" id="TableVendedores">
-                                  <thead>
-                                      <tr>
-                                          <th class="th" style="display: none">Id_Accesorio</th>
-                                          <th class="th" style="display: none">Id_distribuidora</th>
-                                          <th class="th" style="display: none">Id_Canal</th>
-                                          <th class="th" style="display: none">Id_Ruta</th>
-                                          <th class="th" style="display: none">Id_Empleado</th>
-                                          <th class="th" style="display: none">Fecha</th>
-                                          <th class="th">Ruta</th>
-                                          <th class="th">Nombre Empleado</th>
-                                          <th class="th">Nombre Accesorio</th>
-                                          <th class="th">Cantidad </th>
-                                          <th class="th">Motivo Entrega </th>
-                                          <th class="th">Accion </th>
-                                          
-                                      </tr>
-                                  </thead>
-                                  <tbody id="tablita">
-
-                                  </tbody>
-                              </table>
-                              
-                                <br><br>
-                              <hr color="black">
-
+                            <h3 style="text-align:center; font-size:20px;"> Motivo De Entrega</h3>
+                         
+                            <div class="form-row" style="margin-left:185px;">
+                                 
+                                  
+                                  <div class="radio">
+                                    <input type="radio" id="radio1" name="radio" value="ROBO" >
+                                    <label for="radio1">
+                                      <div class="checker"></div>
+                                      Robo
+                                    </label>
+                                  </div>
+                                  
+                                  <div class="radio">
+                                    <input type="radio" id="radio2" name="radio" value="HURTO" >
+                                    <label for="radio2">
+                                      <div class="checker"></div>
+                                      Hurto
+                                    </label>
+                                  </div>
+                                  
+                                  <div class="radio">
+                                    <input type="radio" id="radio3" name="radio" value="DAÑO" >
+                                    <label for="radio3">
+                                      <div class="checker"></div>
+                                      Daño
+                                    </label>
+                                  </div>
+                                  
+                                  <div class="radio">
+                                    <input type="radio" id="radio4" name="radio" value="PRIMERA VEZ" >
+                                    <label for="radio4">
+                                      <div class="checker"></div>
+                                      Primera Vez
+                                    </label>
+                                  </div>
+                                  
+                                  
                             </div>
 
-                          </form>
-                  
+                              <button class="btn btn-success"OnClick="addTable();" style="margin-left: 85%;"> <i class="fas fa-plus"></i> Añadir</button><br>
+                              <hr color="black">
+                                <form action="" id="Form-table">
 
+                                  <div id="metric_results" >
+
+                                    <h3 style="text-align:center; font-size:20px; font-weight:bold;"> Detalle De Accesorios </h3><br>
+                                  
+                                    <table class="table" id="TableVendedores">
+                                        <thead>
+                                            <tr>
+                                                <th style="display: none">Id_Accesorio</th>
+                                                <th style="display: none">Id_distribuidora</th>
+                                                <th style="display: none">Id_Canal</th>
+                                                <th style="display: none">Id_Ruta</th>
+                                                <th style="display: none">Id_Empleado</th>
+                                                <th style="display: none">Fecha</th>
+                                                <th>Ruta</th>
+                                                <th>Nombre Empleado</th>
+                                                <th>Nombre Accesorio</th>
+                                                <th>Cantidad </th>
+                                                <th>Motivo Entrega </th>
+                                                <th>Accion </th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablita">
+
+                                        </tbody>
+                                    </table>
+
+                                  </div>
+
+                                </form>
+                              <hr color="black">
+                                 
                       </div>
 
                       <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button>
                         <button type="button" class="btn btn-primary" id="mbtnsalidaproductoVendedores" >Guardar</button>
-                        <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button>
+                        
                       </div>
 
                     </div>
@@ -472,7 +449,7 @@
                     <div class="modal-content">
 
                       <div class="modal-header">
-                          <strong><h3 class="modal-title" id="AsignarAccesorioImpulsadoras">Entrega De Accesorio Impulsadoras</h3></strong>
+                          <h3 class="modal-title" id="AsignarAccesorioImpulsadoras"><i class="fas fa-female"></i> Entrega De Accesorio</h3>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                           </button>
@@ -480,69 +457,64 @@
 
                       <div class="modal-body">
 
-                        <div class="form-row" style="margin-left:30px;">
+                              <div class="form-row">
 
-                          <div class="form-group col-md-3" >
-                            <label for="exampleFormControlSelect1"><strong><h6>Canal</h6></strong></label>
-                            <select class="form-control" id="mtxtcanalAsignarImpulso" name="mtxtcanalAsignarImpulso" >
-                            <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
-                            </select>
-                          </div>
+                                <div class="form-group col-md-6" >
+                                  <label for="exampleFormControlSelect1"><strong><h6>Canal</h6></strong></label>
+                                  <select class="form-control" id="mtxtcanalAsignarImpulso" name="mtxtcanalAsignarImpulso" >
+                                  <option selected="true" disabled="disabled" value="">Seleccione Canal</option>
+                                  </select>
+                                </div>
 
-                          <div class="form-group col-md-3" >
-                            <label for="exampleFormControlSelect1"><strong><h6>Ruta</h6></strong></label>
-                            <select class="form-control" id="mtxtrutaAsignarImpulso" name="mtxtrutaAsignarImpulso" >
-                            <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
-                            </select>
-                          </div>
+                                <div class="form-group col-md-6" >
+                                  <label for="exampleFormControlSelect1"><strong><h6>Ruta</h6></strong></label>
+                                  <select class="form-control" id="mtxtrutaAsignarImpulso" name="mtxtrutaAsignarImpulso" >
+                                  <option selected="true" disabled="disabled" value="">Seleccione La Ruta</option>
+                                  </select>
+                                </div>
 
-                          <div class="form-group col-md-5" >
-                            <label for="exampleFormControlSelect1"><strong><h6>Empleado</h6></strong></label>
-                            <select class="form-control" id="mtxtEmpleadoImpulso" name="mtxtEmpleadoImpulso" >
-                            <option selected="true" disabled="disabled" value="">Seleccione La Impulsadora</option>
-                            </select>
-                          </div>
+                                <div class="form-group col-md-6" >
+                                  <label for="exampleFormControlSelect1"><strong><h6>Empleado</h6></strong></label>
+                                  <select class="form-control" id="mtxtEmpleadoImpulso" name="mtxtEmpleadoImpulso" >
+                                  <option selected="true" disabled="disabled" value="">Seleccione La Impulsadora</option>
+                                  </select>
+                                </div>
 
-                        </div>
-                                    <br>
-                        <div class="form-row">
+                                <div class="form-group col-md-6" >
+                                    <label for="exampleFormControlSelect1"><strong><h6>Categoria</h6></strong></label>
+                                    <select class="form-control" id="mtxtcategoriaprodAsignarImpulsadora" name="mtxtcategoriaprodAsignarImpulsadora" required>
+                                    <option selected="true" disabled="disabled" value="">Seleccione Categoria</option>
+                                    <?php
+                                        foreach($arrCategoria as $row)
+                                        {
+                                        echo '<option value="'.$row->Id_Categoria.'">'.$row->Nombre.'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div> 
+                            
+                                <div class="form-group col-md-6" >
+                                    <label for="exampleFormControlSelect1"><strong><h6>Producto</h6></strong></label>
+                                    <select class="form-control" id="mtxtproductoAsignarImpulso" name="mtxtproductoAsignarImpulso" >
+                                    <option selected="true" disabled="disabled" value="">Seleccione Producto</option>
+                                    </select>
+                                </div> 
 
-                          <div class="form-group col-md-3" >
-                              <label for="exampleFormControlSelect1"><strong><h6>Categoria</h6></strong></label>
-                              <select class="form-control" id="mtxtcategoriaprodAsignarImpulsadora" name="mtxtcategoriaprodAsignarImpulsadora" required>
-                              <option selected="true" disabled="disabled" value="">Seleccione Categoria</option>
-                              <?php
-                                  foreach($arrCategoria as $row)
-                                  {
-                                  echo '<option value="'.$row->Id_Categoria.'">'.$row->Nombre.'</option>';
-                                  }
-                                  ?>
-                              </select>
-                          </div> 
-                      
-                          <div class="form-group col-md-3" >
-                              <label for="exampleFormControlSelect1"><strong><h6>Producto</h6></strong></label>
-                              <select class="form-control" id="mtxtproductoAsignarImpulso" name="mtxtproductoAsignarImpulso" >
-                              <option selected="true" disabled="disabled" value="">Seleccione Producto</option>
-                              </select>
-                          </div> 
+                                <div class="form-group col-md-6" >
+                                  <label for="input"><strong><h6>Existencia</h6></strong></label>
+                                  <input type="text" class="form-control"  id="existenciasprodimpulso" disabled="disabled">
+                                </div>
 
-                          <div class="form-group col-md-2" >
-                            <label for="input"><strong><h6>Existencia</h6></strong></label>
-                            <input type="text" class="form-control"  id="existenciasprodimpulso" disabled="disabled">
-                          </div>
+                                <div class="form-group col-md-6">
+                                  <label for="inputAddress2"><strong><h6>Fecha Entrega</h6></strong></label>
+                                  <input type="date" class="form-control" id="mtxtfechaImpulsadora" name="mtxtfechaImpulsadora"  >
+                                </div>
+                              </div>
 
-                          <div class="form-group col-md-4">
-                            <label for="inputAddress2"><strong><h6>Fecha Entrega</h6></strong></label>
-                            <input type="date" class="form-control" id="mtxtfechaImpulsadora" name="mtxtfechaImpulsadora"  >
-                          </div>
-                        </div>
-                                  <br>
-                          <div class="form-group" style="margin-left:30px;">
-
-                            <label for="inputradiosmotivos" style="margin-left:16%; font-size:20px;"> Motivo De Entrega</label>
+                              <h3 style="font-size:20px; text-align:center;"> Motivo De Entrega</h3>
                               
-                            <div class="radios">
+                              <div class="form-row" style="margin-left:185px;">
+                              
                                 <div class="radio">
                                   <input type="radio" id="radio5" name="radioimp" value="ROBO" >
                                   <label for="radio5">
@@ -575,56 +547,50 @@
                                     </label>
                                 </div>
 
-                                <a href="#" OnClick="addTableImpul();"  style="margin-top: 20px; margin:auto;"> <span style="font-size: 30px; color: #3AB812;"><i class="fas fa-check-square"></span></i></a>  
+                              </div>
 
-                            </div>
-
-                          </div>
+                              <button class="btn btn-success" OnClick="addTableImpul();"  style="margin-left:85%;"> <i class="fas fa-plus"></i> Añadir</button>  
                     
-                          <form action="" id="Form-table">
+                              <form action="" id="Form-table">
 
-                            <div id="metric_results" style="color: black;" >
+                                <div id="metric_results">
+                                  <hr color="black">
+                                    <h3 style="color: black; font-weight: bold; font-size:20px; text-align:center;"> Detalle De Accesorios </h3><br>
+                                    <table class="table" id="TableImpulso">
+                                        <thead>
+                                            <tr>
+                                                <th class="th" style="display: none">Id_Accesorio</th>
+                                                <th class="th" style="display: none">Id_distribuidora</th>
+                                                <th class="th" style="display: none">Id_Canal</th>
+                                                <th class="th" style="display: none">Id_Ruta</th>
+                                                <th class="th" style="display: none">Id_Empleado</th>
+                                                <th class="th" style="display: none">Fecha</th>
+                                                <th class="th">Ruta</th>
+                                                <th class="th">Nombre Empleado</th>
+                                                <th class="th">Nombre Accesorio</th>
+                                                <th class="th">Cantidad </th>
+                                                <th class="th">Motivo Entrega </th>
+                                                <th class="th">Accion </th>
+                                                
+                                            </tr>
+                                        </thead>
 
-                                        <hr color="black">
-                                        <br>
-
-                              <h2 style="color: black; font-weight: bold; font-size:25px; text-align:center;"> Detalle De Accesorios </h2>
-
-                              <table class="table" id="TableImpulso">
-                                  <thead>
-                                      <tr>
-                                          <th class="th" style="display: none">Id_Accesorio</th>
-                                          <th class="th" style="display: none">Id_distribuidora</th>
-                                          <th class="th" style="display: none">Id_Canal</th>
-                                          <th class="th" style="display: none">Id_Ruta</th>
-                                          <th class="th" style="display: none">Id_Empleado</th>
-                                          <th class="th" style="display: none">Fecha</th>
-                                          <th class="th">Ruta</th>
-                                          <th class="th">Nombre Empleado</th>
-                                          <th class="th">Nombre Accesorio</th>
-                                          <th class="th">Cantidad </th>
-                                          <th class="th">Motivo Entrega </th>
-                                          <th class="th">Accion </th>
-                                          
-                                      </tr>
-                                  </thead>
-
-                                  <tbody id="tablita-impul">
-                                  </tbody>
-                                  
-                              </table>
-                                        <br><br>
-                                        <hr color="black">
-                      
-                          </form>
+                                        <tbody id="tablita-impul">
+                                        </tbody>
+                                        
+                                    </table>
+                                  <hr color="black">
+                                </div>
+                                
+                          
+                              </form>
 
                       </div>
 
-                    </div>
-
-                    <div class="modal-footer">
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button> 
                         <button type="button" class="btn btn-primary" id="mbtnsalidaproductoImpulsadoras" >Guardar</button>
-                        <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button> 
+                        
                       </div>
 
                     </div>
@@ -637,10 +603,10 @@
 
               <!--============= MODAL REGISTRAR CATEGORIA========= -->
               <div class="modal fade" id="RegistrarCategoria" tabindex="-1" role="dialog" aria-labelledby="RegistrarCategoria" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-md" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <strong><h3 class="modal-title" id="RegistrarCategoria">Registrar Categoria</h3></strong>
+                      <strong><h3 class="modal-title" id="RegistrarCategoria"> <i class="fas fa-pencil-alt"></i> Registrar Categoria</h3></strong>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -648,22 +614,23 @@
                     <div class="modal-body">
                     <form method='POST' id='form_CatAccesorios' name='form_CatAccesorios'>
                   
-                      <div class="form-group ">
+                      <div class="form-group" style="margin:0 auto;">
 
                           <label for="input" style="font-size: 20px;">Nombre Categoria</label>
-                          <input type="text" class="form-control col-md-6"  id="mtxtnombre" name="mtxtnombre"placeholder="Nombre Categoria" >
+                          <input type="text" class="form-control "  id="mtxtnombre" name="mtxtnombre"placeholder="Nombre Categoria" >
                           <br>
                           <label for="input" style="font-size: 20px;"> Fecha Registro</label>
-                          <input type="date" id="fechacat" name="fechacat" class="form-control col-md-3">
+                          <input type="date" id="fechacat" name="fechacat" class="form-control ">
                           <br>
                           <label for="input" style="font-size: 20px;" >Descripcion Categoria</label>
-                          <textarea type="textarea" class="form-control col-md-8" id="mtxtdescripcion" name="mtxtdescripcion" placeholder="Descripcion Categoria" rows="3"></textarea>
+                          <textarea type="textarea" class="form-control " id="mtxtdescripcion" name="mtxtdescripcion" placeholder="Descripcion Categoria" rows="3"></textarea>
                         </div>
                     </FORM>
                     </div>
                     <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button>
                       <button type="button" class="btn btn-primary"id="mbtnRegistrarCategoria" >Guardar</button>
-                      <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button>
+                      
                       
                     </div>
                   </div>
@@ -677,7 +644,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <strong><h3 class="modal-title" id="RegistrarProducto">Registrar Accesorios</h3></strong>
+                      <strong><h3 class="modal-title" id="RegistrarProducto"> <i class="fas fa-pencil-alt"></i> Registrar Accesorios</h3></strong>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -755,8 +722,9 @@
                   </div>
 
                     <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
                       <button type="button" class="btn btn-primary" id="mbtnRegistrarProducto">Guardar</button>
-                      <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
+                      
                       
                     </div>
                   </div>
@@ -767,60 +735,64 @@
 
               <!--============= MODAL AÑADIR PRODUCTO========= -->
               <div class="modal fade" id="AñadirProducto" tabindex="-1" role="dialog" aria-labelledby="AñadirProducto" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-md" role="document">
                   <div class="modal-content">
+
                     <div class="modal-header">
-                      <strong><h3 class="modal-title" id="AñadirProducto">Añadir Producto</h3></strong>
+                      <strong><h3 class="modal-title" id="AñadirProducto"><i class="fas fa-pencil-alt"></i>  Añadir Producto</h3></strong>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                  
-                    <div style="margin-left:20px;">
-                    <div class="form-row">
-                      <div class="form-group col-md-4" >
 
-                        <label for="exampleFormControlSelect1"><strong><h6>Categoria</h6></strong></label>
-                          <select class="form-control" id="mtxtcategoriaprodñ" name="mtxtcategoriaprodñ" required>
-                            <option selected="true" disabled="disabled" value="">Seleccione Categoria</option>
-                              <?php
-                                  foreach($arrCategoria as $row)
-                                  {
-                                  echo '<option value="'.$row->Id_Categoria.'">'.$row->Nombre.'</option>';
-                                  }
-                                  ?>
-                          </select>
+                    <div class="modal-body">
+
+                        <div class="form-group" >
+
+                          <label for="exampleFormControlSelect1"><strong><h6>Categoria</h6></strong></label>
+                            <select class="form-control" id="mtxtcategoriaprodñ" name="mtxtcategoriaprodñ" required>
+                              <option selected="true" disabled="disabled" value="">Seleccione Categoria</option>
+                                <?php
+                                    foreach($arrCategoria as $row)
+                                    {
+                                    echo '<option value="'.$row->Id_Categoria.'">'.$row->Nombre.'</option>';
+                                    }
+                                    ?>
+                            </select>
                             
                         </div>
-                        <div class="form-group col-md-4" >
+
+                        <div class="form-group " >
                             <label for="exampleFormControlSelect1"><strong><h6>Producto</h6></strong></label>
                               <select class="form-control" id="mtxtproducto" name="mtxtproducto" >
                               <option selected="true" disabled="disabled" value="">Seleccione Producto</option>
                               </select>
                         </div> 
-                    </div>    
-                      <div class="form-row">
-
-                      
-                        <div class="form-group col-md-3">
+            
+                        <div class="form-group">
                           <label for="exampleFormControlSelect1"><strong><h6>N° Orden De Compra</h6></strong></label>
                           <input type="text" class="form-control" id="mtxtn_o_compra"  name="mtxtn_o_compra">
                         </div>
-                        <div class="form-group" style='margin-left:50px;'>
-                            <label for="inputAddress2"><strong><h6>Fecha Ingreso Equipo</h6></strong></label>
-                            <input type="date" class="form-control" id="mtxtfechaproducto" name="mtxtfechaproducto"  >
-                          </div>
-                        <div class="form-group col-md-2">
+
+                        <div class="form-group" >
+                          <label for="inputAddress2"><strong><h6>Fecha Ingreso Equipo</h6></strong></label>
+                          <input type="date" class="form-control" id="mtxtfechaproducto" name="mtxtfechaproducto"  >
+                        </div>
+
+                        <div class="form-group ">
                           <label for="exampleFormControlSelect1"><strong><h6>Cantidad</h6></strong></label>
                           <input type="number" class="form-control" id="mtxtcantidad"  name="mtxtcantidad">
                         </div>
-                      </div>
-                    </div>
+
+              
+                    </div>  
 
                     <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" name="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
                       <button type="button" class="btn btn-primary"  id="mbtncantidadproducto" name="mbtncantidadproducto">Guardar</button>
-                      <button type="button" class="btn btn-danger" id="mbtnCerrarModal" name="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
+                      
                     </div>
+
                   </div>
                 </div>
               </div>
@@ -831,7 +803,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <strong><h3 class="modal-title" id="EditarProducto">Editar Accesorios</h3></strong>
+                      <strong><h3 class="modal-title" id="EditarProducto"><i class="fas fa-edit"></i> Editar Accesorios</h3></strong>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -915,9 +887,8 @@
                   </div>
 
                     <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
                       <button type="button" class="btn btn-primary" id="mbtnEditarProducto">Guardar</button>
-                      <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal">Cerrar</button>
-                      
                     </div>
                   </div>
                 </div>
@@ -927,10 +898,10 @@
 
               <!--============= MODAL EDITAR CATEGORIA========= -->
               <div class="modal fade" id="EditarCategoria" tabindex="-1" role="dialog" aria-labelledby="EditarCategoria" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-md" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <strong><h3 class="modal-title" id="EditarCategoria">Editar Categoria</h3></strong>
+                      <strong><h3 class="modal-title" id="EditarCategoria"><i class="fas fa-edit"></i> Editar Categoria</h3></strong>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
@@ -940,22 +911,23 @@
 
 
                       <div class="form-group ">
-                      <input type="text" class="form-control col-md-6"  id="mtxtidcategoriaedith" name="mtxtidcategoriaedith" style="display:none;">
+                      <input type="text" class="form-control "  id="mtxtidcategoriaedith" name="mtxtidcategoriaedith" style="display:none;">
 
                           <label for="input" style="font-size: 20px;">Nombre Categoria</label>
-                          <input type="text" class="form-control col-md-6"  id="mtxtnombrecategoriaedith" name="mtxtnombrecategoriaedith"placeholder="Nombre Categoria" >
+                          <input type="text" class="form-control "  id="mtxtnombrecategoriaedith" name="mtxtnombrecategoriaedith"placeholder="Nombre Categoria" >
                           <br>
                           <label for="input" style="font-size: 20px;"> Fecha Registro</label>
-                          <input type="date" id="fechacatedith" name="fechacatedith" class="form-control col-md-3">
+                          <input type="date" id="fechacatedith" name="fechacatedith" class="form-control">
                           <br>
                           <label for="input" style="font-size: 20px;" >Descripcion Categoria</label>
-                          <textarea type="textarea" class="form-control col-md-8" id="mtxtdescripcionedith" name="mtxtdescripcionedith" placeholder="Descripcion Categoria" rows="3"></textarea>
+                          <textarea type="textarea" class="form-control " id="mtxtdescripcionedith" name="mtxtdescripcionedith" placeholder="Descripcion Categoria" rows="3"></textarea>
                         </div>
                     </FORM>
                     </div>
                     <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button>
                       <button type="button" class="btn btn-primary"id="mbtnEditarCategoria" >Guardar</button>
-                      <button type="button" class="btn btn-danger" id="mbtnCerrarModal" data-dismiss="modal" >Cerrar</button>
+                      
                       
                     </div>
                   </div>
@@ -969,42 +941,39 @@
             <!-- STAR BITACORA INVENTARIO -->
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 
-              <nav>
-                <label for="id-show-menu" class="show-menu">
-                  <div class="nav-icon">
-                  <span style="font-size:35px; color: #00A2FF;"><i class="fab fa-optin-monster"></i></i></span>
-                  </div>
-                </label>
-                <input type="checkbox" id="id-show-menu" class="checkbox-menu" role="button">
-                <div class="menu-block">
-                  <ul class="navUL">
-                    <li><a href="#" OnClick="mostrarDatosPDF();">Informe PDF</a></li>
-                    <!-- <li><a href="#" >Equipo Entregado</a></li> -->
-                    <li><a href="#"  OnClick="BuscarXruta();">Informe x Ruta</a></li>
-                  </ul>
-                </div>
-              </nav>
-                                      
-              <div class="ListaPDF" id="ListaPDF" class="col-lg-16" style="margin-bottom:50px;">
-              </div>
-              
-              <div class="informexruta" id="informexruta" style="display:none;">
-                    
-                    <label for="input" style="font-size: 20px;">Ruta</label>
-                    <input type="text" class="form-control col-2"  id="txtruta" name="txtruta" placeholder="Ruta" >
-                    <button type="button" class="btn btn-primary" id="btninformexruta"   OnClick="InformeXruta();" style="margin-top:-60px; margin-left:18%;"> Mostrar</button>           
-                    <div clas="divxruta" id="divxruta">
-                    </div>
-              </div>
-              
-                   
-     
-                  </div>
-            </div> <!-- FINISH BITACORA INVENTARIO --> 
+                        
+                <div class="informexruta" id="informexruta">
+                      <br><br>
+                      <h3 style="font-weight:bold; float:left; "> Entrega de Accesorios</h3>
+                      
+                      <div class="form-row" style="align-items:right; float:right;">
 
+                        <div class="form-group col-md-6">
+                        
+                  
+                            <input type="text" class="form-control"  id="txtruta" name="txtruta" placeholder="Ruta" >
+                        </div>
+
+                        <div class="form-group" style="">
+                          <button type="button" class="btn btn-primary" id="btninformexruta"   OnClick="InformeXruta();"> Buscar</button>         
+                        </div>
+
+                      
+                      </div>
+
+                </div>      
+
+                <div class="InformeEntrega" id="InformeEntrega" class="col-lg-16" style="margin-bottom:50px;">
+                </div>
+                
+                
+              
+                
+            </div> <!-- FINISH BITACORA INVENTARIO --> 
+    
           </div>
 
-        </section>
+
 
       </main>
     </div>
@@ -1063,11 +1032,7 @@
                 
             }
 
-            function BuscarXruta(){
-               // DIV BUSCAR INFORME X RUTA
-               document.getElementById('informexruta').style.display = 'block';
-               document.getElementById('ListaPDF').style.display = 'none';
-            }
+
 
             //   End , Efecto Botones De Telefono
               
@@ -1289,9 +1254,8 @@
             success:function(respuesta){
                 // alert(respuesta);
               var registros =eval(respuesta);
-            
-              html ="<div style='margin-left:33%; color:#000; font-weight:bold;   font-size: 30px; '>ENTREGA DE EQUIPO POR RUTA</div>";
-              html +="<table class='table' style='margin-bottom:3%;'>";
+
+              html ="<table class='table' style='margin-bottom:3%;'>";
               html +="<th class='th'>Ruta</th><th class='th'>Vendedor</th><th class='th'>Accesorio</th><th class='th'>Fecha Entrega</th><th class='th'>Cantidad</th><th class='th'>Motivo De Entrega</th></tr>";
               html +="</thead><tbody>"; 
               
@@ -1311,7 +1275,7 @@
               html +="</tbody></table>";
 
               
-              $("#divxruta").html(html);
+              $("#InformeEntrega").html(html);
               
             }
           });
@@ -1387,7 +1351,7 @@
               };
               
               html +="</tbody></table>";
-              $("#MostrarStock").html(html);
+              $("#ContenidoAcce_Cat").html(html);
           }
         })
 
@@ -1406,9 +1370,18 @@
             var registros =eval(respuesta);
             var equals = 4;
             
-            html ="<table  class='table' id='tbl2'> <thead class='thead-dark'> ";
-            html +="<h3 style='font-style: oblique; text-align: center;'>Inventario El Salvador</h3><br>";
-            html +="<a href='<?php echo base_url(); ?>index.php/Accesorios/All_Stock_DExcel' style='margin-left:40%;  margin-bottom :20px;' class='btn btn-outline-success disabled' role='button'>Exportar</a>";
+            html ="<table  class='table' id='tbl2'> <thead> ";
+            html +="<h3 style='text-align: center;'> Inventario";
+            <?php
+            if($this->session->userdata('Id_pais')==1){
+              echo "html +=\" El Salvador</h3><br>\";";
+            }else if($this->session->userdata('Id_pais')==2){
+              echo "html +=\" Guatemala</h3><br>\";";
+            }else if($this->session->userdata('Id_pais')==3){
+              echo "html +=\" Honduras</h3><br>\";";
+            }
+            ?>
+            // html +="<a href='<?php echo base_url(); ?>index.php/Accesorios/All_Stock_DExcel' style='margin-left:40%;  margin-bottom :20px;' class='btn btn-outline-success disabled' role='button'>Exportar</a>";
 
             html +="<th>Categoria</th><th>Nombre Accesorio</th><th>Distribuidora</th><th>Estado</th><th>Stock</th>";
               html +="</thead><tbody>";
@@ -1451,7 +1424,7 @@
               };
               html +="</tbody></table><br>";
 
-              $("#MostrarStock").html(html);
+              $("#ContenidoAcce_Cat").html(html);
           }
         })
 
@@ -1475,7 +1448,7 @@
           success:function(respuesta){
           
             var registros =eval(respuesta);
-            html ="<h3 style='text-align: center;'>Categoria Accesorios</h3>"
+            html ="<h3 style='text-align: center;'>Categoria Accesorios</h3><br>"
             html +="<table class='table' align='center'><thead>";
             html +="<tr><th style='display:none;'>ID</th><th>Nombre Categoria</th><th>Descripcion</th><th>Fecha Registro</th><th>Accion</th><tr>"
               html +="</thead><tbody>";
@@ -1682,22 +1655,18 @@
           success:function(respuesta){
           
             var registros =eval(respuesta);
-            html ="<h3 style='text-align: center;'> Accesorios</h3>"
-            html +="<table class='table' align='center'><thead>";
-            html +="<tr><th style='display:none;'>ID</th><th>Descripcion Accesorio</th><th>Vida Util</th><th>Fecha Registro</th><th>Accion</th><tr>"
-              html +="</thead><tbody>";
+            html ="<h3 style='text-align: center;'> Accesorios</h3><br>"
+
+            html +="<table class='table'>";
+            html +="<th style='display:none;'>ID</th><th>Descripcion Accesorio</th><th>Vida Util</th><th>Fecha Registro</th><th>Accion</th>"
+              html +="<tbody>";
 
               for (var i = 0; i<registros.length; i++) {
-              html+="<tr><td class='td' style='display:none;'>"+registros[i]["Id_Accesorios"]+"</td>"+
-              "<td class='td' width='30%'>"+registros[i]["nombre_accesorio"]+" "+
-                                registros[i]["marca_accesorio"]+" "+
-                                registros[i]["modelo_accesorio"]+" "+
-                                registros[i]["tipo_accesorio"]+" "+
-                                registros[i]["color_accesorio"]+" "+
-                                registros[i]["caracteristica_accesorio"]+"</td>"+
-              "<td class='td' width='10%'>"+registros[i]["vida_util_accesorio"]+"</td>"+
-              "<td class='td' width='10%'>"+registros[i]["fecha_registro"]+"</td>"+
-              "<td class='td' width='20%'><button type='button' class='btn btn-outline-primary'  data-toggle='modal' data-target='#EditarProducto' onClick='EnviarDatos_Accesorios(\""+registros[i]["Id_Accesorios"]+
+              html+="<tr><td style='display:none;'>"+registros[i]["Id_Accesorios"]+"</td>"+
+              "<td class='td' style='width:45%;'>"+registros[i]["nombre_accesorio"]+" "+registros[i]["marca_accesorio"]+" "+registros[i]["modelo_accesorio"]+" "+registros[i]["tipo_accesorio"]+" "+registros[i]["color_accesorio"]+" "+registros[i]["caracteristica_accesorio"]+"</td>"+
+              "<td>"+registros[i]["vida_util_accesorio"]+"</td>"+
+              "<td>"+registros[i]["fecha_registro"]+"</td>"+
+              "<td class='td'><button type='button' class='btn btn-outline-primary'  data-toggle='modal' data-target='#EditarProducto' onClick='EnviarDatos_Accesorios(\""+registros[i]["Id_Accesorios"]+
                               "\",\""+registros[i]["nombre_accesorio"]+
                               "\",\""+registros[i]["precio_u"]+
                               "\",\""+registros[i]["marca_accesorio"]+
@@ -1709,15 +1678,15 @@
                               "\",\""+registros[i]["fecha_registro"]+
                               "\",\""+registros[i]["Id_Categoria"]+"\");'><i class='fas fa-edit'></i></button>";
               if(registros[i]["estado"]==1){
-              html+="<button type='button' class='btn btn-outline-success' style='margin-left:10px;' Onclick='InactivarAccesorio(\""+registros[i]["Id_Accesorios"]+"\");'><i class='fas fa-angle-double-down'></i></button></td></tr>";
+              html+="<button type='button' style='margin-left: 10px;' class='btn btn-outline-success col-md-3' Onclick='InactivarAccesorio(\""+registros[i]["Id_Accesorios"]+"\");'><i class='fas fa-angle-double-down'></i></button>";
               }else if(registros[i]["estado"]==0){
-              html+="<button type='button' class='btn btn-outline-danger'  style='margin-left:10px;' Onclick='ActivarAccesorio(\""+registros[i]["Id_Accesorios"]+"\");'><i class='fas fa-angle-double-up'></i></button></td></tr>";
+              html+="<button type='button' style='margin-left: 10px;' class='btn btn-outline-danger col-md-3' Onclick='ActivarAccesorio(\""+registros[i]["Id_Accesorios"]+"\");'><i class='fas fa-angle-double-up'></i></button>";
  
               }
                 
               };
               
-              html +="</tbody></table>";
+              html +="</td></tr></tbody></table>";
               $("#ContenidoAcce_Cat").html(html);
           }
           
@@ -1872,7 +1841,7 @@
             mtxtcategoriaedith:Id_Categoria
           },			
           function(data){
-            if (data == 1) {
+            if (data==1) {
               $('#EditarProducto').modal('hide');
               let timerInterval
                 Swal.fire({
@@ -1895,7 +1864,7 @@
                     ){
                       
                       $('#btnbuscaraccesorios').click();
-                    // location.reload();
+                   
                       
                       
                     }
@@ -2614,17 +2583,8 @@
         
             }
           });
-      // END, DISTRIBUIDORA MODIFICAR CATEGORIAS Y ACCESORIOS
-
-
-      <!-- ====================================== MOSTRAR DATOS CONSULTADOS EMPLEADOS============================ -->
-
-
-        function mostrarDatosPDF(){
-
-          document.getElementById('ListaPDF').style.display = 'block';
-          document.getElementById('informexruta').style.display = 'none';
-
+         // END, DISTRIBUIDORA MODIFICAR CATEGORIAS Y ACCESORIOS
+        // <!-- ====================================== MOSTRAR DATOS CONSULTADOS EMPLEADOS============================ -->
           $.ajax({
             url:"<?php echo base_url();?>index.php/Accesorios/Consultar_PDF",
             method:"POST", 
@@ -2634,8 +2594,8 @@
           
               var registros =eval(respuesta);
             
-              html ="<div style='margin-left:300px; color:#000; font-weight:bold;   font-size: 30px; '>INFORMES PDF DE EQUIPO ENTREGADO</div>";
-              html +="<table class='table' class='table table-responsive table-bordered' align='center'><thead>";
+           
+              html ="<table class='table' class='table table-responsive table-bordered' align='center'><thead>";
               html +="<th class='th' style='display:none;'>ID</th><th class='th'>Ruta</th><th class='th'>Nombre</th><th class='th'>Descripcion</th><th class='th'>Fecha Salida</th><th class='th'>Archivo PDF</th></tr>";
               html +="</thead><tbody>"; 
               
@@ -2656,14 +2616,19 @@
               html +="</tbody></table>";
 
               
-              $("#ListaPDF").html(html);
+              $("#InformeEntrega").html(html);
               
               
             }
           });
-        }
+          // <!-- ======================================FINISH MOSTRAR DATOS CONSULTADOS EMPLEADOS ============================ -->
+     
 
-      <!-- ======================================FINISH MOSTRAR DATOS CONSULTADOS EMPLEADOS ============================ -->
+
+      
+
+
+      
 
       // CARGAR EXISTENCIAS AL ENTREGAR EQUIPO A VENDEDORES
       $(document).ready(function(){
@@ -2672,10 +2637,6 @@
           var acumulador=0; 
           var id_producto=$('#mtxtproductoAsignar').serialize();
 
-
-          
-
-          
                 $.ajax({
                   url:"<?php echo base_url();?>index.php/Accesorios/Existencia_Producto",
                   method:"POST",

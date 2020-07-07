@@ -197,6 +197,7 @@ class Empleados extends CI_Controller
 		$param['CI'] = $this->input->post('CI');
 		$param['Observacion'] = $this->input->post('txtobservacion');
 
+		
 
 		echo $this->Empleados_Model->Registrar_Historial($param);
 

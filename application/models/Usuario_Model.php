@@ -11,7 +11,7 @@ class Usuario_Model extends CI_Model {
     public function Login($User,$Pass){
 
 
-        $this->db->select('sdv.Id_u_sdv, sdv.Id_Distribuidora, sdv.Usuario,sdv.password,tp.Tipo_Usuario,sdv.Nombre,d.Nombre_Distribuidora,p.Nombre_Pais,sdv.Canal');
+        $this->db->select('sdv.Id_u_sdv, sdv.Id_Distribuidora, sdv.Usuario,sdv.password,tp.Tipo_Usuario,sdv.Nombre,d.Nombre_Distribuidora,p.Nombre_Pais,sdv.Canal,p.Id_pais');
         $this->db->from('usuarios_consolasdv as sdv');
         $this->db->join('tipo_usuario as tp','sdv.Rol = tp.Id_Tipo_Usuario');
         $this->db->join("distribuidora as d","sdv.Id_Distribuidora = d.Id_Distribuidora");
