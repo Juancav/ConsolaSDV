@@ -145,6 +145,134 @@ class Informes extends CI_Controller {
 		
 			
 	}
+	function VentaXCanal(){
+		
+		if ($this->input->is_ajax_request()) {
+
+			
+			 $Datos = $this->Informes_Model->VentaXCanal();
+
+			  $Canal=array();
+			  $SS=array();
+			  $CH=array();
+			  $SA=array();
+			  $SO=array();
+			  $SM=array();
+
+
+			  
+			  foreach ($Datos as $key ) {
+
+				array_push($Canal,$key->Canal);
+				array_push($SS,$key->SS);
+				array_push($CH,$key->CH);
+				array_push($SA,$key->SA);
+				array_push($SO,$key->SO);
+				array_push($SM,$key->SM);
+				
+			
+			}
+
+
+			$Arreglo=array();
+			$Arreglo=array("Canal"=> $Canal,"SS"=> $SS, "CH"=> $CH, "SA"=> $SA, "SO"=> $SO, "SM"=> $SM);
+
+			  echo json_encode($Arreglo);
+			
+		}
+		
+			
+	}
+
+	function VentaXCCategoria(){
+		
+		if ($this->input->is_ajax_request()) {
+
+			
+			 $Datos = $this->Informes_Model->VentaXCCategoria();
+
+			  $Categoria=array();
+			  $SS=array();
+			  $CH=array();
+			  $SA=array();
+			  $SO=array();
+			  $SM=array();
+
+
+			  
+			  foreach ($Datos as $key ) {
+
+				array_push($Categoria,$key->Categoria);
+				array_push($SS,$key->SS);
+				array_push($CH,$key->CH);
+				array_push($SA,$key->SA);
+				array_push($SO,$key->SO);
+				array_push($SM,$key->SM);
+				
+			
+			}
+
+
+			$Arreglo=array();
+			$Arreglo=array("Categoria"=> $Categoria,"SS"=> $SS, "CH"=> $CH, "SA"=> $SA, "SO"=> $SO, "SM"=> $SM);
+
+			  echo json_encode($Arreglo);
+			
+		}
+		
+			
+	}
+
+	function VentaxGrupo_Distribuidora(){
+		
+		if ($this->input->is_ajax_request()) {
+
+			
+			 $Datos = $this->Informes_Model->VentaxGrupo_Distribuidora();
+
+			  $Distribuidora=array();
+			  $G1=array();
+			  $G2=array();
+			  $G3=array();
+			  $G4=array();
+			  $G5=array();
+			  $G6=array();
+			  $G7=array();
+			  $G8=array();
+			  $G9=array();
+			  $G10=array();
+			
+
+
+			  
+			  foreach ($Datos as $key ) {
+
+				array_push($Distribuidora,$key->Distribuidora);
+				array_push($G1,$key->G1);
+				array_push($G2,$key->G2);
+				array_push($G3,$key->G3);
+				array_push($G4,$key->G4);
+				array_push($G5,$key->G5);
+				array_push($G6,$key->G6);
+				array_push($G7,$key->G7);
+				array_push($G8,$key->G8);
+				array_push($G9,$key->G9);
+				array_push($G10,$key->G10);
+
+				
+			
+			}
+
+
+			$Arreglo=array();
+			$Arreglo=array("Distribuidora"=> $Distribuidora,"G1"=> $G1,"G2"=> $G2, "G3"=> $G3,"G4"=> $G4,	"G5"=> $G5,	"G6"=> $G6,	"G7"=> $G7,	"G8"=> $G8,	"G9"=> $G9,	"G10"=> $G10 );
+
+			  echo json_encode($Arreglo);
+			
+		}
+		
+			
+	}
 
 	function Top_Productos(){
 		
@@ -181,15 +309,26 @@ class Informes extends CI_Controller {
 		}
 	}
 
+	function VentaSubFamilia(){
+		
+		if ($this->input->is_ajax_request()) {
+
+			$Datos = $this->Informes_Model->VentaSubFamilia();
+
+			echo json_encode($Datos);
+			
+		}
+	}
+
 	function VentaDistribuidora(){
 		
-		// if ($this->input->is_ajax_request()) {
+		if ($this->input->is_ajax_request()) {
 
 			$Datos = $this->Informes_Model->VentaDistribuidora();
 
 			echo json_encode($Datos);
 			
-		// }
+		}
 	}
 
 	public function Agregar_clientes(){

@@ -1800,3 +1800,96 @@ order by Total desc
 limit 10 ;
 use sdvbocadeli;
 describe Accesorios;
+
+
+use sdvbocadeli;
+DESCRIBE historial_entregas;
+
+
+SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion,mh.img_mh, he.Observacion,he.Id_PDF  
+                from Historial_Entregas as he
+                inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+                inner join canal as c on he.Id_Canal=c.Id_Canal
+                inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+                inner join Empleados as e on he.Id_Empleados=e.Id_Empleados
+                inner join telefonos as t on  he.Id_telefono=t.Id_telefono
+                inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
+                inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
+                inner join autorizaciones_mh as mh on t.Id_telefono=mh.Id_telefono
+                inner join Impresoras as i on he.Id_Impresoras=i.Id_Impresoras
+                inner join Marca_Impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
+                inner join Modelo_Impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
+                inner join deducibles_telefonos as dt on mo.Id_modelo_cell=dt.Id_modelo_cell
+                inner join deducibles_impresoras as di on moi.Id_modelo_impresoras=di.Id_modelo_impresoras
+            WHERE he.Id_PDF="2020-07-8_16:25:47_0000360";
+            select * from historial_entregas;
+            
+		select canal ,
+				SUM(case when Canal = 'CLIENTE PREFERENCIAL DEPARTAMENTAL' AND Distribuidora ='SAN SALVADOR' then total end) as SS,
+				SUM(case when Canal = 'DETALLE DEPARTAMENTAL' AND Distribuidora ='SANTA ANA'    then total end) as SA,
+				SUM(case when Canal = 'DETALLE LOCAL' AND Distribuidora ='SONSONATE'    then total end) as SO,
+				SUM(case when Canal = 'MAYOREO DEPARTAMENTAL' AND Distribuidora ='SAN MIGUEL'   then total end) as SM,
+				SUM(case when Canal = 'MAYOREO LOCAL' AND Distribuidora ='CHALATENANGO' then total end) as CH
+				from VENTA_DIARIA 
+		 GROUP BY canal
+		;
+ SELECT	* FROM VENTA_DIARIA;
+ 
+ 
+SELECT Distribuidora ,
+        IFNULL(SUM(case when Canal = "CLIENTE PREFERENCIAL DEPARTAMENTAL"  then total end),0)  as cfd,
+		 IFNULL(SUM(case when Canal = "DETALLE DEPARTAMENTAL"     then total end),0) as dd,
+         IFNULL(SUM(case when Canal = "DETALLE LOCAL"     then total end),0)as dl,
+         IFNULL(SUM(case when Canal = "MAYOREO DEPARTAMENTAL"   then total end),0) as md,
+         IFNULL(SUM(case when Canal = "MAYOREO LOCAL"  then total end),0) as ml 
+        from VENTA_DIARIA group by Distribuidora ORDER BY Distribuidora;
+                
+               SELECT Distribuidora , sum(total) as total from VENTA_DIARIA group by Distribuidora;
+               
+use sdvbocadeli;
+select distribuidora, Canal ,sum(total) as Total from venta_diaria group by distribuidora,canal;               
+               
+    SELECT Distribuidora , Canal,
+        IFNULL(SUM(case when Canal = "CLIENTE PREFERENCIAL DEPARTAMENTAL"  then total end),"")  as cfd,
+		 IFNULL(SUM(case when Canal = "DETALLE DEPARTAMENTAL"     then total end),"") as dd,
+         IFNULL(SUM(case when Canal = "DETALLE LOCAL"     then total end),"" )as dl,
+         IFNULL(SUM(case when Canal = "MAYOREO DEPARTAMENTAL"   then total end),"") as md,
+         IFNULL(SUM(case when Canal = "MAYOREO LOCAL"  then total end),"") as ml 
+        from VENTA_DIARIA group by Distribuidora ORDER BY Distribuidora, Canal;
+        
+        
+        
+	SELECT Distribuidora,
+        IFNULL(round(sum(case when Grupo="GRUPO 01" THEN TOTAL END ),2),0) AS "G1" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 02" THEN TOTAL END ),2),0) AS "G2" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 03" THEN TOTAL END ),2),0) AS "G3" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 04" THEN TOTAL END ),2),0) AS "G4" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 05" THEN TOTAL END ),2),0) AS "G5",
+        IFNULL(round(sum(case when Grupo="GRUPO 06" THEN TOTAL END ),2),0) AS "G6" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 07" THEN TOTAL END ),2),0) AS "G7" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 08" THEN TOTAL END ),2),0) AS "G8" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 09" THEN TOTAL END ),2),0) AS "G9" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 10" THEN TOTAL END ),2),0) AS "G10" 
+        from Venta_diaria group by Distribuidora;
+        
+        SELECT TRIM(SubFamilia) As name , round(sum(total),2) as value 
+        from VENTA_DIARIA
+        group by name 
+        order by Total desc
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               

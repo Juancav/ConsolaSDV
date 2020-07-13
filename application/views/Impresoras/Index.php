@@ -22,9 +22,19 @@
 
         <!-- Botones lateral derecho -->
         <div class="colc_buttons">
-            <button class="btn btn-outline-success button" data-toggle="modal" data-target="#Modal_Marca"><i class="fab fa-medium-m"></i></button><br><br>
-            <button class="btn btn-outline-info button" data-toggle="modal" data-target="#Modal_Modelo"><i class="fab fa-modx" ></i></button><br><br>
-            <button class="btn btn-outline-dark button" data-toggle="modal" data-target="#Modal_Entrega"><i class="fas fa-plane" ></i></button>
+
+            <div class="form-group">
+                <button class="btn btn-outline-success col-md-12" data-toggle="modal" data-target="#Modal_Marca">Ingresar Marca</button>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-outline-info col-md-12" data-toggle="modal" data-target="#Modal_Modelo">Ingresar Modelo</button>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-outline-dark col-md-12" data-toggle="modal" data-target="#Modal_Entrega">Entrega Impresora <button>
+            </div>
+
         </div>
         <!--  -->
 
@@ -82,10 +92,10 @@
                     </form>
     
                             <div class="form-row" >
-                        
-                                    <button class="btn btn-primary form-control col-md-4" style="margin-left: 50px; " id="btningresarimpresora">Guardar</button>   
-                                    <button class="btn btn-success form-control  col-md-4" style="margin-left: 50px; display:none;" id="btnmodificarimpresora">Modificar </button>
-                                    <button class="btn btn-danger form-control  col-md-4" type="reset" id="limpiar">Limpiar</button>
+                                    <button class="btn btn-outline-danger" style=" margin:auto;" type="reset" id="limpiar">Limpiar</button>
+                                    <button class="btn btn-primary"  style=" margin:auto;" id="btningresarimpresora">Guardar</button>   
+                                    <button class="btn btn-success" style="margin:auto; display:none;" id="btnmodificarimpresora">Modificar </button>
+                                    
                 
                             </div>
                         

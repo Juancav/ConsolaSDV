@@ -181,7 +181,78 @@ class Informes_Model extends CI_Model {
 
     public function VentaXDia(){
 
-        $query='SELECT Fecha, round(sum(total),2) as Total from VENTA_DIARIA group by Fecha;';
+        $query='SELECT DATE_FORMAT(Fecha,"%Y-%d-%m") as Fecha, round(sum(total),2) as Total from VENTA_DIARIA group by Fecha;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function VentaXCanal(){
+
+        $query='SELECT Canal,
+        IFNULL(round(sum(case when Distribuidora="CHALATENANGO" THEN TOTAL END ),2),0) AS "CH" ,
+        IFNULL(round(sum(case when Distribuidora="SAN SALVADOR" THEN TOTAL END ),2),0) AS "SS" ,
+        IFNULL(round(sum(case when Distribuidora="SAN MIGUEL" THEN TOTAL END ),2),0) AS "SM" ,
+        IFNULL(round(sum(case when Distribuidora="SANTA ANA" THEN TOTAL END ),2),0) AS "SA" ,
+        IFNULL(round(sum(case when Distribuidora="SONSONATE" THEN TOTAL END ),2),0) AS "SO"
+        from Venta_diaria group by Canal;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function VentaXCCategoria(){
+
+        $query='SELECT Categoria,
+        IFNULL(round(sum(case when Distribuidora="CHALATENANGO" THEN TOTAL END ),2),0) AS "CH" ,
+        IFNULL(round(sum(case when Distribuidora="SAN SALVADOR" THEN TOTAL END ),2),0) AS "SS" ,
+        IFNULL(round(sum(case when Distribuidora="SAN MIGUEL" THEN TOTAL END ),2),0) AS "SM" ,
+        IFNULL(round(sum(case when Distribuidora="SANTA ANA" THEN TOTAL END ),2),0) AS "SA" ,
+        IFNULL(round(sum(case when Distribuidora="SONSONATE" THEN TOTAL END ),2),0) AS "SO"
+        from Venta_diaria group by Categoria;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function VentaxGrupo_Distribuidora(){
+
+        $query='SELECT Distribuidora,
+        IFNULL(round(sum(case when Grupo="GRUPO 01" THEN TOTAL END ),2),0) AS "G1" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 02" THEN TOTAL END ),2),0) AS "G2" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 03" THEN TOTAL END ),2),0) AS "G3" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 04" THEN TOTAL END ),2),0) AS "G4" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 05" THEN TOTAL END ),2),0) AS "G5",
+        IFNULL(round(sum(case when Grupo="GRUPO 06" THEN TOTAL END ),2),0) AS "G6" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 07" THEN TOTAL END ),2),0) AS "G7" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 08" THEN TOTAL END ),2),0) AS "G8" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 09" THEN TOTAL END ),2),0) AS "G9" ,
+        IFNULL(round(sum(case when Grupo="GRUPO 10" THEN TOTAL END ),2),0) AS "G10" 
+        from Venta_diaria group by Distribuidora;';
 
         $resultados = $this->db->query($query);
         return $resultados->result();
@@ -221,7 +292,7 @@ class Informes_Model extends CI_Model {
         from VENTA_DIARIA
         group by name 
         order by Total desc
-        limit 10 ;';
+        ;';
 
         $resultados = $this->db->query($query);
         return $resultados->result();
@@ -235,11 +306,32 @@ class Informes_Model extends CI_Model {
         } 
     }
 
+    public function VentaSubFamilia(){
+
+        $query='  SELECT TRIM(SubFamila) As name , round(sum(total),2) as value 
+        from VENTA_DIARIA
+        group by name 
+        order by Total desc;
+        ;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+
     public function VentaDistribuidora(){
 
-        $query='SELECT Distribuidora As name , round(sum(total),2) as value 
+        $query='SELECT Distribuidora,round(sum(total),2) as Total 
                 from VENTA_DIARIA
-                group by name 
+                group by Distribuidora 
                 order by Total desc;';
 
         $resultados = $this->db->query($query);

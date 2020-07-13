@@ -24,6 +24,11 @@
 
     <!-- Tema Echarts -->
     <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/macarons.js')?>"></script>
+    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/ThemeJC.js')?>"></script>
+    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/purple-passion.js')?>"></script>
+    
+    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/roma.js')?>"></script>
+    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/westeros.js')?>"></script>
     <!-- Tema Echarts -->
     <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/shine.js')?>"></script>
 
@@ -71,42 +76,64 @@
         </section>
             
         <!-- Modal  Informe De Venta-->
-        <div class="modal fade" id="VentaDiaria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="VentaDiaria" tabindex="-1" role="dialog" style="background:#202338;" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg modal-dialog-centered ">
-                            <div class="modal-content " >
-                            <div class="modal-header" style="height: 75px;">
-                                <h2 class="modal-title " id="exampleModalLabel" style="font-size:26px; margin-top:5px;"><i class="far fa-chart-bar"></i> Venta Diaria</h2>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                            <div class="modal-content " style="background:#202338; border:0px;">
+                            <div class="modal-header" style="border:0px;">
+                                <h2 class="modal-title " id="exampleModalLabel" style="font-size:26px; margin-top:5px; color:#fff;"><i class="far fa-chart-bar"></i> Estadisticas de Venta</h2>
+
                                 </button>
                             </div>
-                            <div class="modal-body " style="">
+                            <div class="modal-body " style="background:#202338;">
 
-                    
+                            <div class="form-row">
+                            
+                            
+
                                     <!-- Grafico 1 -->
-                                    <div id="grafico1" class="mx-auto" style="height:500px; width:696px; float:left; " >
+                                    <div id="grafico1" class="form-group row" style="height:500px; width:1300px" >
 
                                     </div>
-
-                                    <!-- Grafico 2 -->
-                                    <div id="grafico2" class="mx-auto" style="height:500px; width:650px; float:right; ">
-
-                                    </div>
-                                    <br>
                                     <!-- Grafico 3 -->
-                                    <div id="grafico3" style="height:500px; width:1161px; margin-top:500px;" >
+                                    <div id="grafico3" class="form-group row" style="height:500px; width:600px; margin-left:20px;" >
                                     
                                     </div>
 
-                                    <!-- Grafico 4 -->
-                                    <div id="grafico4" style="height:500px; width:1161px; ">
+                                    <!-- Grafico 2 -->
+                                    <div id="grafico2" class="form-group row" style="height:500px; width:700px ">
 
                                     </div>
-                            
 
+                                    <!-- Grafico 5 -->
+                                    <div id="grafico5" class="form-group row" style="height:500px; width:1300px; margin-left:20px;">
+
+                                    </div>
+                                    <!-- Grafico 6 -->
+                                    <div id="grafico6" class="form-group row" style="height:500px; width:700px; margin-left:20px;">
+
+                                    </div>
+                                    
+                                 
+
+                                    <!-- Grafico 4 -->
+                                    <div id="grafico4" style="height:500px; width:750px; margin-left:20px;">
+
+                                    </div>
+
+                                    <!-- Grafico 7 -->
+                                    <div id="grafico7" style="height:500px; width:850px; margin-left:20px;">
+
+                                    </div>
+
+                                      <!-- Grafico 8 -->
+                                      <div id="grafico8" style="height:500px; width:1300px; margin-left:20px;">
+
+</div>
+                              
+                                    </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                            <div class="modal-footer" style="border:0px;">
+                                <button type="button" class="btn btn-outline-warning" data-dismiss="modal">Cerrar</button>
                             </div>
                             </div>
                         </div>
@@ -296,10 +323,10 @@ $( document ).ready(function() {
    
       success:function(data){
        
-        var grafico1 = echarts.init(document.getElementById('grafico1'));
+        var grafico1 = echarts.init(document.getElementById('grafico1'), 'ThemeJC');
         
         option = {
-            color: ['#3398DB'],
+       
             title: {
                 text: 'Venta Por Dia ',
                 subtext: 'Venta representada en dolares',
@@ -358,9 +385,10 @@ $( document ).ready(function() {
    
       success:function(data){
        
-        var grafico2 = echarts.init(document.getElementById('grafico2'));
+        var grafico2 = echarts.init(document.getElementById('grafico2'),'ThemeJC');
         
       option = {
+  
             title: {
                 text: 'Top 10 ',
                 subtext: 'Productos Mas Vendidos'
@@ -389,7 +417,7 @@ $( document ).ready(function() {
                 {
                     name: 'Producto',
                     type: 'bar',
-                    data: data.Total
+                    data: data.Total.sort()
                 },
         
             ]
@@ -414,41 +442,53 @@ $( document ).ready(function() {
    
       success:function(data){
  
-        var grafico3 = echarts.init(document.getElementById('grafico4'));
+        var grafico3 = echarts.init(document.getElementById('grafico4'),'ThemeJC');
         
         option = {
-            title: {
-                text: 'Venta Por Familia',
-                subtext: 'Venta representada en dolares',
-                left: 'Left'
-            },
+                title: {
+                    text: 'Venta Por Familia',
+                    subtext: 'Venta representada en dolares',
+                    left: 'Left',
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: <br/>${c}<br/> ({d}%)',
             
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {c} ({d}%)'
-            },
-            legend: {
-                orient: 'vertical',
-                left: 'right',
-            },
-            series: [
-                {
-                    name: 'Total',
-                    type: 'pie',
-                    radius: '55%',
-                    center: ['50%', '60%'],
-                    data:data,
+                    padding:[12, 12, 12, 12]
+                },
+                legend: {
+                    top: '10%',
+                    orient: 'vertical',
+                    left:0
+                 
                     
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
-            ]
-        };
+                },
+                series: [
+                    {
+                        name: 'Venta SubFamilia',
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                formatter:'{d}%',
+                                show: true,
+                                fontSize: '50',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: data
+                    },
+                    
+                ]
+            };
 
             
           
@@ -469,90 +509,377 @@ $( document ).ready(function() {
    
       success:function(data){
  
-        var grafico4 = echarts.init(document.getElementById('grafico3'));
-        
+        var grafico4 = echarts.init(document.getElementById('grafico3') ,'ThemeJC');
+
         option = {
+         
             title: {
                 text: 'Venta Por Distribuidora',
                 subtext: 'Venta representada en dolares',
                 left: 'Left'
             },
-            tooltip: {
-                trigger: 'item',
-                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            legend: {},
+            tooltip: {},
+            dataset: {
+                source: data
             },
-            legend: {
-                orient: 'vertical',
-                 left: 'right',
-            },
+            xAxis: {type: 'category'},
+            yAxis: {},
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
             series: [
-                {
-                    name: 'Total',
-                    
-                    type: 'pie',
-                    radius: '55%',
-                    label: {
-                        formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                        
-                        backgroundColor: '#eee',
-                        borderColor: '#aaa',
-                        borderWidth: 1,
-                        borderRadius: 4,
-                        shadowBlur:3,
-                        shadowOffsetX: 2,
-                        shadowOffsetY: 2,
-                        shadowColor: '#999',
-                        padding: [0, 2],
-                        rich: {
-                            a: {
-                                color: '#999',
-                                lineHeight: 22,
-                                align: 'center'
-                            },
-                            hr: {
-                                borderColor: '#aaa',
-                                width: '100%',
-                                borderWidth: 0.5,
-                                height: 0
-                            },
-                            b: {
-                                fontSize: 16,
-                                lineHeight: 33
-                            },
-                            per: {
-                                color: '#eee',
-                                backgroundColor: '#334455',
-                                padding: [2, 4],
-                                borderRadius: 2
-                            }
-                        }
-                    },
-                    center: ['50%', '60%'],
-                    data:data,
-                    emphasis: {
-                        itemStyle: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 0,
-                            shadowColor: 'rgba(0, 0, 0, 0.5)'
-                        }
-                    }
-                }
+                {type: 'bar'},
+          
             ]
-        };
-
-            
+        };           
           
         grafico4.setOption(option);
 
-      
+        
         
         }
     });
 
- 
+    //Venta por canal y por distribuidora 
+    $.ajax({
+      url:"<?php echo base_url();?>index.php/Informes/VentaXCanal",
+      method:"POST", 
+      dataType:"JSON",
+      
+        
+   
+      success:function(data){
+        var grafico5 = echarts.init(document.getElementById('grafico5') ,'ThemeJC');
+        
+        option = {
+                title: {
+                    text: 'Venta Por Canal y Distribuidora ',
+                    subtext: 'Venta representada en dolares'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    data:  data.Distribuidora
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+                  
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data.Canal
+                },
+                series: [
+                    {
+                        name: 'San Miguel',
+                        type: 'bar',
+                        data: data.SM
+                    },
+                    {
+                        name: 'Santa Ana',
+                        type: 'bar',
+                        data: data.SA
+                    },
+                    {
+                        name: 'San Salvador',
+                        type: 'bar',
+                        data: data.SS
+                    },
+                    {
+                        name: 'Sonsonate',
+                        type: 'bar',
+                        data: data.SO
+                    },
+                    {
+                        name: 'Chalatenango',
+                        type: 'bar',
+                        data: data.CH
+                    },
+                ]
+            };
+
+
+            grafico5.setOption(option);
+
+        }
+    });
+
+    //Venta por distribuidora y por categoria 
+    $.ajax({
+      url:"<?php echo base_url();?>index.php/Informes/VentaXCCategoria",
+      method:"POST", 
+      dataType:"JSON",
+      
+        
+   
+      success:function(data){
+        var grafico6 = echarts.init(document.getElementById('grafico6') ,'ThemeJC');
+        
+        option = {
+                title: {
+                    // top:'5%',
+                    text: 'Venta Por Categoria y Distribuidora ',
+                    subtext: 'Venta representada en dolares'
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                legend: {
+                    top:'10%',
+                    data:  data.Distribuidora
+                },
+                grid: {
+                    top:'20%',
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: data.Categoria
+                },
+                yAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01]
+              
+                    
+                },
+                series: [
+                    {
+                        name: 'San Miguel',
+                        type: 'bar',
+                        data: data.SM
+                    },
+                    {
+                        name: 'Santa Ana',
+                        type: 'bar',
+                        data: data.SA
+                    },
+                    {
+                        name: 'San Salvador',
+                        type: 'bar',
+                        data: data.SS
+                    },
+                    {
+                        name: 'Sonsonate',
+                        type: 'bar',
+                        data: data.SO
+                    },
+                    {
+                        name: 'Chalatenango',
+                        type: 'bar',
+                        data: data.CH
+                    },
+                ]
+            };
+
+
+            grafico6.setOption(option);
+
+        }
+    });
+
+    //Venta por subfamilia
+    $.ajax({
+      url:"<?php echo base_url();?>index.php/Informes/VentaSubFamilia",
+      method:"POST", 
+      dataType:"JSON",
+      
+        
+   
+      success:function(data){
+        var grafico7 = echarts.init(document.getElementById('grafico7') ,'ThemeJC');
+        
+        option = {
+                title: {
+                    text: 'Venta Por Sub Familia',
+                    subtext: 'Venta representada en dolares',
+                    left: 'Left',
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: <br/>${c}<br/> ({d}%)',
+            
+                    padding:[12, 12, 12, 12]
+                },
+                legend: {
+                    top: '10%',
+                    orient: 'vertical',
+                    left: 0
+                
+                    
+                },
+                series: [
+                    {
+                        name: 'Venta SubFamilia',
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                formatter:'{d}%',
+                                show: true,
+                                fontSize: '50',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: data
+                    }
+                ]
+            };
+
+
+
+            grafico7.setOption(option);
+
+        }
+    });
+
+    //Venta por grupo  Y distribuidora
+    $.ajax({
+      url:"<?php echo base_url();?>index.php/Informes/VentaxGrupo_Distribuidora",
+      method:"POST", 
+      dataType:"JSON",
+      
+        
+   
+      success:function(data){
+        var grafico8 = echarts.init(document.getElementById('grafico8') ,'ThemeJC');
+        
+        option = {
+                title: {
+                    text: 'Venta Por Grupo'
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    top:'5%',
+                    left: '15%',
+         
+                    data: ['GRUPO 1', 'GRUPO 2', 'GRUPO 3', 'GRUPO 4', 'GRUPO 5', 'GRUPO 6', 'GRUPO 7', 'GRUPO 8', 'GRUPO 9' ,'GRUPO 10']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: data.Distribuidora
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: 'GRUPO 1',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G1
+                    },
+                    {
+                        name: 'GRUPO 2',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G2
+                    },
+                    {
+                        name: 'GRUPO 3',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G3
+                    },
+                    {
+                        name: 'GRUPO 4',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G4
+                    },
+                    {
+                        name: 'GRUPO 5',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G5
+                    }
+                    ,
+                    {
+                        name: 'GRUPO 6',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G6
+                    },
+                    {
+                        name: 'GRUPO 7',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G7
+                    }
+                    ,
+                    {
+                        name: 'GRUPO 8',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G8
+                    }
+                    ,
+                    {
+                        name: 'GRUPO 9',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G9
+                    }
+                    ,
+                    {
+                        name: 'GRUPO 10',
+                        type: 'line',
+                        stack: 'TOTAL',
+                        data: data.G10
+                    }
+                ]
+            };
+
+
+
+
+            grafico8.setOption(option);
+
+        }
+    });
+
+
 
                     
-    });
+});
             
     // Funcion para cargar datos.
     function _(el){
@@ -714,22 +1041,22 @@ $( document ).ready(function() {
                         
     }
 
-    function reload(){
-        setTimeout(
-     function() 
-     {
-        location.reload();
-     }, 1000);
-    }
+        function reload(){
+            setTimeout(
+                        function() 
+                        {
+                            location.reload();
+                        }, 1000);
+        }
 
-    $(document).on('click', '.upload-field', function(){
-        var file = $(this).parent().parent().parent().find('.input-file');
-        file.trigger('click');
-    });
+        $(document).on('click', '.upload-field', function(){
+            var file = $(this).parent().parent().parent().find('.input-file');
+            file.trigger('click');
+        });
 
-    $(document).on('change', '.input-file', function(){
-        $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-    });
+        $(document).on('change', '.input-file', function(){
+            $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+        });
 
 
 

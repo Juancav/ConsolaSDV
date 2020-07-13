@@ -26,7 +26,7 @@ class Impresoras_Model extends CI_Model {
     }
 
     public function fetch_distribuidora(){
-
+      $this->db->where('Id_Pais',$this->session->userdata('Id_pais'));
         $query = $this->db->get('distribuidora');
 
          $output = '<option value="" disabled="disabled" selected="selected">Seleccione Distribuidora</option>';

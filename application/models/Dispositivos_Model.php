@@ -581,22 +581,23 @@ class Dispositivos_Model extends CI_Model {
   public function Consultar_PDF(){
 
     $query='SELECT * FROM (
-                select bec.Id_entrega_cell as Id_Entrega_cell, bec.Id_ruta, 	r.Nombre_Ruta ,	bec.Id_empleados,e.Nombre,bec.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec.Id_distribuidora,	bec.Id_canal,bec.fecha_registro	, bec.id_autorizaciones,bec.Id_pdf_cell, bec.id_u_sdv as usuario	 from bitacora_entrega_celular  as bec
+                select bec.Id_entrega_cell as Id_Entrega_cell, bec.Id_ruta, 	r.Nombre_Ruta ,	bec.Id_empleados,e.Nombre,bec.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec.Id_Distribuidora,	bec.Id_canal,bec.fecha_registro	, bec.id_autorizaciones,bec.Id_pdf_cell, bec.id_u_sdv as usuario	 from bitacora_entrega_celular  as bec
                 inner join rutas as r on bec.Id_ruta=r.Id_ruta 
                 inner join Empleados as e on e.Id_Empleados=bec.Id_empleados
                 inner join telefonos as t on bec.Id_telefono=t.Id_telefono
                 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
                 inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
                 union all 
-                select bec_n.Id_entrega_cell_no, bec_n.Id_ruta, 	r.Nombre_Ruta ,	bec_n.Id_empleados,e.Nombre,bec_n.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec_n.Id_distribuidora,	bec_n.Id_canal, bec_n.fecha_registro, "null" as autorizacion,bec_n.Id_pdf_cell,bec_n.id_u_sdv  from  bitacora_entrega_celular_noautorizado as bec_n
+                select bec_n.Id_entrega_cell_no, bec_n.Id_ruta, 	r.Nombre_Ruta ,	bec_n.Id_empleados,e.Nombre,bec_n.Id_telefono,m_c.Nombre_Marca,mo_c.nombre_Modelo,t.Imei_telefono,	bec_n.Id_Distribuidora,	bec_n.Id_canal, bec_n.fecha_registro, "null" as autorizacion,bec_n.Id_pdf_cell,bec_n.id_u_sdv as usuario from  bitacora_entrega_celular_noautorizado as bec_n
                 inner join rutas as r on bec_n.Id_ruta=r.Id_ruta 
                 inner join Empleados as e on bec_n.Id_Empleados=e.Id_empleados
                 inner join telefonos as t on bec_n.Id_telefono=t.Id_telefono
                 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
                 inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
-                LIMIT 10 ) PDF
-                where Id_Distribuidora= '.$this->session->userdata('Id_Distribuidora').'
+                ) PDF
+                where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'"
                   order by fecha_registro DESC,Id_entrega_cell DESC  
+                  LIMIT 10 
           ;';
 
     $resultados = $this->db->query($query);

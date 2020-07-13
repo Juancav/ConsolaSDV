@@ -279,9 +279,9 @@ class Empleados_Model extends CI_Model {
                     inner join telefonos as t on  he.Id_telefono=t.Id_telefono
                     inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
                     inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
-                    inner join impresoras as i on he.Id_Impresoras=i.Id_Impresoras
-                    inner join marca_impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
-                    inner join modelo_impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
+                    inner join Impresoras as i on he.Id_Impresoras=i.Id_Impresoras
+                    inner join Marca_Impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
+                    inner join Modelo_Impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
                     inner join deducibles_telefonos as dt on mo.Id_modelo_cell=dt.Id_modelo_cell
                     inner join deducibles_impresoras as di on moi.Id_modelo_impresoras=di.Id_modelo_impresoras
                   WHERE he.Id_PDF="'.$Id_PDF.'"';
@@ -304,9 +304,9 @@ class Empleados_Model extends CI_Model {
                 inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
                 inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
                 inner join autorizaciones_mh as mh on t.Id_telefono=mh.Id_telefono
-                inner join impresoras as i on he.Id_Impresoras=i.Id_Impresoras
-                inner join marca_impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
-                inner join modelo_impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
+                inner join Impresoras as i on he.Id_Impresoras=i.Id_Impresoras
+                inner join Marca_Impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
+                inner join Modelo_Impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
                 inner join deducibles_telefonos as dt on mo.Id_modelo_cell=dt.Id_modelo_cell
                 inner join deducibles_impresoras as di on moi.Id_modelo_impresoras=di.Id_modelo_impresoras
             WHERE he.Id_PDF="'.$Id_PDF.'"';
@@ -328,11 +328,10 @@ class Empleados_Model extends CI_Model {
      
 
         
-        $data2='SELECT e.Nombre,e.Carnet,e.Cargo from historial_entregas as he
-                    inner join Empleados as e on he.Id_Empleados=e.Id_Empleados
-                    where he.Id_Ruta='.$data->row()->Id_Ruta.' and he.estado=0
-                    order by he.Id_historial DESC
-                    limit 1;';
+        $data2='SELECT e.Nombre,e.Carnet,e.Cargo from Historial_Entregas as he
+                inner join Empleados as e on he.Id_Empleados=e.Id_Empleados
+                where he.Id_Ruta="'.$data->row()->Id_Ruta.'" and he.estado=0
+                ORDER BY he.Id_historial DESC LIMIT 1';
 
         $data2 = $this->db->query($data2);
 
@@ -1355,8 +1354,8 @@ class Empleados_Model extends CI_Model {
 
                     // ********************************* HOJA DE ENTREGA DE AUTORIZACION ***********************************// 
                     $output.='<div style="font-size:20px; page-break-before:always;">
-
-                            <img src='.$data->row()->img_mh.' width="100%">
+                            <img width="100%" src="https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-21.png">
+                 
 
                             <p style="font-size:24px; margin-left:350px;">RUTA: <b>'.STRTOUPPER($data->row()->Nombre_Ruta).' </b><br><br>
                             EMPLEADO:  <b>'.STRTOUPPER($data->row()->Nombre).'</b><br><br>

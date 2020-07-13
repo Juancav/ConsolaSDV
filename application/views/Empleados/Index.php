@@ -190,7 +190,7 @@
                           <!-- Formulario para creacion de empleado -->
                           <div style="background:white;  border-radius:10px;  padding:40px; height:auto; ">
                             <p style="font-size:25px; color:black;">  <i class="fas fa-user-tie"></i> Creacion De Empleado </p><br>
-                              <form style="font-size:16px;"   >
+                              <form style="font-size:16px;" method='POST' id='form_empleados' name='form_empleados' action='<?php echo base_url('index.php/Empleados/Ingresar_Empleados')?>' enctype="multipart/form-data">
                                       <!-- Campo carnet -->
                                       <div class="form-group row ">
                                         <label for="inputEmail4">Numero de Carnet</label>
