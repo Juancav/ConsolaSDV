@@ -1,0 +1,12 @@
+{
+    "name": "ConsolaSDV",
+    "display": "standalone",
+    "permissions": ["bluetooth"],
+    "icons": [
+        {
+          "src": "../Public/Img/favicon.png",
+          "sizes": "48x48",
+          "type": "image/webp"
+        }]
+  
+}

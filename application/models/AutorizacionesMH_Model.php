@@ -329,25 +329,24 @@ class AutorizacionesMH_Model extends CI_Model {
 
         
 
-        $output ='<h2 style="text-align:left;">Alta y Baja De Serie <br>Ruta: '.$data1->row()->nombre_ruta.' <br>Dia: '.$data1->row()->fecha_registro.' <br>Distribuidora: '.$data1->row()->Nombre_Distribuidora.'</h2>';
-        $output.='<img width="225px"  height="225px" style="margin-top:10px; float:right; margin-top:-35%;" src="https://fotos.subefotos.com/1caca0253f02cfa9f52b2d2264004f28o.png">
+        $output ='<p style="text-align:left;"><b>ALTA Y BAJA DE SERIE</b><br><br> <br>Ruta: '.$data1->row()->nombre_ruta.' <br>Dia: '.$data1->row()->fecha_registro.' <br>Distribuidora: '.$data1->row()->Nombre_Distribuidora.'<p>';
+        $output.='<img width="100px"  height="100px" style="float:right; margin-top:-200px;" src="https://fotos.subefotos.com/1caca0253f02cfa9f52b2d2264004f28o.png">
         ';
-        $output .='<div style="margin-top:20%">';
-        $output .='<table  style="text-align:center;">
-                    <tr style="background-color:black; color:white; border: 2px green solid; ">
-                      <th>N Maquina</th>
-                      <th>Ruta</th>
-                      <th>Zona</th>
-                      <th>N Resolucion</th>
-                      <th>Fecha De solicitud</th>
-                      <th>Marca</th>
-                      <th>Modelo</th>
-                      <th>Numero de serie</th>
-                      <th>Software</th>
-                      <th>Servidor</th>
-                      <th>Marca del Servidor</th>
-                      <th>Serie del Servidor</th>
-                      <th>Status</th>
+        $output .='<div> <p> Solicito dar de baja a la caja '.$data1->row()->n_maquina.' asignada a la ruta '.$data1->row()->nombre_ruta.'<p>';
+        $output .='<table style=" border-collapse: collapse; width: 100%; font-size:20px;">
+                    <tr>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">N Maquina</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Ruta</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Zona</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">N Resolucion</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Fecha De solicitud</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Marca</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Modelo</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Numero de serie</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Software</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Cantidad</th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Numero De Serie </th>
+                      <th style="text-align: left; padding: 8px; background-color: #E34646; color: white;">Status</th>
                     </tr>
                     <tr>
                       <td>'.$data1->row()->n_maquina.'</td>
@@ -359,28 +358,26 @@ class AutorizacionesMH_Model extends CI_Model {
                       <td>'.$data1->row()->nombre_Modelo.'</td>
                       <td>'.$data1->row()->imei_telefono.'</td>
                       <td>'.$data1->row()->software.'</td>
-                      <td>BLADE CENTER HS23	</td>
-                      <td>IBM</td>
-                      <td>J10HMFL</td>
+                      <td> '.$data1->row()->cantidad_tk.'</td>
+                      <td> '.$data1->row()->serie_autorizada.'</td>
                       <td>'.$data1->row()->estatus.'</td>
                     </tr>
         </table><br><br>';
 
-        $output .='<table style="text-align:center;">
-                  <tr style="background-color:black; color:white; border: 2px white solid;">
-                    <th>N Maquina</th>
-                    <th>Ruta</th>
-                    <th>Zona</th>
-                    <th>N Resolucion</th>
-                    <th>Fecha De solicitud</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Numero de serie</th>
-                    <th>Software</th>
-                    <th>Servidor</th>
-                    <th>Marca del Servidor</th>
-                    <th>Serie del Servidor</th>
-                    <th>Status</th>
+        $output .='<p> Solicito dar de alta a la caja '.$data2->row()->n_maquina.' y asignarla a la ruta '.$data2->row()->nombre_ruta.'<p><table style=" border-collapse: collapse; width: 100%; font-size:20px;">
+                  <tr>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">N Maquina</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Ruta</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Zona</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">N Resolucion</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Fecha De solicitud</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Marca</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Modelo</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Numero de serie</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Software</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Cantidad</th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Numero De Serie </th>
+                    <th style="text-align: left; padding: 8px; background-color: #0B9FFF; color: white;">Status</th>
                   </tr>
                   <tr>
                     <td>'.$data2->row()->n_maquina.'</td>
@@ -392,9 +389,8 @@ class AutorizacionesMH_Model extends CI_Model {
                     <td>'.$data2->row()->nombre_Modelo.'</td>
                     <td>'.$data2->row()->imei_telefono.'</td>
                     <td>'.$data2->row()->software.'</td>
-                    <td>BLADE CENTER HS23	</td>
-                    <td>IBM</td>
-                    <td>J10HMFL</td>
+                    <td> '.$data2->row()->cantidad_tk.'</td>
+                    <td> '.$data2->row()->serie_autorizada.'</td>
                     <td>'.$data2->row()->estatus.'</td>
                   </tr>
         </table>';  

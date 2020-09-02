@@ -87,3 +87,18 @@
   }
 
 
+legend{
+  width: auto !important;
+}
+
+.field{
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  width: 100%;
+}
+.content-field{
+  margin: 10px;
+  width: 450px;
+  min-width: 400px;
+}

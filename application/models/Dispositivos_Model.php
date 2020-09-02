@@ -355,6 +355,7 @@ class Dispositivos_Model extends CI_Model {
      $this->db->where('mh.estado','2');
      $this->db->where('mh.estado_cell !=','RESERVADO');
      $this->db->where('t.Id_Canal',$Id_Canal);
+     $this->db->order_by('n_maquina', 'ASC');
      
     $query = $this->db->get();
 

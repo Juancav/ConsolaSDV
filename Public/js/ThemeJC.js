@@ -22,7 +22,7 @@
     echarts.registerTheme('ThemeJC', {
         "color": [
             "#0069ff",
-            "#00c2ff",
+            "#FFFB00",
             "#ff00b0",
             "#00ff99",
             "#007e90",

@@ -4,7 +4,10 @@
 require  'vendor/autoload.php';
 require_once 'vendor/box/spout/src/Spout/Autoloader/autoload.php';
 
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Common\Entity\Row;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+
 
 class Informes_Model extends CI_Model {
 
@@ -134,6 +137,7 @@ class Informes_Model extends CI_Model {
                         $this->db->insert_batch($data['nombre_informe'], $arr_data_venta);
                         
                         $filas=$filas+10000;
+                        set_time_limit (0);
                         unset($data_venta,$arr_data_venta);
                         
                      }
@@ -181,7 +185,7 @@ class Informes_Model extends CI_Model {
 
     public function VentaXDia(){
 
-        $query='SELECT DATE_FORMAT(Fecha,"%Y-%d-%m") as Fecha, round(sum(total),2) as Total from VENTA_DIARIA group by Fecha;';
+        $query='SELECT DATE_FORMAT(Fecha,"%Y-%m-%d") as Fecha, round(sum(total),2) as Total from VENTA_DIARIA group by Fecha;';
 
         $resultados = $this->db->query($query);
         return $resultados->result();
@@ -203,7 +207,7 @@ class Informes_Model extends CI_Model {
         IFNULL(round(sum(case when Distribuidora="SAN MIGUEL" THEN TOTAL END ),2),0) AS "SM" ,
         IFNULL(round(sum(case when Distribuidora="SANTA ANA" THEN TOTAL END ),2),0) AS "SA" ,
         IFNULL(round(sum(case when Distribuidora="SONSONATE" THEN TOTAL END ),2),0) AS "SO"
-        from Venta_diaria group by Canal;';
+        from VENTA_DIARIA group by Canal;';
 
         $resultados = $this->db->query($query);
         return $resultados->result();
@@ -225,7 +229,7 @@ class Informes_Model extends CI_Model {
         IFNULL(round(sum(case when Distribuidora="SAN MIGUEL" THEN TOTAL END ),2),0) AS "SM" ,
         IFNULL(round(sum(case when Distribuidora="SANTA ANA" THEN TOTAL END ),2),0) AS "SA" ,
         IFNULL(round(sum(case when Distribuidora="SONSONATE" THEN TOTAL END ),2),0) AS "SO"
-        from Venta_diaria group by Categoria;';
+        from VENTA_DIARIA group by Categoria;';
 
         $resultados = $this->db->query($query);
         return $resultados->result();
@@ -252,7 +256,7 @@ class Informes_Model extends CI_Model {
         IFNULL(round(sum(case when Grupo="GRUPO 08" THEN TOTAL END ),2),0) AS "G8" ,
         IFNULL(round(sum(case when Grupo="GRUPO 09" THEN TOTAL END ),2),0) AS "G9" ,
         IFNULL(round(sum(case when Grupo="GRUPO 10" THEN TOTAL END ),2),0) AS "G10" 
-        from Venta_diaria group by Distribuidora;';
+        from VENTA_DIARIA group by Distribuidora;';
 
         $resultados = $this->db->query($query);
         return $resultados->result();
@@ -352,7 +356,7 @@ class Informes_Model extends CI_Model {
         $FilasTotal=0;
         $filas=10001;
 
-      
+        $hoy = date("Y-m-d H:i:s");
         // Saber si existe registro de este informe
         $this->db->where('nombre_informe',$data['nombre_informe']);
         $query=$this->db->get('Informes');
@@ -425,18 +429,20 @@ class Informes_Model extends CI_Model {
                         $CompraS_D=$cells[31];
                         $CompraS_Y=$cells[32];
                         $CompraS_F=$cells[33];
-                        $Fecha_Ingreso= date('Y-m-d',strtotime($cells[34])); 
+                        $Fecha_Ingreso= $hoy; 
                         $Estado=$cells[35];
-                        $Fecha_Resolucion=date('Y-m-d',strtotime($cells[36])); 
+                        $Fecha_Resolucion=$hoy; 
                         $estado_w=$cells[37];
-                        $Fecha_Procesado=date('Y-m-d',strtotime($cells[38]));
+                        $Fecha_Procesado=$hoy;
                         $Editado=$cells[39];
                         $Comentario_E=$cells[40];
                         $Estado_Analista=$cells[41];
-                        $Fecha_Resolucion_R=date('Y-m-d',strtotime($cells[42]));
-                        $Fecha_AprobacionA=date('Y-m-d',strtotime($cells[43]));
+                        $Fecha_Resolucion_R=$hoy;
+                        $Fecha_AprobacionA=$hoy;
                         $quienresolucion=$cells[44];
                         $EstadoDescarga=$cells[45];
+                        $ActuExhibidor=$cells[46];
+                        $ActuClientes=$cells[46];
                     
 
                 
@@ -488,7 +494,9 @@ class Informes_Model extends CI_Model {
                         'Fecha_Resolucion_R'=> $Fecha_Resolucion_R,
                         'Fecha_AprobacionA'=> $Fecha_AprobacionA,
                         'quienresolucion'=> $quienresolucion,
-                        'EstadoDescarga'=> $EstadoDescarga
+                        'EstadoDescarga'=> $EstadoDescarga,
+                        'ActuExhibidor'=> $ActuExhibidor,
+                        'ActuClientes'=> $ActuClientes
                                  ];
 
                             
@@ -500,6 +508,7 @@ class Informes_Model extends CI_Model {
                         $this->db->insert_batch('clientes', $arr_data_clientes);
                         
                         $filas=$filas+10000;
+                      
                         unset($data_clientes,$arr_data_clientes);
                         
                      }
@@ -525,6 +534,530 @@ class Informes_Model extends CI_Model {
             }
 
     }
+
+    function addExhibidores($data){
+
+        $this->db->insert('Informes',$data);
+
+        
+        $arr_data_exhibidores=[];
+        $FilasTotal=0;
+        $filas=10001;
+    
+        $reader = ReaderEntityFactory::createReaderFromFile('Uploads/Informes/'.$data['nombre_informe'].'.csv');  
+        $reader->setShouldFormatDates(true); // Permite recibir del excel en formato fecha
+        $reader->open('Uploads/Informes/'.$data['nombre_informe'].'.csv');
+
+       
+            foreach ($reader->getSheetIterator() as $sheet) {  
+
+
+                
+
+                foreach ($sheet->getRowIterator() as $rownumber=>$row) {
+
+     
+                    if($rownumber>1){
+
+                        $cells = $row->getCells();
+                       
+                        
+                        $Id_Cliente =$cells[1];
+                        $Id_Exhibidores =$cells[3]; 
+                        $Cantidad =$cells[4];
+                        $Fecha_Facturacion=$cells[5];
+
+                     $data_exhibidores=[
+                        'Id_Cliente'=> $Id_Cliente,
+                        'Id_Exhibidores'=>$Id_Exhibidores,
+                        'Cantidad'=>$Cantidad,
+                        'Fecha_Facturacion'=>$Fecha_Facturacion
+                                 ];
+
+                            
+
+                     $arr_data_exhibidores[]=$data_exhibidores;  
+
+                     if($rownumber==$filas){
+
+                        $this->db->insert_batch('clientes_exhibidor', $arr_data_exhibidores);
+                        
+                        $filas=$filas+10000;
+                      
+                        unset($data_exhibidores,$arr_data_exhibidores);
+                        
+                     }
+
+
+                    }
+                                       
+                    
+                }
+                
+
+            }
+            
+            
+            $this->db->insert_batch('clientes_exhibidor', $arr_data_exhibidores);
+            
+            $reader->close();
+
+            if($this->db->affected_rows() > 0 ){
+                return true;
+            }else{
+                return false;
+            }
+
+    }
+
+    public function AvanceExhibidores(){
+
+        $query1='SELECT IFNULL(ActuExhibidor,"NO")  AS "ESTATUS",
+        IFNULL(round(count(case when P.Id_Pais=1 THEN P.Id_Pais END ),2),0) AS "SV" ,
+        IFNULL(round(count(case when P.Id_Pais=2 THEN P.Id_Pais END ),2),0) AS "GT",
+        IFNULL(round(count(case when P.Id_Pais=3 THEN P.Id_Pais END ),2),0) AS "HN"  
+        from clientes as c
+        inner join usuarios as u on c.id_usuarios=u.id_usuarios 
+        inner join rutas as r on u.Id_ruta=r.Id_ruta 
+        inner join distribuidora as d on r.Id_distribuidora=d.id_distribuidora 
+        inner join pais as P on d.Id_Pais=P.Id_Pais 
+        where c.ActuExhibidor="NO" and  c.estado_w=1 and c.Id_Cliente IN (
+                        SELECT MIN(Id_Cliente) 
+                          FROM clientes 
+                          WHERE Estado = "P"
+                          GROUP BY  Id_Usuarios,Codigo
+                      )  /* 1 = EL SALVADOR , 2 = GUATEMALA , 3 = HONDURAS*/
+        group by ActuExhibidor';
+
+        $query2 ='SELECT IFNULL(ActuExhibidor,"SI") "ESTATUS",
+        IFNULL(round(count(case when P.Id_Pais=1 THEN P.Id_Pais END ),2),0) AS "SV1" ,
+        IFNULL(round(count(case when P.Id_Pais=2 THEN P.Id_Pais END ),2),0) AS "GT1",
+        IFNULL(round(count(case when P.Id_Pais=3 THEN P.Id_Pais END ),2),0) AS "HN1"  
+        from clientes as c
+        inner join usuarios as u on c.id_usuarios=u.id_usuarios 
+        inner join rutas as r on u.Id_ruta=r.Id_ruta
+        inner join distribuidora as d on r.Id_distribuidora=d.id_distribuidora 
+        inner join pais as P on d.Id_Pais=P.Id_Pais 
+        where c.ActuExhibidor="SI" and c.Id_Cliente IN (
+                        SELECT MIN(Id_Cliente) 
+                          FROM clientes 
+                          WHERE Estado = "P"
+                          GROUP BY  Id_Usuarios,Codigo
+                      )  
+        group by ActuExhibidor /* 1 = EL SALVADOR , 2 = GUATEMALA , 3 = HONDURAS*/;';
+
+        $resultados = $this->db->query($query1);
+        $resultados1 = $this->db->query($query2);
+
+        $Si=$resultados->result();
+        $No=$resultados1->result();
+       
+        
+      
+        if(empty($resultados) or empty($resultados1)){
+
+            return '';
+        }else{
+            return array($Si,$No);
+        } 
+    }
+
+    public function ClientesExhibidorXPais(){
+
+        $query1='SELECT   
+        count(distinct case when ae.Id_cliente and p.id_pais=1 and ae.TieneExhibidor=0 then ae.id_cliente end) as SV,
+        count(distinct case when ae.Id_cliente and p.id_pais=2 and ae.TieneExhibidor=0 then ae.id_cliente end) as GT,
+        count(distinct case when ae.Id_cliente and p.id_pais=3 and ae.TieneExhibidor=0 then ae.id_cliente end) as HN
+        from actualizacion_exhibidores as ae
+        inner join clientes as c on ae.Id_cliente=c.Id_cliente
+        inner join usuarios as u on c.Id_usuarios=u.Id_usuarios
+        inner join rutas as r on u.Id_ruta=r.id_ruta
+        inner join distribuidora as d on r.Id_distribuidora=d.Id_distribuidora
+        inner join pais as p on d.id_pais=p.Id_pais
+        ';
+
+        $query2 ='SELECT   
+        count(distinct case when ae.Id_cliente and p.id_pais=1 and ae.TieneExhibidor=1 then ae.id_cliente end) as SV1,
+        count(distinct case when ae.Id_cliente and p.id_pais=2 and ae.TieneExhibidor=1 then ae.id_cliente end) as GT1,
+        count(distinct case when ae.Id_cliente and p.id_pais=3 and ae.TieneExhibidor=1 then ae.id_cliente end) as HN1
+        from actualizacion_exhibidores as ae
+        inner join clientes as c on ae.Id_cliente=c.Id_cliente
+        inner join usuarios as u on c.Id_usuarios=u.Id_usuarios
+        inner join rutas as r on u.Id_ruta=r.id_ruta
+        inner join distribuidora as d on r.Id_distribuidora=d.Id_distribuidora
+        inner join pais as p on d.id_pais=p.Id_pais;
+        ';
+
+        $resultados = $this->db->query($query1);
+        $resultados1 = $this->db->query($query2);
+
+        $Si=$resultados->result();
+        $No=$resultados1->result();
+       
+        
+      
+        if(empty($resultados) or empty($resultados1)){
+
+            return '';
+        }else{
+            return array($Si,$No);
+        } 
+    }
+
+    public function PosicionExhibidor(){
+
+        $query='SELECT p.Nombre_pais AS PAIS, 
+        count( case when ae.RespuestaObservacion=1 then ae.RespuestaObservacion end) as "Data1",
+        count( case when ae.RespuestaObservacion=2 then ae.RespuestaObservacion end) as "Data2",
+        count( case when ae.RespuestaObservacion=3 then ae.RespuestaObservacion end) as "Data3",
+        count( case when ae.RespuestaObservacion=4 then ae.RespuestaObservacion end) as "Data4",
+        count( case when ae.RespuestaObservacion=5 then ae.RespuestaObservacion end) as "Data5",
+        count( case when ae.RespuestaObservacion=6 then ae.RespuestaObservacion end) as "Data6"
+        from actualizacion_exhibidores as ae 
+        inner join clientes as c on ae.id_cliente=c.id_cliente
+        inner join usuarios as u on c.Id_usuarios=u.Id_usuarios
+        inner join rutas as r on u.Id_ruta=r.id_ruta
+        inner join distribuidora as d on r.Id_distribuidora = d.id_distribuidora
+        inner join pais as p on d.id_pais=p.id_pais
+        where c.estado_w=1
+        group by p.Nombre_pais;
+       
+        ;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function Totalclientesconysinexhibidor(){
+
+        $query='SELECT p.Nombre_pais,
+        count(case when fae.Con="NO" then fae.Con end ) as "NoExh",
+        count(case when fae.Con="SI" then fae.Con end ) as "SiExh"
+        FROM  fotos_actualizacion_exh as fae 
+        inner join clientes as c on fae.id_cliente=c.id_cliente
+        inner join usuarios as u on c.Id_usuarios=u.Id_usuarios
+        inner join rutas as r on u.Id_ruta=r.id_ruta
+        inner join distribuidora as d on r.Id_distribuidora = d.id_distribuidora
+        inner join pais as p on d.id_pais=p.id_pais
+        where c.estado_w=1
+        group by p.Nombre_pais';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function ClientesCensadosXDistribuidora(){
+
+        $query='SELECT d.Division as Distribuidora , 
+        count(case when c.Actuexhibidor="SI" then c.ActuExhibidor end ) as Actualizado , 
+        count(case when c.Actuexhibidor="NO" then c.ActuExhibidor end ) as NoActualizado FROM clientes as c 
+        inner join usuarios as u on c.id_usuarios=u.id_usuarios 
+        inner join rutas as r on u.id_ruta= r.id_ruta
+        inner join distribuidora as d on r.id_distribuidora = d.id_distribuidora
+        where c.estado_w=1
+        group by d.Division;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function SumatoriaExhibidor(){
+
+        $query='SELECT e.NombreExhibidor , count(ae.Id_exhibidores) as Total FROM exhibidores as e
+        inner join actualizacion_exhibidores as ae on e.Id_Exhibidores=ae.Id_Exhibidores
+        where e.NombreExhibidor!="SIN EXHIBIDOR" and ae.TipoActualizacion!=2
+        group by NombreExhibidor 
+        order by Total asc';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function ClientesCensadosNDE_NSET_EC(){
+
+        $query='SELECT p.Nombre_pais as PAIS,
+		count( case when ae.RespuestaObservacion=70 then ae.RespuestaObservacion end) as "NDE",
+        count( case when ae.RespuestaObservacion=71 then ae.RespuestaObservacion end) as "NSET",
+        count( case when ae.RespuestaObservacion=72 then ae.RespuestaObservacion end) as "EC"
+        from actualizacion_exhibidores as ae 
+        inner join clientes as c on ae.id_cliente=c.id_cliente
+        inner join usuarios as u on c.Id_usuarios=u.Id_usuarios
+        inner join rutas as r on u.Id_ruta=r.id_ruta
+        inner join distribuidora as d on r.Id_distribuidora = d.id_distribuidora
+        inner join pais as p on d.id_pais=p.id_pais
+        where c.estado_w=1
+        group by p.Nombre_pais;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function ClientesCensadosXDistribuidoraChange($parametro){
+
+        $query='SELECT '.$parametro.' as Distribuidora , 
+        count(case when c.Actuexhibidor="SI" then c.ActuExhibidor end ) as Actualizado , 
+        count(case when c.Actuexhibidor="NO" then c.ActuExhibidor end ) as NoActualizado FROM clientes as c 
+        inner join usuarios as u on c.id_usuarios=u.id_usuarios 
+        inner join rutas as r on u.id_ruta= r.id_ruta
+        inner join distribuidora as d on r.id_distribuidora = d.id_distribuidora
+        where c.estado_w=1
+        group by '.$parametro.';';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function ClientesCensadosNDE_NSET_ECxDivisionchange($parametro){
+
+        $query='SELECT '.$parametro.' as PAIS,
+		count( case when ae.RespuestaObservacion=70 then ae.RespuestaObservacion end) as "NDE",
+        count( case when ae.RespuestaObservacion=71 then ae.RespuestaObservacion end) as "NSET",
+        count( case when ae.RespuestaObservacion=72 then ae.RespuestaObservacion end) as "EC"
+        from actualizacion_exhibidores as ae 
+        inner join clientes as c on ae.id_cliente=c.id_cliente
+        inner join usuarios as u on c.Id_usuarios=u.Id_usuarios
+        inner join rutas as r on u.Id_ruta=r.id_ruta
+        inner join distribuidora as d on r.Id_distribuidora = d.id_distribuidora
+        inner join pais as p on d.id_pais=p.id_pais
+        where c.estado_w=1
+        group by '.$parametro.';';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return '';
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function PosicionExhibidorChange($parametro){
+
+        $query='SELECT '.$parametro.' AS PAIS, 
+        count( case when ae.RespuestaObservacion=1 then ae.RespuestaObservacion end) as "Data1",
+        count( case when ae.RespuestaObservacion=2 then ae.RespuestaObservacion end) as "Data2",
+        count( case when ae.RespuestaObservacion=3 then ae.RespuestaObservacion end) as "Data3",
+        count( case when ae.RespuestaObservacion=4 then ae.RespuestaObservacion end) as "Data4",
+        count( case when ae.RespuestaObservacion=5 then ae.RespuestaObservacion end) as "Data5",
+        count( case when ae.RespuestaObservacion=6 then ae.RespuestaObservacion end) as "Data6"
+        from actualizacion_exhibidores as ae 
+        inner join clientes as c on ae.id_cliente=c.id_cliente
+        inner join usuarios as u on c.Id_usuarios=u.Id_usuarios
+        inner join rutas as r on u.Id_ruta=r.id_ruta
+        inner join distribuidora as d on r.Id_distribuidora = d.id_distribuidora
+        inner join pais as p on d.id_pais=p.id_pais
+        where c.estado_w=1
+        group by '.$parametro.';
+        ;';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+
+    public function SumatoriaExhibidorfiltro($parametro){
+
+        $query='SELECT e.NombreExhibidor , count(ae.Id_exhibidores) as Total FROM exhibidores as e
+        inner join actualizacion_exhibidores as ae on e.Id_Exhibidores=ae.Id_Exhibidores
+        inner join clientes as c on ae.Id_cliente = c.Id_cliente
+        inner join usuarios as u on c.id_usuarios=u.id_usuarios
+        inner join rutas as r on u.id_ruta=r.id_ruta
+        inner join distribuidora as d on r.id_distribuidora=d.id_distribuidora
+        inner join pais as p on d.id_pais= p.id_pais
+        where e.NombreExhibidor!="SIN EXHIBIDOR" and ae.TipoActualizacion!=2 and p.id_pais='.$parametro.'
+        group by NombreExhibidor 
+        order by Total asc';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function SumatoriaExhibidorfiltroxDivision($parametro){
+
+        $query='SELECT e.NombreExhibidor , count(ae.Id_exhibidores) as Total FROM exhibidores as e
+        inner join actualizacion_exhibidores as ae on e.Id_Exhibidores=ae.Id_Exhibidores
+        inner join clientes as c on ae.Id_cliente = c.Id_cliente
+        inner join usuarios as u on c.id_usuarios=u.id_usuarios
+        inner join rutas as r on u.id_ruta=r.id_ruta
+        inner join distribuidora as d on r.id_distribuidora=d.id_distribuidora
+        inner join pais as p on d.id_pais= p.id_pais
+        where e.NombreExhibidor!="SIN EXHIBIDOR" and ae.TipoActualizacion!=2 and d.Division="'.$parametro.'"
+        group by NombreExhibidor 
+        order by Total asc';
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+      
+        if(empty($resultados)){
+
+            return array();
+        }else{
+            return $resultados;
+        } 
+    }
+
+    public function GenerarInformeCensoexhibidores() {
+    
+        $resultados='SELECT p.Nombre_Pais,d.Nombre_Distribuidora,d.Division,r.Nombre_Ruta,c.Codigo,c.Nombre,c.Telefono,c.Direccion ,ae.Id_Exhibidores,e.SKU_Exhibidor ,e.NombreExhibidor, c.Latitud,c.Longitud, 
+		IF(RespuestaObservacion=0,"SIN OBSERVACION",
+        IF(RespuestaObservacion=1,"VISIBLE Y ACCESIBLE",
+        IF(RespuestaObservacion=2,"MAL UBICADO",
+        IF(RespuestaObservacion=3,"INVADIDO",
+        IF(RespuestaObservacion=4,"NECESITA REPARACION",
+        IF(RespuestaObservacion=5,"DESECHADO O GUARDADO POR EL CLIENTE",
+        IF(RespuestaObservacion=6,"RETIRADO DEL NEGOCIO",
+        IF(RespuestaObservacion=70,"CLIENTE NO DEJO ENTRAR",
+        IF(RespuestaObservacion=71,"NO SE ENCONTRO TIENDA / PULPERIA",
+        IF(RespuestaObservacion=72,"ESTABA CERRADO","ERROR,NO ENCONTRADA")))))))))) AS Observacion
+        from clientes as c
+        INNER JOIN actualizacion_exhibidores as ae on c.Id_Cliente=ae.Id_Cliente
+        INNER JOIN exhibidores as e on ae.Id_Exhibidores=e.Id_Exhibidores
+        inner join fotos_actualizacion_exh as fah on ae.Id_Cliente=fah.Id_Cliente
+        inner join usuarios as u on c.Id_Usuarios=u.Id_Usuarios
+        inner join rutas as r on u.Id_Ruta=r.Id_Ruta
+        inner join distribuidora as d on r.Id_Distribuidora=d.Id_Distribuidora
+        inner join pais as p on d.Id_Pais=p.Id_Pais
+        where c.estado_w=1 and c.Estado="P" 
+        ';
+  
+        $query = $this->db->query($resultados);
+  
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $filePath= "Uploads/Informes/Plantillas/Data.csv";
+        $writer->openToFile($filePath); // write data to a file or to a PHP stream
+  
+        //Escribir Encabezados de excel
+      
+            $cells = [
+              WriterEntityFactory::createCell('Pais'),
+              WriterEntityFactory::createCell('Distribuidora'),
+              WriterEntityFactory::createCell('Division'),
+              WriterEntityFactory::createCell('Ruta'),
+              WriterEntityFactory::createCell('Codigo Cliente'),
+              WriterEntityFactory::createCell('Nombre '),
+              WriterEntityFactory::createCell('Telefono'),
+              WriterEntityFactory::createCell('Direccion'),
+              WriterEntityFactory::createCell('Latitud'),
+              WriterEntityFactory::createCell('Longitud'),
+              WriterEntityFactory::createCell('Id_exhibidor'),
+              WriterEntityFactory::createCell('Sku_exhibidor'),
+              WriterEntityFactory::createCell('Nombre Exhibidor'),
+              WriterEntityFactory::createCell('Observacion')
+             
+   
+              ];
+      
+            //a;adir encabezados a archivo excel
+            $singleRow = WriterEntityFactory::createRow($cells);
+            $writer->addRow($singleRow);
+  
+            //obteniendo celdas con los datos
+            foreach($query->result() as $row)
+            {
+                $cells = [
+                  WriterEntityFactory::createCell($row->Nombre_Pais),
+                  WriterEntityFactory::createCell($row->Nombre_Distribuidora),
+                  WriterEntityFactory::createCell($row->Division),
+                  WriterEntityFactory::createCell($row->Nombre_Ruta),
+                  WriterEntityFactory::createCell($row->Codigo),
+                  WriterEntityFactory::createCell($row->Nombre),
+                  WriterEntityFactory::createCell($row->Telefono),
+                  WriterEntityFactory::createCell($row->Direccion),
+                  WriterEntityFactory::createCell($row->Latitud),
+                  WriterEntityFactory::createCell($row->Longitud),
+                  WriterEntityFactory::createCell($row->Id_Exhibidores),
+                  WriterEntityFactory::createCell($row->SKU_Exhibidor),
+                  WriterEntityFactory::createCell($row->NombreExhibidor),
+                  WriterEntityFactory::createCell($row->Observacion)
+             
+                ];
+  
+  
+              //a;adiendo los datos a la fila corespondiente
+              $multipleRows = [
+                WriterEntityFactory::createRow($cells),
+              ];
+  
+              $writer->addRows($multipleRows);
+            
+            }
+  
+            $writer->close();
+            
+          return   1;
+       
+        }
+
+
+    
 
     
 }

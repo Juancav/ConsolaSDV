@@ -290,9 +290,44 @@ class Empleados_Model extends CI_Model {
        
                 $data = $this->db->query($data);
 
-                echo $data;
+               
 
         }else{
+
+
+            $this->db->select('c.Nombre_Canal');
+            $this->db->from('Historial_Entregas as he');
+            $this->db->join('Empleados as  e','he.Id_Empleados=e.Id_Empleados');
+            $this->db->join('canal as  c','e.Id_Canal=c.Id_Canal');
+            $this->db->where('he.Id_PDF',$Id_PDF);
+            $query=$this->db->get();
+
+
+            if($query->row()->Nombre_Canal !='DETALLE'){
+
+                $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion, he.Observacion,he.Id_PDF  
+                    from Historial_Entregas as he
+                    inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+                    inner join canal as c on he.Id_Canal=c.Id_Canal
+                    inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+                    inner join Empleados as e on he.Id_Empleados=e.Id_Empleados
+                    inner join telefonos as t on  he.Id_telefono=t.Id_telefono
+                    inner join marca_cell as mc on t.Id_marca_cell=mc.Id_marca_cell
+                    inner join modelo_cell as mo on t.Id_modelo_cell=mo.Id_modelo_cell
+                    inner join Impresoras as i on he.Id_Impresoras=i.Id_Impresoras
+                    inner join Marca_Impresoras as mi on i.Id_marca_impresoras=mi.Id_marca_impresoras
+                    inner join Modelo_Impresoras as moi on i.Id_modelo_impresoras=moi.Id_modelo_impresoras 
+                    inner join deducibles_telefonos as dt on mo.Id_modelo_cell=dt.Id_modelo_cell
+                    inner join deducibles_impresoras as di on moi.Id_modelo_impresoras=di.Id_modelo_impresoras
+                  WHERE he.Id_PDF="'.$Id_PDF.'"';
+
+       
+       
+                $data = $this->db->query($data);
+
+                
+
+            }else{
 
             $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion,mh.img_mh, he.Observacion,he.Id_PDF  
                 from Historial_Entregas as he
@@ -312,6 +347,7 @@ class Empleados_Model extends CI_Model {
             WHERE he.Id_PDF="'.$Id_PDF.'"';
 
                 $data = $this->db->query($data);
+            }
 
         }
 
@@ -750,8 +786,13 @@ class Empleados_Model extends CI_Model {
                         //*********************************END, HOJA DE ENTREGA TELEFONO ***********************************//
                     }else{
                         //*********************************HOJA DE ENTREGA HAND HELD ***********************************//
+                        $output.='<div style="margin-top:-35;';
+                        if($count2>0){
+                            $output.='page-break-before:always;">';
+                        }else{
 
-                        $output='';
+                        }
+                     
                             $output .=  '<div style="font-size:20px;">
                                     <img width="125px"  height="125px" style="margin-top:10px;" src="https://fotos.subefotos.com/1caca0253f02cfa9f52b2d2264004f28o.png">
                                         
@@ -1353,18 +1394,32 @@ class Empleados_Model extends CI_Model {
                     
 
                     // ********************************* HOJA DE ENTREGA DE AUTORIZACION ***********************************// 
-                    $output.='<div style="font-size:20px; page-break-before:always;">
-                            <img width="100%" src="https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-21.png">
-                 
 
-                            <p style="font-size:24px; margin-left:350px;">RUTA: <b>'.STRTOUPPER($data->row()->Nombre_Ruta).' </b><br><br>
-                            EMPLEADO:  <b>'.STRTOUPPER($data->row()->Nombre).'</b><br><br>
-                            CARNET:  <b>'.STRTOUPPER($data->row()->Carnet).'</b><br><br>
-                            MOTIVO ENTREGA:  <b>'.STRTOUPPER($data->row()->Motivo_Traspaso).'</b><br><br>
-                            FECHA ENTREGA:  <b>'.STRTOUPPER($data->row()->fecha_registro).'</b><br><br><br><br><br>
-                            FIRMA:<b>__________________________________</b></p>
-                        </div>
+                    $this->db->select('c.Nombre_Canal');
+                    $this->db->from('Historial_Entregas as he');
+                    $this->db->join('Empleados as  e','he.Id_Empleados=e.Id_Empleados');
+                    $this->db->join('canal as  c','e.Id_Canal=c.Id_Canal');
+                    $this->db->where('he.Id_PDF',$Id_PDF);
+                    $MH=$this->db->get();
+
+                    if($MH->row()->Nombre_Canal=='DETALLE'){
+                        $output.='<div style="font-size:20px; page-break-before:always;">';
+                        
+                        if($data->row()->img_mh=='https://043ea08.netsolhost.com/ConsolaSDV/Uploads/Archivos/CartaMH/cartamhdefault.png'){
+                            $output.='<img width="100%" src="https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-21.png">';
+                        }else{
+                            $output.='<img width="100%" src="'.$data->row()->img_mh.'">';
+                        }
+                        $output.='<br><br><br><p style="font-size:24px; margin-left:350px;">RUTA: <b>'.STRTOUPPER($data->row()->Nombre_Ruta).' </b><br><br>
+                        EMPLEADO:  <b>'.STRTOUPPER($data->row()->Nombre).'</b><br><br>
+                        CARNET:  <b>'.STRTOUPPER($data->row()->Carnet).'</b><br><br>
+                        MOTIVO ENTREGA:  <b>'.STRTOUPPER($data->row()->Motivo_Traspaso).'</b><br><br>
+                        FECHA ENTREGA:  <b>'.STRTOUPPER($data->row()->fecha_registro).'</b><br><br><br><br><br>
+                        FIRMA:<b>__________________________________</b></p>
+                    </div>
                     ';
+                    }
+                   
 
 
             return $output;

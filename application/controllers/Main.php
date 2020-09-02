@@ -31,6 +31,9 @@ class Main extends CI_Controller {
 					case "GERENTE":
 					$this->load->view('Layout/Header_N1');	
 					break;
+					case "INFORMES":
+						$this->load->view('Layout/Header_N1');	
+					break;
 				}
 				
 				

@@ -57,8 +57,16 @@ class Login extends CI_Controller {
 		//Setea la sesion
 		$this->session->set_userdata($Sesiones);
 
-		header ('location: ../Main');
+		if($this->session->userdata('Rol')=="IMPULSADORAS"){
 
+			header ('location: ../Marcacion_impulso');
+
+		}else
+		{
+			header ('location: ../Main');
+
+		}
+		
 
 		}else{
 			 header("Location: ../../");

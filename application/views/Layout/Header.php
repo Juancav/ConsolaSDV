@@ -105,7 +105,7 @@
             </a>
             <div class="sidebar-submenu">
               <ul>
-                <li> <a href="#"><i class="fab fa-creative-commons-by"></i>Clientes</a></li>
+                <li> <a href="Clientes"><i class="fab fa-creative-commons-by"></i>Clientes</a></li>
                 <li><a href="Empleados"><i class="fas fa-users"></i>Empleados</a></li>
                 <li> <a href="#"><i class="fas fa-clipboard-list"></i>Itinerario Impulso</a> </li>
                 <li> <a href="#"><i class="fas fa-shoe-prints"></i></i>Rutas</a> </li>

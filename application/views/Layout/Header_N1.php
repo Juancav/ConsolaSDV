@@ -8,34 +8,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--Icon page-->
-    <link href="<?php echo base_url('Public/Img/favicon.png')?>" rel="icon">
+     <!--Icon page-->
+     <link href="<?php echo base_url('Public/Img/favicon.png')?>" rel="icon">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     
-    <!--sweet Alert-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+      
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Roboto:100,300,400,500,700|Philosopher:400,400i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 
-    <!--jsPDF-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+  <!--sweet Alert-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
-    <!--Html2Canvas-->
-    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.js')?>"></script>
-    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.min.js')?>"></script>
+  <!--jsPDF-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+
+  <!-- Echarts Graficas -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.min.js"></script>
+
+  <!-- Tema Echarts -->
+  <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/macarons.js')?>"></script>
+
+  <!--Html2Canvas-->
+  <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.js')?>"></script>
+  <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.min.js')?>"></script>
 
 
 
-    <!--Font Awesome-->
-    <script src="https://kit.fontawesome.com/74f9e3337a.js" ></script>
+  <!--Font Awesome-->
+  <script src="https://kit.fontawesome.com/74f9e3337a.js" ></script>
 
-    <!--Jquery And Bootstrap-->
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    
-    <!-- Main Stylesheet File -->
+  <!--Jquery And Bootstrap-->
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+  <!-- Main Stylesheet File -->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/style.css')?>">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/Css.css')?>">
 
@@ -108,7 +121,7 @@
               <ul>
                 <li><a href="#"><i class="fas fa-camera-retro"></i>Exhibidores</a></li>
                 <li><a href="#"><i class="fas fa-mobile-alt"></i>Dispositivos</a></li>
-                <li><a href="Accesorios"><i class="fas fa-headphones-alt"></i>Accesorios</a></li>
+                <li><a href="#"><i class="fas fa-headphones-alt"></i>Accesorios</a></li>
                 <li><a href="#"><i class="far fa-list-alt"></i>Autorizaciones MH</a></li>
                 <li><a href="#"><i class="fas fa-hand-holding-usd"></i>Credito por ruta</a></li>
                 <li><a href="#"><i class="fas fa-box"></i>Productos</a></li>

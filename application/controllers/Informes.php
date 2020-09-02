@@ -1,7 +1,7 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+ini_set('memory_limit','-1');
 class Informes extends CI_Controller {
 
 	function __Construct(){
@@ -32,6 +32,9 @@ class Informes extends CI_Controller {
 				case "GERENTE":
 					$this->load->view('Layout/Header_N1');	
 					break;
+				case "INFORMES":
+					$this->load->view('Layout/Header_N1');	
+				break;
 			}
 
 			$this->load->view('Informes/Index');
@@ -383,6 +386,458 @@ class Informes extends CI_Controller {
 
 		
 	}
+
+	public function addExhibidores(){
+
+		$fecha = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
+        $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+		$nuevafecha = date ( 'Y-m-j H:i:s' , $nuevafecha );
+		
+		$fecha1 = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
+        $fechafinal1 = strtotime ( '-2 hour' , strtotime ( $fecha1 ) ) ;
+		$fechafinal1 = date ( 'Y-m-j_H_i_s' , $fechafinal1 );
+
+
+		$config['file_name'] = "CARGA_DE_EXHIBIDORES";
+		$config['upload_path'] = './Uploads/Informes/';
+		$config['allowed_types'] = 'CSV|csv';
+        $config['max_size'] = '0';
+        $config['max_width'] = '0';
+		$config['max_height'] = '0';
+		$config['overwrite'] = true;
+
+		$this->load->library('upload',$config);
+
+		if (!$this->upload->do_upload("excel_file_exhibidores")) {
+            echo $data['error'] = "<p style='color:red; '><i class='fas fa-exclamation-triangle'></i> Tipo  de archivo no permitido...  Adjunte Archivo en Formato CSV</p>";
+			return $this->upload->display_errors();
 	
+        }else {
+
+			$file_info = $this->upload->data();
+			
+			
+		$data=array (
+			'Id_Informe' =>0,
+			'nombre_informe' => "CARGA_DE_EXHIBIDORES",
+			'fecha_registro'=> $nuevafecha,
+			'fecha_actualizacion'=> $nuevafecha,
+			'url_informe'=> base_url()."Uploads/Informes/".$file_info['file_name'],
+			'Id_u_sdv'=> $this->session->userdata('Id_u_sdv'),
+		);
+		
+		}
+		
+		$dat= $this->Informes_Model->addExhibidores($data);
+		sleep(2);
+
+		if($dat){
+			echo "<p style='color:green; '>Completado</p>";
+			// redirect('index.php/Informes');
+			
+		}else{
+			echo "<p style='color:red; '><i class='fas fa-exclamation-circle'></i> El Archivo no coincide con el Informe a Actualizar...</p>";
+			// redirect('index.php/Fail');
+		}
+
+
+		
+	}
+	
+	function AvanceExhibidores(){
+		
+		//if ($this->input->is_ajax_request()) {
+
+			
+			 $Datos = $this->Informes_Model->AvanceExhibidores();
+			
+			  $Pais=array();
+			  $Estatus=array();
+			  $SV=array();
+			  $GT=array();
+			  $HN=array();
+			  
+
+			$No=array('CLIENTES NO ACTUALIZADOS');
+			$Si=array('CLIENTES ACTUALIZADOS');
+			  
+			  foreach ($Datos[0] as $key ) {
+
+				
+				array_push($No,$key->SV,$key->GT,$key->HN);
+
+			  }
+
+				foreach ($Datos[1] as $key ) {
+
+					
+					array_push($Si,$key->SV1,$key->GT1,$key->HN1);
+
+				}
+			
+
+			 array_push($Pais,'PAIS','EL SALVADOR','GUATEMALA','HONDURAS');
+
+			$Arreglo=array();
+			$Arreglo=array($Pais,$No,$Si);
+
+			  echo json_encode($Arreglo);
+			
+		//}
+		
+			
+	}
+
+	function ClientesExhibidorXPais(){
+		
+		//if ($this->input->is_ajax_request()) {
+
+			
+			 $Datos = $this->Informes_Model->ClientesExhibidorXPais();
+			
+			  $Pais=array();
+			  $Estatus=array();
+			  $SV=array();
+			  $GT=array();
+			  $HN=array();
+			  
+
+			$No=array('CLIENTES SIN EXHIBIDOR');
+			$Si=array('CLIENTES CON EXHIBIDOR');
+			  
+			  foreach ($Datos[0] as $key ) {
+
+				
+				array_push($No,$key->SV,$key->GT,$key->HN);
+
+			  }
+
+				foreach ($Datos[1] as $key ) {
+
+					
+					array_push($Si,$key->SV1,$key->GT1,$key->HN1);
+
+				}
+			
+
+			 array_push($Pais,'PAIS','EL SALVADOR','GUATEMALA','HONDURAS');
+
+			$Arreglo=array();
+			$Arreglo=array($Pais,$No,$Si);
+
+			  echo json_encode($Arreglo);
+			
+		//}
+		
+			
+	}
+
+	function PosicionExhibidor(){
+
+		if ($this->input->is_ajax_request()) {
+
+			$PAIS=array();
+			$Data1=array();
+			$Data2=array();
+			$Data3=array();
+			$Data4=array();
+			$Data5=array();
+			$Data6=array();
+	
+			 $Datos = $this->Informes_Model->PosicionExhibidor();
+
+			 foreach ($Datos as $key ) {
+
+				
+				array_push($PAIS,$key->PAIS);
+				array_push($Data1,$key->Data1);
+				array_push($Data2,$key->Data2);
+				array_push($Data3,$key->Data3);
+				array_push($Data4,$key->Data4);
+				array_push($Data5,$key->Data5);
+				array_push($Data6,$key->Data6);
+			
+			
+
+			  }
+
+			  $arreglo=array($PAIS,$Data1,$Data2,$Data3,$Data4,$Data5,$Data6);
+
+			  echo json_encode($arreglo);
+			
+		}
+		
+		
+	}
+
+	function Totalclientesconysinexhibidor(){
+		
+		$Pais=array();
+		$ConExhibidor=array();
+		$Sinexhibidor=array();
+		array_push($Pais,'PAIS','EL SALVADOR','GUATEMALA','HONDURAS');
+		array_push($ConExhibidor,'CON EXHIBIDOR');
+		array_push($Sinexhibidor,'SIN EXHIBIDOR');
+
+		
+
+			$Datos = $this->Informes_Model->Totalclientesconysinexhibidor();
+
+			foreach ($Datos as $key ) {
+
+				
+				array_push($ConExhibidor,$key->SiExh);
+				array_push($Sinexhibidor,$key->NoExh);
+
+			  }
+
+			$arreglo=array($Pais,$ConExhibidor,$Sinexhibidor);
+
+			echo json_encode($arreglo);
+			
+		
+	}
+
+	function ClientesCensadosXDistribuidora(){
+		
+		if ($this->input->is_ajax_request()) {
+			$Distribuidora=array();
+			$Actualizado=array();
+			$NoActualizado=array();
+			$Avance=array();
+	
+			 $Datos = $this->Informes_Model->ClientesCensadosXDistribuidora();
+
+			 foreach ($Datos as $key ) {
+
+				
+				array_push($Distribuidora,$key->Distribuidora);
+				array_push($Actualizado,$key->Actualizado);
+				array_push($NoActualizado,$key->NoActualizado);
+				array_push($Avance, number_format(($key->Actualizado*100)/($key->Actualizado + $key->NoActualizado),2, '.', '') );
+
+			  }
+
+			  $arreglo=array($Distribuidora,$Actualizado,$NoActualizado,$Avance);
+
+			  echo json_encode($arreglo);
+			
+		}
+		
+			
+	}
+
+	function ClientesCensadosXDistribuidoraChange(){
+		
+		if ($this->input->is_ajax_request()) {
+			$Distribuidora=array();
+			$Actualizado=array();
+			$NoActualizado=array();
+			$Avance=array();
+	
+			 $Datos = $this->Informes_Model->ClientesCensadosXDistribuidoraChange($this->input->post('parametro'));
+
+			 foreach ($Datos as $key ) {
+
+				
+				array_push($Distribuidora,$key->Distribuidora);
+				array_push($Actualizado,$key->Actualizado);
+				array_push($NoActualizado,$key->NoActualizado);
+				array_push($Avance, number_format(($key->Actualizado*100)/($key->Actualizado + $key->NoActualizado),2, '.', '') );
+
+			  }
+
+			  $arreglo=array($Distribuidora,$Actualizado,$NoActualizado,$Avance);
+
+			  echo json_encode($arreglo);
+			
+		}
+		
+			
+	}
+
+	function SumatoriaExhibidor(){
+		
+		if ($this->input->is_ajax_request()) {
+
+			$Datos = $this->Informes_Model->SumatoriaExhibidor();
+
+			$NombreExhibidor = array();
+			  $Total=array();
+			  
+			  foreach ($Datos as $key ) {
+				array_push($NombreExhibidor,$key->NombreExhibidor);
+				array_push($Total,$key->Total);
+			
+			}
+			$Arreglo=array();
+
+			$Arreglo=array("NombreExhibidor" => $NombreExhibidor , "Total"=> $Total);
+
+			  echo json_encode($Arreglo);
+			
+		}
+	}
+
+	function ClientesCensadosNDE_NSET_EC(){
+		
+		if ($this->input->is_ajax_request()) {
+			$PAIS=array();
+			$NDE=array();
+			$NSET=array();
+			$EC=array();
+	
+			 $Datos = $this->Informes_Model->ClientesCensadosNDE_NSET_EC();
+
+			 foreach ($Datos as $key ) {
+
+				
+				array_push($PAIS,$key->PAIS);
+				array_push($NDE,$key->NDE);
+				array_push($NSET,$key->NSET);
+				array_push($EC,$key->EC);
+				
+
+			  }
+
+			  $arreglo=array($PAIS,$NDE,$NSET,$EC);
+
+			  echo json_encode($arreglo);
+			
+		}
+
+	
+		
+			
+	}
+	function ClientesCensadosNDE_NSET_ECxDivisionchange(){
+		
+		if ($this->input->is_ajax_request()) {
+			$PAIS=array();
+			$NDE=array();
+			$NSET=array();
+			$EC=array();
+	
+			 $Datos = $this->Informes_Model->ClientesCensadosNDE_NSET_ECxDivisionchange($this->input->post('parametro'));
+
+			 foreach ($Datos as $key ) {
+
+				
+				array_push($PAIS,$key->PAIS);
+				array_push($NDE,$key->NDE);
+				array_push($NSET,$key->NSET);
+				array_push($EC,$key->EC);
+				
+
+			  }
+
+			  $arreglo=array($PAIS,$NDE,$NSET,$EC);
+
+			  echo json_encode($arreglo);
+			
+		}
+
+	
+		
+			
+	}
+
+	function PosicionExhibidorChange(){
+
+		if ($this->input->is_ajax_request()) {
+
+			$PAIS=array();
+			$Data1=array();
+			$Data2=array();
+			$Data3=array();
+			$Data4=array();
+			$Data5=array();
+			$Data6=array();
+	
+			 $Datos = $this->Informes_Model->PosicionExhibidorChange($this->input->post('parametro'));
+
+			 foreach ($Datos as $key ) {
+
+				
+				array_push($PAIS,$key->PAIS);
+				array_push($Data1,$key->Data1);
+				array_push($Data2,$key->Data2);
+				array_push($Data3,$key->Data3);
+				array_push($Data4,$key->Data4);
+				array_push($Data5,$key->Data5);
+				array_push($Data6,$key->Data6);
+			
+			
+
+			  }
+
+			  $arreglo=array($PAIS,$Data1,$Data2,$Data3,$Data4,$Data5,$Data6);
+
+			  echo json_encode($arreglo);
+			
+		}
+		
+		
+	}
+
+	function SumatoriaExhibidorfiltro(){
+		
+		if ($this->input->is_ajax_request()) {
+
+			$Datos = $this->Informes_Model->SumatoriaExhibidorfiltro($this->input->post('parametro'));
+
+			$NombreExhibidor = array();
+			  $Total=array();
+			  
+			  foreach ($Datos as $key ) {
+				array_push($NombreExhibidor,$key->NombreExhibidor);
+				array_push($Total,$key->Total);
+			
+			}
+			$Arreglo=array();
+
+			$Arreglo=array("NombreExhibidor" => $NombreExhibidor , "Total"=> $Total);
+
+			  echo json_encode($Arreglo);
+			
+		}
+	}
+
+	function SumatoriaExhibidorfiltroxDivision(){
+		
+		if ($this->input->is_ajax_request()) {
+
+			$Datos = $this->Informes_Model->SumatoriaExhibidorfiltroxDivision($this->input->post('parametro'));
+
+			$NombreExhibidor = array();
+			  $Total=array();
+			  
+			  foreach ($Datos as $key ) {
+				array_push($NombreExhibidor,$key->NombreExhibidor);
+				array_push($Total,$key->Total);
+			
+			}
+			$Arreglo=array();
+
+			$Arreglo=array("NombreExhibidor" => $NombreExhibidor , "Total"=> $Total);
+
+			  echo json_encode($Arreglo);
+			
+		}
+	}
+
+
+	public function GenerarInformeCensoexhibidores()
+	{	
+		if($this->input->is_ajax_request()){
+			
+		echo json_encode($this->Informes_Model->GenerarInformeCensoexhibidores());
+		
+		}
+	}
+
+	
+
+
 	
 }
