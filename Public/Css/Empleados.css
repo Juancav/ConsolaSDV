@@ -1,36 +1,35 @@
+.PdfDispositivos {
+    text-align: center;
+    background: #3a3f48;
+    box-shadow: 0px -1px 5px #282c33;
+    border-top: 1px solid #464a52;
+    position: fixed;
+    bottom: 0;
+    width: 2%;
+    height: 60px;
+    right: 30px;
+    transition: background-color .5s;
+}
 
-.PdfDispositivos{
-    text-align: center;   
-  background: #3a3f48;
-  box-shadow: 0px -1px 5px #282c33;
-  border-top: 1px solid #464a52;
-  position: fixed;
-  bottom: 0;
-  width: 2%;
-  height: 60px;
-  right:30px;
-  transition: background-color .5s;
-  }
-  
-  .PdfDispositivos:hover{
+.PdfDispositivos:hover {
     -webkit-transform: scale(1.1);
-  -ms-transform: scale(1.1);
-  transform: scale(1.1);
-  }
-  
-  
-  #modal {
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+#modal {
     background: rgba(0, 0, 0, 0.95);
     color: #fff;
     position: fixed;
     top: -100vh;
     height: 100vh;
     width: 100vw;
-    right:0;
+    right: 0;
     transition: all .5s;
     overflow: auto;
-  }
-  #modal p {
+}
+
+#modal p {
     width: 60%;
     height: 50%;
     position: relative;
@@ -41,34 +40,37 @@
     margin: auto;
     font-size: 1.5em;
     text-align: center;
-  
-  }
-  
-  #mostrar-modal {
+}
+
+#mostrar-modal {
     display: none;
-  }
-  #mostrar-modal + label {
+}
+
+#mostrar-modal+label {
     background: #3a3f48;
     display: table;
     color: red;
-  
     text-transform: uppercase;
     cursor: pointer;
-  }
-  #mostrar-modal + label:hover {
-    background: ;
-  }
-  #mostrar-modal:checked ~ #modal {
+}
+
+#mostrar-modal+label:hover {
+    background: 0;
+}
+
+#mostrar-modal:checked~#modal {
     top: 0;
-  }
-  #mostrar-modal:checked ~ #cerrar-modal + label {
+}
+
+#mostrar-modal:checked~#cerrar-modal+label {
     display: block;
-  }
-  
-  #cerrar-modal {
+}
+
+#cerrar-modal {
     display: none;
-  }
-  #cerrar-modal + label {
+}
+
+#cerrar-modal+label {
     position: absolute;
     top: 1em;
     right: 1em;
@@ -84,66 +86,139 @@
     border-radius: 50%;
     display: none;
     transition: all .5s;
-  }
-  #cerrar-modal:checked ~ #modal {
+}
+
+#cerrar-modal:checked~#modal {
     top: -100vh;
-  }
-  #cerrar-modal:checked + label {
+}
+
+#cerrar-modal:checked+label {
     display: none;
-  }
+}
+
+
 /*   
   .table .th {
     background: rgba(255, 255, 255, 0.95);
     color: #000000;
     text-align:center;
   } */
-  #modal .table td{
-    margin:0 auto;
+
+#modal .table td {
+    margin: 0 auto;
     text-align: center;
     overflow: auto;
-    padding:0;
-   height: 5px;
-  }
-  .tablapdf{
+    padding: 0;
+    height: 5px;
+}
+
+.tablapdf {
     height: auto;
     overflow: auto;
-  
-  }
-  
-  .buscador{
+}
+
+.buscador {
     position: absolute;
     float: right;
     right: 5%;
     top: 200px;
-  }
+}
 
-
-  .colc_buttons{
-   
-    position:fixed; 
-    float:right; 
-    top:40%;
+.colc_buttons {
+    position: fixed;
+    float: right;
+    top: 40%;
     right: 50px;
 }
 
-.button{
- 
+.button {
     float: right;
-    box-shadow:  #DFDFDF 7px 5px 5px;
+    box-shadow: #DFDFDF 7px 5px 5px;
     width: 40px;
+    margin-left: 10px;
     margin-bottom: 5px;
 }
 
-
-.inputsucces{
-  border-collapse: collapse;
-
-  box-shadow: 0px 0px 8px rgb(0, 253, 21);
-
+.inputsucces {
+    border-collapse: collapse;
+    box-shadow: 0px 0px 8px rgb(0, 253, 21);
 }
 
+.inputalert {
+    border-collapse: collapse;
+    box-shadow: 0px 0px 8px rgb(255, 0, 0);
+}
 
-.inputalert{
-  border-collapse: collapse;
-  box-shadow: 0px 0px 8px rgb(255, 0, 0);
+.cntr {
+    margin: auto;
+}
+
+.btn-radio {
+    cursor: pointer;
+    display: inline-block;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.btn-radio:not(:first-child) {
+    margin-left: 20px;
+}
+
+@media screen and (max-width: 480px) {
+    .btn-radio {
+        display: block;
+        float: none;
+    }
+    .btn-radio:not(:first-child) {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+}
+
+.btn-radio svg {
+    fill: none;
+    vertical-align: middle;
+}
+
+.btn-radio svg circle {
+    stroke-width: 2;
+    stroke: #C8CCD4;
+}
+
+.btn-radio svg path {
+    stroke: #008FFF;
+}
+
+.btn-radio svg path.inner {
+    stroke-width: 6;
+    stroke-dasharray: 19;
+    stroke-dashoffset: 19;
+}
+
+.btn-radio svg path.outer {
+    stroke-width: 2;
+    stroke-dasharray: 57;
+    stroke-dashoffset: 57;
+}
+
+.btn-radio input {
+    display: none;
+}
+
+.btn-radio input:checked+svg path {
+    transition: all 0.4s ease;
+}
+
+.btn-radio input:checked+svg path.inner {
+    stroke-dashoffset: 38;
+    transition-delay: 0.3s;
+}
+
+.btn-radio input:checked+svg path.outer {
+    stroke-dashoffset: 0;
+}
+
+.btn-radio span {
+    display: inline-block;
+    vertical-align: middle;
 }

@@ -32,10 +32,6 @@
     <!-- Tema Echarts -->
     <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/macarons.js')?>"></script>
 
-    <!--Html2Canvas-->
-    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.js')?>"></script>
-    <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.min.js')?>"></script>
-
 
 
     <!--Font Awesome-->
@@ -107,7 +103,7 @@
               <ul>
                 <li> <a href="Clientes"><i class="fab fa-creative-commons-by"></i>Clientes</a></li>
                 <li><a href="Empleados"><i class="fas fa-users"></i>Empleados</a></li>
-                <li> <a href="#"><i class="fas fa-clipboard-list"></i>Itinerario Impulso</a> </li>
+                <li> <a href="Itinerario_impulsadoras"><i class="fas fa-clipboard-list"></i>Itinerario Impulso</a> </li>
                 <li> <a href="#"><i class="fas fa-shoe-prints"></i></i>Rutas</a> </li>
                 <li><a href="#"><i class="fas fa-truck"></i>Vehiculos</a></li>
               </ul>

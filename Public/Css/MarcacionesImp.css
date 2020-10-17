@@ -1,37 +1,34 @@
-body{
+body {
     padding: 0;
     margin: 0;
 }
-.header{
+
+.header {
     width: 100%;
     height: 75px;
     min-width: 300px;
-    background: -webkit-linear-gradient(left,#290149, #58009F);
-    background: -o-linear-gradient(left,#410404 #410404);
-    background: -moz-linear-gradient(left,#410404, #410404);
-    background: linear-gradient(left,#410404, #410404);
-    color:white;
-    font-family: Roboto ,serif;
-
+    background: -webkit-linear-gradient(left, #290149, #58009F);
+    background: -o-linear-gradient(left, #410404 #410404);
+    background: -moz-linear-gradient(left, #410404, #410404);
+    background: linear-gradient(left, #410404, #410404);
+    color: white;
+    font-family: Roboto, serif;
+    z-index: 100;
     display: flex;
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-
-    
-
 }
-.section{
+
+.section {
     width: 100%;
     min-width: 300px;
     padding: 20px;
-
     display: flex;
     justify-content: center;
     align-content: center;
     flex-direction: column;
     flex-wrap: wrap;
-   
 }
 
 .btn-info,
@@ -39,10 +36,30 @@ body{
 .btn-info:active,
 .btn-info:visited,
 .btn-info:focus {
-    background-color: #e100ff !important;
-    border-color: #e100ff !important;
+    background-color: #58009F !important;
+    border-color: #290149 !important;
 }
-.btn-info:hover{
-    background-color: #8c009e !important;
-    border-color: #8c009e !important;
+
+.btn-info:hover {
+    background-color: #290149 !important;
+    border-color: #290149 !important;
+}
+
+.sub-menu {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100% 0 0 0 / 100% 0 0px 0px !important;
+    font-size: 22px;
+    color: white;
+    border-style: none !important;
+    z-index: 100;
+}
+
+.sub-menu:hover {
+    width: 100px;
+    height: 100px;
+    color: #ffffff;
 }

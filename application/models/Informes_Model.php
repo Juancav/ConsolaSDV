@@ -966,7 +966,33 @@ class Informes_Model extends CI_Model {
 
     public function GenerarInformeCensoexhibidores() {
     
-        $resultados='SELECT p.Nombre_Pais,d.Nombre_Distribuidora,d.Division,r.Nombre_Ruta,c.Codigo,c.Nombre,c.Telefono,c.Direccion ,ae.Id_Exhibidores,e.SKU_Exhibidor ,e.NombreExhibidor, c.Latitud,c.Longitud, 
+        $resultados='SELECT 
+        p.Nombre_Pais,
+        d.Nombre_Distribuidora,
+        d.Division,
+        r.Nombre_Ruta
+        ,c.Codigo, 
+        c.Nombre,
+        c.Telefono,
+        c.Direccion ,
+        ae.Id_Exhibidores,
+        e.SKU_Exhibidor ,
+        e.NombreExhibidor,
+        ae.Cantidad,
+        ae.TieneExhibidor,
+        ae.Comentario ,
+        IF(ae.TipoActualizacion=1,"EXHIBIDORES QUE TIENE",
+        IF(ae.TipoActualizacion=2,"EXHIBIDORES DEVUELTOS",
+        IF(ae.TipoActualizacion=3,"EXHIBIDORES NUEVOS",
+        IF(ae.TipoActualizacion=4,"NO POSEE EXHIBIDORES","NO ENCONTRADA")))) AS TipoActualizacion,
+        IF(ae.InfoCorrecta=1,"SI",
+        IF(ae.InfoCorrecta=2,"NO",
+        IF(ae.InfoCorrecta=3,"NO SE PUDO ENTRAR A LA TIENDA","NO ENCONTRADA"))) AS InfoCorrecta,
+        fah.LatitudObservacion,
+        fah.LongitudObservacion,
+        fah.FechaObservacionTel,
+        fah.FechaObservacionSer,
+        CONCAT("https://043ea08.netsolhost.com/img_server/",fah.FotoObservacion) as IMG_URL,
 		IF(RespuestaObservacion=0,"SIN OBSERVACION",
         IF(RespuestaObservacion=1,"VISIBLE Y ACCESIBLE",
         IF(RespuestaObservacion=2,"MAL UBICADO",
@@ -985,7 +1011,7 @@ class Informes_Model extends CI_Model {
         inner join rutas as r on u.Id_Ruta=r.Id_Ruta
         inner join distribuidora as d on r.Id_Distribuidora=d.Id_Distribuidora
         inner join pais as p on d.Id_Pais=p.Id_Pais
-        where c.estado_w=1 and c.Estado="P" 
+        where c.estado_w=1 and c.Estado="P"
         ';
   
         $query = $this->db->query($resultados);
@@ -995,7 +1021,7 @@ class Informes_Model extends CI_Model {
         $writer->openToFile($filePath); // write data to a file or to a PHP stream
   
         //Escribir Encabezados de excel
-      
+        
             $cells = [
               WriterEntityFactory::createCell('Pais'),
               WriterEntityFactory::createCell('Distribuidora'),
@@ -1005,12 +1031,21 @@ class Informes_Model extends CI_Model {
               WriterEntityFactory::createCell('Nombre '),
               WriterEntityFactory::createCell('Telefono'),
               WriterEntityFactory::createCell('Direccion'),
-              WriterEntityFactory::createCell('Latitud'),
-              WriterEntityFactory::createCell('Longitud'),
-              WriterEntityFactory::createCell('Id_exhibidor'),
-              WriterEntityFactory::createCell('Sku_exhibidor'),
-              WriterEntityFactory::createCell('Nombre Exhibidor'),
-              WriterEntityFactory::createCell('Observacion')
+              WriterEntityFactory::createCell('Id_Exhibidores'),
+              WriterEntityFactory::createCell('SKU_Exhibidor'),
+              WriterEntityFactory::createCell('NombreExhibidor'),
+              WriterEntityFactory::createCell('Cantidad'),
+              WriterEntityFactory::createCell('TieneExhibidor'),
+              WriterEntityFactory::createCell('Observaciones'),
+              WriterEntityFactory::createCell('Comentario'),
+              WriterEntityFactory::createCell('TipoActualizacion'),
+              WriterEntityFactory::createCell('InfoCorrecta'),
+              WriterEntityFactory::createCell('LatitudObservacion'),
+              WriterEntityFactory::createCell('LongitudObservacion'),
+              WriterEntityFactory::createCell('FechaObservacionTel'),
+              WriterEntityFactory::createCell('FechaObservacionSer'),
+              WriterEntityFactory::createCell('Url Imgaen')
+             
              
    
               ];
@@ -1022,6 +1057,7 @@ class Informes_Model extends CI_Model {
             //obteniendo celdas con los datos
             foreach($query->result() as $row)
             {
+            
                 $cells = [
                   WriterEntityFactory::createCell($row->Nombre_Pais),
                   WriterEntityFactory::createCell($row->Nombre_Distribuidora),
@@ -1031,12 +1067,20 @@ class Informes_Model extends CI_Model {
                   WriterEntityFactory::createCell($row->Nombre),
                   WriterEntityFactory::createCell($row->Telefono),
                   WriterEntityFactory::createCell($row->Direccion),
-                  WriterEntityFactory::createCell($row->Latitud),
-                  WriterEntityFactory::createCell($row->Longitud),
                   WriterEntityFactory::createCell($row->Id_Exhibidores),
                   WriterEntityFactory::createCell($row->SKU_Exhibidor),
                   WriterEntityFactory::createCell($row->NombreExhibidor),
-                  WriterEntityFactory::createCell($row->Observacion)
+                  WriterEntityFactory::createCell($row->Cantidad),
+                  WriterEntityFactory::createCell($row->TieneExhibidor),
+                  WriterEntityFactory::createCell($row->Observacion),
+                  WriterEntityFactory::createCell($row->Comentario),
+                  WriterEntityFactory::createCell($row->TipoActualizacion),
+                  WriterEntityFactory::createCell($row->InfoCorrecta),
+                  WriterEntityFactory::createCell($row->LatitudObservacion),
+                  WriterEntityFactory::createCell($row->LongitudObservacion),
+                  WriterEntityFactory::createCell($row->FechaObservacionTel),
+                  WriterEntityFactory::createCell($row->FechaObservacionSer),
+                  WriterEntityFactory::createCell($row->IMG_URL)
              
                 ];
   

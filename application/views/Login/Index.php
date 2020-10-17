@@ -5,6 +5,9 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<!-- Manifest JS -->
+	<link rel="manifest" href="<?php echo base_url('Public/Manifest/manifest.json')?>">
+
 	 <!--Icon page-->
 	 <link href="<?php echo base_url('Public/Img/favicon.png')?>" rel="icon">
 
@@ -26,10 +29,10 @@
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" method="POST" action='index.php/Login/Logueo'>
 				<?php
-            if(isset($errorLogin)){
-                echo $errorLogin;
-			}
-			?>
+					if(isset($errorLogin)){
+						echo $errorLogin;
+					}
+					?>
 					<span class="login100-form-title p-b-26">
 						Bienvenido
 					</span>
@@ -70,14 +73,9 @@
 
 	<div id="dropDownSelect1"></div>
 	
-<!--===============================================================================================-->
-	<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('Public/vendor/bootstrap/js/popper.js')?>"></script>
-<!--===============================================================================================-->
-	<script src="<?php echo base_url('Public/vendor/daterangepicker/moment.min.js')?>"></script>
-<!--===============================================================================================-->
 
+<!--===============================================================================================-->
+	<script src="<?php echo base_url('Public/js/App.js')?>"></script>
 
 </body>
 </html>

@@ -216,7 +216,7 @@ class Accesorios_Model extends CI_Model {
     }
 
         
-    public function fetch_ruta($Id_Canal)
+    public function fetch_ruta()
     {
         $this->db->where('Id_Canal', $Id_Canal);
         

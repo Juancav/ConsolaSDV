@@ -208,7 +208,7 @@
                 <div class="modal-body">
                     
                 <div class="col-7">
-                    <label for="formGroupExampleInput"><span style="font-size:16px; text_aling:center;">Marca De Telefono</span></label>
+                    <label for="formGroupExampleInput"><span style="font-size:16px; text-align:center;">Marca De Telefono</span></label>
                     <input type="text" class="form-control" id="txtmarcacell" placeholder="Apple, Xiaomi, Samsung">
                 </div>
 
@@ -363,7 +363,7 @@
                 <div class="modal-header">
                     <h1 style = " color:black; font-size:28px;"class="modal-title" id="exampleModalLabel"><i class="fas fa-vote-yea"></i> Asignar Telefono
                     
-                    <label style="margin-left:">
+                    <label >
                         <input type="radio" class="option-input radio" name="example" id="autorizados" Onclick="autorizados();"/>
                         Autorizados
                     </label>
@@ -441,7 +441,7 @@
                                 </div> 
                                 <br>
 
-                                <div class="form-group col-md-14" style="">
+                                <div class="form-group col-md-14" >
                                             <label for="exampleFormControlSelect1"><strong><h6>Motivo de Entrega</h6></strong></label>
                                             <select class="form-control" id="mtxtmotivoentrega" name="mtxtmotivoentrega" > 
                                             <option disabled="disabled "value="" selected="selected">Seleccione una opcion</option>
@@ -457,14 +457,14 @@
                                                     
                             <div class="col-md" >
                                 <div class="form-row">                    
-                                    <div class="form-group col-md-5" style="">
+                                    <div class="form-group col-md-5" >
                                             <label for="exampleFormControlSelect1"><strong><h6>N Maquina</h6></strong></label>
                                             <select class="form-control" id="mtxtnmaquina" name="mtxtnmaquina" > 
                                             <option  disabled="disabled" value="" selected="selected">Seleccione El N Maquina</option>
                                             </select>             
                                     </div>
 
-                                    <div class="form-group col-md-7" style="">
+                                    <div class="form-group col-md-7" >
                                             <label for="exampleFormControlSelect1"><strong><h6>Imei</h6></strong></label>
                                             <input  class="form-control" type="text" disabled="disabled" id="mtxtimeiadd"></input>
                                             </select>             
@@ -510,7 +510,7 @@
                                                
                                         <div class="input-group col-md-11">
                                             <div class="input-group-prepend">
-                                                    <span class="input-group-text"   style="">Resolucion</span>
+                                                    <span class="input-group-text">Resolucion</span>
                                             </div>
                                             <input type="text" id="mtxtresolucion" name="mtxtresolucion" class="form-control" disabled="disabled">
                                         </div>
@@ -586,7 +586,7 @@
                        
                         <div class="col-md" >
                             <div class="form-row">                    
-                                <div class="form-group col-md-5" style="">
+                                <div class="form-group col-md-5" >
                                         <label for="exampleFormControlSelect1"><strong><h6>Imei</h6></strong></label>
                                         <select class="form-control" id="mtxtimeitelefono" name="mtxtimeitelefono" > 
                                         <option  disabled="disabled" value="" selected="selected" >Seleccione un imei</option>
@@ -635,7 +635,7 @@
                                         <input type="date" id="mtxtfechahabilitacionno" name="mtxtfechahabilitacionno" class="form-control" >
                                     </div>
                                                     <br>
-                                    <div class="form-group col-md-9" style="">
+                                    <div class="form-group col-md-9" >
                                             <label for="exampleFormControlSelect1"><strong><h6>Motivo de Entrega</h6></strong></label>
                                             <select class="form-control" id="mtxtmotivoentregano" name="mtxtmotivoentregano" > 
                                             <option disabled="disabled "value="" selected="selected">Seleccione una opcion</option>
@@ -686,7 +686,7 @@
             <h1 style="color: white;    float: right;    margin-right: 100px;    margin-top: 75px; cursor:pointer;"></a><span style="font-size:70px;"><i onclick="ConsultarPDF();"class="fab fa-sistrix"></i></span> </h1><br>
                 <div id="tablapdf"> 
 
-                    <div class="buscador" style="">
+                    <div class="buscador" >
                             <div class="form-group col-md-12" >
                                 <label for="exampleFormControlSelect1"><strong><h6>Distribuidora</h6></strong></label>
                                 <select class="form-control" id="bdistribuidora" name="bdistribuidora" > 
@@ -1202,7 +1202,7 @@ $(document).ready(function(){
 
 
 
-<!-- ====================================== MOSTRAR DATOS CONSULTADOS TELEFONOS ============================ -->
+// <!-- ====================================== MOSTRAR DATOS CONSULTADOS TELEFONOS ============================ -->
 
 
   function mostrarTelefonos(){
@@ -1296,7 +1296,7 @@ $(document).ready(function(){
     });
   }
 
-<!-- ======================================FINISH MOSTRAR DATOS CONSULTADOS TELEFONOS ============================ -->
+// <!-- ======================================FINISH MOSTRAR DATOS CONSULTADOS TELEFONOS ============================ -->
 
 
 

@@ -2418,7 +2418,7 @@ function GenerarInformeCensoexhibidores(){
         $("#cargando").css("display", "none");
           if(data==1){
             window.open('<?php echo base_url('Uploads/Informes/Plantillas/Data.csv')?>');
-           
+            $('#plantillacensoexhibidores').click();
 
 
           }else{

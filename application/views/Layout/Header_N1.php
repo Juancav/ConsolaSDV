@@ -30,10 +30,6 @@
   <!-- Tema Echarts -->
   <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/macarons.js')?>"></script>
 
-  <!--Html2Canvas-->
-  <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.js')?>"></script>
-  <script  rel="stylesheet" type="text/javascript" src="<?php echo base_url('Public/js/html2canvas.min.js')?>"></script>
-
 
 
   <!--Font Awesome-->
