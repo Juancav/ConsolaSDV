@@ -1046,12 +1046,13 @@ legend {
 
 .content-field {
     margin: 10px;
-    width: 450px;
-    min-width: 400px;
+    max-width: 500px;
+    width: 400px;
+    min-width: 300px;
 }
 
 fieldset {
-    min-height: 130px;
+    min-height: 443px;
 }
 
 fieldset.scheduler-border {

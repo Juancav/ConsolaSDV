@@ -46,7 +46,7 @@ class Informes_Model extends CI_Model {
         
   
         $reader = ReaderEntityFactory::createReaderFromFile('Uploads/Informes/'.$data['nombre_informe'].'.csv');  
-        $reader->setShouldFormatDates(true); // Permite recibir del excel en formato fecha
+        // $reader->setShouldFormatDates(true); // Permite recibir del excel en formato fecha
         $reader->open('Uploads/Informes/'.$data['nombre_informe'].'.csv');
 
        

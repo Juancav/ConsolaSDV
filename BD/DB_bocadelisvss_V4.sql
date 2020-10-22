@@ -3703,15 +3703,14 @@ ALTER TABLE Itinerario_impulso add COLUMN Visitado int(2) not null;
 		
             MOD(HOUR(TIMEDIFF(mi.fecha_fin,  mi.fecha_inicio )), 24), ' horas ',
             MINUTE(TIMEDIFF(mi.fecha_fin, mi.fecha_inicio )), ' minutos '
-			) as Tiempo_visita,
-mi.img_fin,tm.nombre_tipo_marcacion,mi.observacion FROM usuarios_consolasdv as uc
-        inner join marcaciones_impulso as mi on uc.id_u_sdv=mi.id_u_sdv
-        inner join tipo_marcacion_impulso as tm on mi.id_tipo_marcacion=tm.id_tipo_marcacion
-        inner join clientes_impulsadoras as ci on mi.Id_cli_imp=ci.Id_cli_imp
+			) as Tiempo_visita,mi.img_fin,tm.nombre_tipo_marcacion,mi.observacion FROM usuarios_consolasdv as uc
+        inner join Marcaciones_impulso as mi on uc.id_u_sdv=mi.id_u_sdv
+        inner join Tipo_marcacion_impulso as tm on mi.id_tipo_marcacion=tm.id_tipo_marcacion
+        inner join Clientes_impulsadoras as ci on mi.Id_cli_imp=ci.Id_cli_imp
         inner join acti_impulso as ai on mi.id_actividad=ai.id
         inner join distribuidora as d on uc.id_distribuidora=d.id_distribuidora
         inner join pais as p on d.id_pais=p.id_pais
-        WHERE Canal='IMPULSO';
+        WHERE Canal='IMPULSO' && d.Id_Distribuidora=14 &&  mi.Fecha_inicio BETWEEN '2020-10-01' and '2020-10-31';
         
         DESCRIBE Itinerario_impulso;
         select * from usuarios_consolasdv;
@@ -6551,10 +6550,23 @@ alter table empleados change Id_Ruta Id_Ruta int(7) zerofill not null auto_incre
 alter table rutas change Id_Ruta Id_Ruta int(7) zerofill not null auto_increment;
 set foreign_key_checks=1;
 
-select * from itinerario_impulso;
+select * from clientes_impulsadoras;
+select * from Itinerario_impulso;
+select * from usuarios_consolasdv;
+
 
 SELECT ucs.id_u_sdv,ii.Id_cli_imp,ii.Id_iti_imp,ucs.Nombre, d.Nombre_Distribuidora , ci.Cod_cli ,ci.Nombre_cli , ci.Direc_cli , ii.lunes,ii.martes,ii.miercoles,ii.jueves,ii.viernes,ii.sabado,ii.domingo,ii.estado_itinerario FROM Itinerario_impulso as ii
 inner join clientes_impulsadoras as ci on ii.id_cli_imp=ci.id_cli_imp
 inner join usuarios_consolasdv as ucs on ii.id_u_sdv=ucs.id_u_sdv
 inner join distribuidora as d on ucs.id_distribuidora=d.id_distribuidora
 where ucs.Usuario='5216';
+DESCRIBE clientes_impulsadoras;
+
+ALTER TABLE clientes_impulsadoras CHANGE Cod_cli Cod_cli varchar(15) not null;
+
+INSERT INTO usuarios_consolasdv VALUES(0,'IMELDA YANIRA OSORIO ROSALES','CH04','CH04','7','16','IMPULSO');
+INSERT INTO usuarios_consolasdv VALUES(0,'GLENDA MARIA GUERRA AGUSTIN','CH05','CH05','7','16','IMPULSO');
+INSERT INTO usuarios_consolasdv VALUES(0,'CLARA LUZ MARCOS VASQUEZ','CH06','CH06','7','16','IMPULSO');
+INSERT INTO usuarios_consolasdv VALUES(0,'MAGDALENA ARACELY ESTRADA','PET01','PET01','7','16','IMPULSO');
+INSERT INTO usuarios_consolasdv VALUES(0,'INGRID YANIRA AYALA CASTILLO','PET02','PET02','7','16','IMPULSO');
+INSERT INTO usuarios_consolasdv VALUES(0,'GREISY DEL CARMEN REYNOSO','PET03','PET03','7','16','IMPULSO');

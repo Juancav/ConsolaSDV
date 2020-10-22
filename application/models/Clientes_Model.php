@@ -189,5 +189,3 @@ class Clientes_Model extends CI_Model {
 
 
 }
-
-?>

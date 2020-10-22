@@ -954,7 +954,7 @@
                             <input type="text" class="form-control"  id="txtruta" name="txtruta" placeholder="Ruta" >
                         </div>
 
-                        <div class="form-group" style="">
+                        <div class="form-group" >
                           <button type="button" class="btn btn-primary" id="btninformexruta"   OnClick="InformeXruta();"> Buscar</button>         
                         </div>
 
