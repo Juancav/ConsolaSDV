@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
     'use strict';
 
     $('.input-file').each(function() {
@@ -13,8 +14,6 @@ $(document).ready(function() {
             fileName ? $label.addClass('has-file').find('.js-fileName').html(fileName) : $label.removeClass('has-file').html(labelVal);
         });
     });
-
-
 
     // Carga plantilla de clientes
     $('#btn_enviar_data').click(function() {
@@ -507,19 +506,18 @@ $(document).ready(function() {
     //Descargar marcaciones
     $("#btn_descargar_marcaciones").click(function() {
 
-        let pais = $("#txt_pais_informe").val();
-        let distribuidora = $("#txt_distribuidora_informe").val();
+
         let fecha_inicio = $("#txt_fecha_inicio").val().length;
         let fecha_fin = $("#txt_fecha_fin").val().length;
 
 
 
-        if (pais == 0 || fecha_inicio === 0 || fecha_fin === 0) {
+        if (fecha_inicio === 0 || fecha_fin === 0) {
 
             Swal.fire({
                 icon: 'error',
                 title: 'Oppsss',
-                html: 'Todos los campos son obligatorios',
+                html: 'Fecha inicio y Fecha fin es obligatorio',
                 showConfirmButton: true
             });
         } else {
@@ -536,8 +534,6 @@ $(document).ready(function() {
                 success: function(data) {
                     $("#esperando").css('display', 'none');
                     window.location.href = '../Uploads/Informes/Plantillas/Marcaciones_impulso.csv';
-
-
                 }
             });
         }

@@ -46,11 +46,11 @@ class Marcacion_impulso extends CI_Controller {
 	public function registrar_actividad(){
 
 		$fecha = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = strtotime ( '-1 hour' , strtotime ( $fecha ) ) ;
 		$nuevafecha = date( 'Y-m-j H:i:s' , $nuevafecha );
 
 		$fecha_final = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $fechafinalfinal = strtotime ( '-2 hour' , strtotime ( $fecha_final ) ) ;
+        $fechafinalfinal = strtotime ( '-1 hour' , strtotime ( $fecha_final ) ) ;
 		$fechafinalfinal = date( 'Y-m-j_H_i_s' , $fechafinalfinal );
 
 		// Carga imagen 
@@ -114,11 +114,11 @@ class Marcacion_impulso extends CI_Controller {
 	public function registrar_actividadextraordinaria(){
 
 		$fecha = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = strtotime ( '-1 hour' , strtotime ( $fecha ) ) ;
 		$nuevafecha = date( 'Y-m-j H:i:s' , $nuevafecha );
 
 		$fecha_final = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $fechafinalfinal = strtotime ( '-2 hour' , strtotime ( $fecha_final ) ) ;
+        $fechafinalfinal = strtotime ( '-1 hour' , strtotime ( $fecha_final ) ) ;
 		$fechafinalfinal = date( 'Y-m-j_H_i_s' , $fechafinalfinal );
 
 		// Carga imagen 
@@ -182,11 +182,11 @@ class Marcacion_impulso extends CI_Controller {
 	public function registrar_apoyodistribuidora(){
 
 		$fecha = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = strtotime ( '-1 hour' , strtotime ( $fecha ) ) ;
 		$nuevafecha = date( 'Y-m-j H:i:s' , $nuevafecha );
 
 		$fecha_final = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $fechafinalfinal = strtotime ( '-2 hour' , strtotime ( $fecha_final ) ) ;
+        $fechafinalfinal = strtotime ( '-1 hour' , strtotime ( $fecha_final ) ) ;
 		$fechafinalfinal = date( 'Y-m-j_H_i_s' , $fechafinalfinal );
 
 		// Carga imagen 
@@ -250,11 +250,11 @@ class Marcacion_impulso extends CI_Controller {
 	public function finalizar_actividad(){
 
 		$fecha = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = strtotime ( '-1 hour' , strtotime ( $fecha ) ) ;
 		$nuevafecha = date( 'Y-m-j H:i:s' , $nuevafecha );
 
 		$fecha_final = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $fechafinalfinal = strtotime ( '-2 hour' , strtotime ( $fecha_final ) ) ;
+        $fechafinalfinal = strtotime ( '-1 hour' , strtotime ( $fecha_final ) ) ;
 		$fechafinalfinal = date( 'Y-m-j_H_i_s' , $fechafinalfinal );
 
 
@@ -314,11 +314,11 @@ class Marcacion_impulso extends CI_Controller {
 	public function finalizar_apoyodistribuidora(){
 
 		$fecha = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $nuevafecha = strtotime ( '-2 hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = strtotime ( '-1 hour' , strtotime ( $fecha ) ) ;
 		$nuevafecha = date( 'Y-m-j H:i:s' , $nuevafecha );
 
 		$fecha_final = date('Y-m-d H:i:s'); //inicializo la fecha con la hora
-        $fechafinalfinal = strtotime ( '-2 hour' , strtotime ( $fecha_final ) ) ;
+        $fechafinalfinal = strtotime ( '-1 hour' , strtotime ( $fecha_final ) ) ;
 		$fechafinalfinal = date( 'Y-m-j_H_i_s' , $fechafinalfinal );
 
 

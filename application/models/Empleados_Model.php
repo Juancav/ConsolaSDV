@@ -249,6 +249,21 @@ class Empleados_Model extends CI_Model {
                     inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
                     inner join Empleados as e on he.Id_Empleados=e.Id_Empleados 
                     where he.Id_u_sdv='.$this->session->userdata('Id_u_sdv').' and he.estado=1 
+                    order by he.Id_historial DESC limit 5';
+    
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+        
+    }
+
+    public function Consultar_PDF_ruta($Id_ruta){
+
+        $query='SELECT he.Id_historial,r.Nombre_Ruta, e.Nombre,he.fecha_registro,he.Id_PDF,he.estado,he.Motivo_Traspaso from Historial_Entregas as he
+                    inner join rutas as r on he.Id_Ruta=r.Id_Ruta
+                    inner join canal as c on he.Id_Canal=c.Id_Canal
+                    inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
+                    inner join Empleados as e on he.Id_Empleados=e.Id_Empleados 
+                    where he.Id_u_sdv='.$this->session->userdata('Id_u_sdv').' and he.estado=1 and r.id_ruta='.$Id_ruta.'
                     order by he.Id_historial DESC';
     
         $resultados = $this->db->query($query);
@@ -1405,11 +1420,14 @@ class Empleados_Model extends CI_Model {
                     if($MH->row()->Nombre_Canal=='DETALLE'){
                         $output.='<div style="font-size:20px; page-break-before:always;">';
                         
-                        if($data->row()->img_mh=='https://043ea08.netsolhost.com/ConsolaSDV/Uploads/Archivos/CartaMH/cartamhdefault.png'){
-                            $output.='<img width="100%" src="https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-21.png">';
-                        }else{
-                            $output.='<img width="100%" src="'.$data->row()->img_mh.'">';
+                        $imagemh = 'https://043ea08.netsolhost.com/ConsolaSDV/Uploads/Archivos/CartaMH/cartamhdefault.png';
+
+                        if ($MH->row()->img_mh == $imagemh) {
+                          $output .= '<img width="100%" src="https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-21.png">';
+                        } else {
+                          $output .= '<img width="100%" src="' . substr($MH->row()->img_mh, 42) . '">';
                         }
+                
                         $output.='<br><br><br><p style="font-size:24px; margin-left:350px;">RUTA: <b>'.STRTOUPPER($data->row()->Nombre_Ruta).' </b><br><br>
                         EMPLEADO:  <b>'.STRTOUPPER($data->row()->Nombre).'</b><br><br>
                         CARNET:  <b>'.STRTOUPPER($data->row()->Carnet).'</b><br><br>
@@ -1586,6 +1604,3 @@ class Empleados_Model extends CI_Model {
 
 
 }
-
-?>
-

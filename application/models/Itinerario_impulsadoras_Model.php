@@ -205,11 +205,9 @@ class Itinerario_impulsadoras_model extends CI_Model
       $reader->close();
 
       return  array('Fila' => $rownumber - 1, 'Validar' => true);
-
-
     } else if ($data['Tipo_carga'] == 2) {
       $Usuario = "";
-      $Cliente="";
+      $Cliente = "";
 
       foreach ($reader->getSheetIterator() as $sheet) {
 
@@ -286,10 +284,11 @@ class Itinerario_impulsadoras_model extends CI_Model
     }
   }
 
-  public function Informe_marcaciones($Data) {
+  public function Informe_marcaciones($Data)
+  {
 
-    if($Data["Distribuidora"] == ""){
-      $resultados='SELECT p.Nombre_pais,d.division,d.nombre_distribuidora,uc.nombre,ci.cod_cli,ci.Nombre_cli,ai.nombre_activ,mi.latitud_ini,mi.longitud_ini,mi.latitud_fin,mi.longitud_fin,mi.fecha_inicio,mi.fecha_fin,
+    if ($Data["Distribuidora"]  == "" && $Data["Pais"] == "") {
+      $resultados = 'SELECT p.Nombre_pais,d.division,d.nombre_distribuidora,uc.nombre,ci.cod_cli,ci.Nombre_cli,ai.nombre_activ,mi.latitud_ini,mi.longitud_ini,mi.latitud_fin,mi.longitud_fin,mi.fecha_inicio,mi.fecha_fin,
       CONCAT(MOD(HOUR(TIMEDIFF(mi.fecha_fin,  mi.fecha_inicio )), 24), "horas",MINUTE(TIMEDIFF(mi.fecha_fin, mi.fecha_inicio )), " minutos ") as Tiempo_visita,mi.Img_inicio,mi.img_fin,tm.nombre_tipo_marcacion,mi.observacion FROM usuarios_consolasdv as uc
       inner join Marcaciones_impulso as mi on uc.id_u_sdv=mi.id_u_sdv
       inner join Tipo_marcacion_impulso as tm on mi.id_tipo_marcacion=tm.id_tipo_marcacion
@@ -297,9 +296,10 @@ class Itinerario_impulsadoras_model extends CI_Model
       inner join acti_impulso as ai on mi.id_actividad=ai.id
       inner join distribuidora as d on uc.id_distribuidora=d.id_distribuidora
       inner join pais as p on d.id_pais=p.id_pais
-      WHERE Canal="IMPULSO" && p.id_pais='.$Data["Pais"].' && mi.Fecha_inicio BETWEEN "'.$Data["Fecha_inicio"].'" AND "'.$Data["Fecha_fin"].'"';
-    }else{
-      $resultados='SELECT p.Nombre_pais,d.division,d.nombre_distribuidora,uc.nombre,ci.cod_cli,ci.Nombre_cli,ai.nombre_activ,mi.latitud_ini,mi.longitud_ini,mi.latitud_fin,mi.longitud_fin,mi.fecha_inicio,mi.fecha_fin,
+      WHERE Canal="IMPULSO" && mi.Fecha_inicio BETWEEN "' . $Data["Fecha_inicio"] . '" AND "' . $Data["Fecha_fin"] . '"';
+
+    } else if ($Data["Distribuidora"] == "") {
+      $resultados = 'SELECT p.Nombre_pais,d.division,d.nombre_distribuidora,uc.nombre,ci.cod_cli,ci.Nombre_cli,ai.nombre_activ,mi.latitud_ini,mi.longitud_ini,mi.latitud_fin,mi.longitud_fin,mi.fecha_inicio,mi.fecha_fin,
       CONCAT(MOD(HOUR(TIMEDIFF(mi.fecha_fin,  mi.fecha_inicio )), 24), "horas",MINUTE(TIMEDIFF(mi.fecha_fin, mi.fecha_inicio )), " minutos ") as Tiempo_visita,mi.Img_inicio,mi.img_fin,tm.nombre_tipo_marcacion,mi.observacion FROM usuarios_consolasdv as uc
       inner join Marcaciones_impulso as mi on uc.id_u_sdv=mi.id_u_sdv
       inner join Tipo_marcacion_impulso as tm on mi.id_tipo_marcacion=tm.id_tipo_marcacion
@@ -307,82 +307,89 @@ class Itinerario_impulsadoras_model extends CI_Model
       inner join acti_impulso as ai on mi.id_actividad=ai.id
       inner join distribuidora as d on uc.id_distribuidora=d.id_distribuidora
       inner join pais as p on d.id_pais=p.id_pais
-      WHERE Canal="IMPULSO" && d.Id_Distribuidora='.$Data["Distribuidora"].' && mi.Fecha_inicio BETWEEN "'.$Data["Fecha_inicio"].'" AND "'.$Data["Fecha_fin"].'"';
+      WHERE Canal="IMPULSO" && p.id_pais=' . $Data["Pais"] . ' && mi.Fecha_inicio BETWEEN "' . $Data["Fecha_inicio"] . '" AND "' . $Data["Fecha_fin"] . '"';
+    } else {
+      $resultados = 'SELECT p.Nombre_pais,d.division,d.nombre_distribuidora,uc.nombre,ci.cod_cli,ci.Nombre_cli,ai.nombre_activ,mi.latitud_ini,mi.longitud_ini,mi.latitud_fin,mi.longitud_fin,mi.fecha_inicio,mi.fecha_fin,
+      CONCAT(MOD(HOUR(TIMEDIFF(mi.fecha_fin,  mi.fecha_inicio )), 24), "horas",MINUTE(TIMEDIFF(mi.fecha_fin, mi.fecha_inicio )), " minutos ") as Tiempo_visita,mi.Img_inicio,mi.img_fin,tm.nombre_tipo_marcacion,mi.observacion FROM usuarios_consolasdv as uc
+      inner join Marcaciones_impulso as mi on uc.id_u_sdv=mi.id_u_sdv
+      inner join Tipo_marcacion_impulso as tm on mi.id_tipo_marcacion=tm.id_tipo_marcacion
+      inner join Clientes_impulsadoras as ci on mi.Id_cli_imp=ci.Id_cli_imp
+      inner join acti_impulso as ai on mi.id_actividad=ai.id
+      inner join distribuidora as d on uc.id_distribuidora=d.id_distribuidora
+      inner join pais as p on d.id_pais=p.id_pais
+      WHERE Canal="IMPULSO" && d.Id_Distribuidora=' . $Data["Distribuidora"] . ' && mi.Fecha_inicio BETWEEN "' . $Data["Fecha_inicio"] . '" AND "' . $Data["Fecha_fin"] . '"';
     }
-    
+
 
     $query = $this->db->query($resultados);
 
     $writer = WriterEntityFactory::createXLSXWriter();
-    $filePath= "Uploads/Informes/Plantillas/Marcaciones_impulso.csv";
+    $filePath = "Uploads/Informes/Plantillas/Marcaciones_impulso.csv";
     $writer->openToFile($filePath); // write data to a file or to a PHP stream
 
     //Escribir Encabezados de excel
-  
-        $cells = [
-          WriterEntityFactory::createCell('Pais '),
-          WriterEntityFactory::createCell('Division'),
-          WriterEntityFactory::createCell('Distribuidora'),
-          WriterEntityFactory::createCell('Nombre Impulsadora'),
-          WriterEntityFactory::createCell('Codigo cliente'),
-          WriterEntityFactory::createCell('Nombre cliente'),
-          WriterEntityFactory::createCell('Actividad realizada'),
-          WriterEntityFactory::createCell('Fecha inicio'),
-          WriterEntityFactory::createCell('Latitud Inicio'),
-          WriterEntityFactory::createCell('Longitud Inicio'),
-          WriterEntityFactory::createCell('Fecha fin'),
-          WriterEntityFactory::createCell('Latitud fin'),
-          WriterEntityFactory::createCell('Longitud fin'),
-          WriterEntityFactory::createCell('Duracion de visita'),
-          WriterEntityFactory::createCell('Imagen inicio'),
-          WriterEntityFactory::createCell('Imagen Fin'),
-          WriterEntityFactory::createCell('Tipo marcacion'),
-          WriterEntityFactory::createCell('Observaciones'),
 
-          ];
-  
-        //a;adir encabezados a archivo excel
-        $singleRow = WriterEntityFactory::createRow($cells);
-        $writer->addRow($singleRow);
+    $cells = [
+      WriterEntityFactory::createCell('Pais '),
+      WriterEntityFactory::createCell('Division'),
+      WriterEntityFactory::createCell('Distribuidora'),
+      WriterEntityFactory::createCell('Nombre Impulsadora'),
+      WriterEntityFactory::createCell('Codigo cliente'),
+      WriterEntityFactory::createCell('Nombre cliente'),
+      WriterEntityFactory::createCell('Actividad realizada'),
+      WriterEntityFactory::createCell('Fecha inicio'),
+      WriterEntityFactory::createCell('Latitud Inicio'),
+      WriterEntityFactory::createCell('Longitud Inicio'),
+      WriterEntityFactory::createCell('Fecha fin'),
+      WriterEntityFactory::createCell('Latitud fin'),
+      WriterEntityFactory::createCell('Longitud fin'),
+      WriterEntityFactory::createCell('Duracion de visita'),
+      WriterEntityFactory::createCell('Imagen inicio'),
+      WriterEntityFactory::createCell('Imagen Fin'),
+      WriterEntityFactory::createCell('Tipo marcacion'),
+      WriterEntityFactory::createCell('Observaciones'),
 
-        //obteniendo celdas con los datos
-        foreach($query->result() as $row)
-        {
-            $cells = [
-              WriterEntityFactory::createCell($row->Nombre_pais),
-              WriterEntityFactory::createCell($row->division),
-              WriterEntityFactory::createCell($row->nombre_distribuidora),
-              WriterEntityFactory::createCell($row->nombre),
-              WriterEntityFactory::createCell($row->cod_cli),
-              WriterEntityFactory::createCell($row->Nombre_cli),
-              WriterEntityFactory::createCell($row->nombre_activ),
-              WriterEntityFactory::createCell($row->fecha_inicio),
-              WriterEntityFactory::createCell($row->latitud_ini),
-              WriterEntityFactory::createCell($row->longitud_ini),
-              WriterEntityFactory::createCell($row->fecha_fin),
-              WriterEntityFactory::createCell($row->latitud_fin),
-              WriterEntityFactory::createCell($row->longitud_fin),
-              WriterEntityFactory::createCell($row->Tiempo_visita),
-              WriterEntityFactory::createCell($row->Img_inicio),
-              WriterEntityFactory::createCell($row->img_fin),
-              WriterEntityFactory::createCell($row->nombre_tipo_marcacion),
-              WriterEntityFactory::createCell($row->observacion),
+    ];
 
-         
-            ];
+    //a;adir encabezados a archivo excel
+    $singleRow = WriterEntityFactory::createRow($cells);
+    $writer->addRow($singleRow);
+
+    //obteniendo celdas con los datos
+    foreach ($query->result() as $row) {
+      $cells = [
+        WriterEntityFactory::createCell($row->Nombre_pais),
+        WriterEntityFactory::createCell($row->division),
+        WriterEntityFactory::createCell($row->nombre_distribuidora),
+        WriterEntityFactory::createCell($row->nombre),
+        WriterEntityFactory::createCell($row->cod_cli),
+        WriterEntityFactory::createCell($row->Nombre_cli),
+        WriterEntityFactory::createCell($row->nombre_activ),
+        WriterEntityFactory::createCell($row->fecha_inicio),
+        WriterEntityFactory::createCell($row->latitud_ini),
+        WriterEntityFactory::createCell($row->longitud_ini),
+        WriterEntityFactory::createCell($row->fecha_fin),
+        WriterEntityFactory::createCell($row->latitud_fin),
+        WriterEntityFactory::createCell($row->longitud_fin),
+        WriterEntityFactory::createCell($row->Tiempo_visita),
+        WriterEntityFactory::createCell($row->Img_inicio),
+        WriterEntityFactory::createCell($row->img_fin),
+        WriterEntityFactory::createCell($row->nombre_tipo_marcacion),
+        WriterEntityFactory::createCell($row->observacion),
 
 
-          //a;adiendo los datos a la fila corespondiente
-          $multipleRows = [
-            WriterEntityFactory::createRow($cells),
-          ];
+      ];
 
-          $writer->addRows($multipleRows);
-        
-        }
 
-        $writer->close();
-        return   $query->result();
-   
+      //a;adiendo los datos a la fila corespondiente
+      $multipleRows = [
+        WriterEntityFactory::createRow($cells),
+      ];
+
+      $writer->addRows($multipleRows);
     }
+
+    $writer->close();
+    return   $query->result();
+  }
 }

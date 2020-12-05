@@ -16,6 +16,15 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+  <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script>
 </head>
 
 <body>
@@ -25,13 +34,13 @@
       <section id="hero" class="wow fadeIn">
 
         <h1>Itinerario Impulsadoras</h1>
-      
-          <div class="load-7" style="display: none;" id="esperando">
-            <div class="square-holder">
-              <div class="square"></div>
-            </div>
+
+        <div class="load-7" style="display: none;" id="esperando">
+          <div class="square-holder">
+            <div class="square"></div>
           </div>
-   
+        </div>
+
         <br>
         <hr color="blue" width="90%" size="10px" style="margin-top:-10px; margin-left:80px;">
         <div style="display: flex; flex-wrap:wrap;">
@@ -82,13 +91,17 @@
 
                 <div class="form-group col-12">
                   <label for="exampleFormControlSelect1">Tipo de datos</label>
-                  <select class="form-control" id="txt_tcarga_i" name="txt_tcarga_i">
+                  <select class="form-control selectpicker" id="txt_tcarga_i" name="txt_tcarga_i" data-live-search="true" data-live-search-style="startsWith">
                     <option value='0' disabled selected>Seleccione una opcion</option>
                     <option value='1'>CARGA DE CLIENTES</option>
                     <option value='2'>CARGA DE ITINERARIO</option>
 
                   </select>
+
+                 
                 </div>
+
+
 
                 <form style="width:100%" action="<?php echo base_url(); ?>index.php/Itinerario_impulsadoras/upload_data_i" class="p-1" id="form-carga-clientes" name="form-carga-clientes" method="post" enctype="multipart/form-data">
 
@@ -148,7 +161,7 @@
                   <div class="form-group col-12">
                     <label for="exampleFormControlSelect1">Distribuidora</label>
                     <select class="form-control" id="txt_distribuidora_informe" name="txt_distribuidora_informe">
-                      <option  value="0" disabled selected>Seleccione una opcion</option>
+                      <option value="0" disabled selected>Seleccione una opcion</option>
                     </select>
                   </div>
                   <div class="form-group col-12">

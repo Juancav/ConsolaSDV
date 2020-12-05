@@ -16,7 +16,6 @@ class Itinerario_impulsadoras extends CI_Controller
 		$this->load->helper(array('url'));
 		$this->load->library(array('session'));
 		$this->load->model('Itinerario_impulsadoras_model');
-
 	}
 
 	public function index()
@@ -52,7 +51,6 @@ class Itinerario_impulsadoras extends CI_Controller
 		if ($this->input->is_ajax_request()) {
 
 			echo json_encode($this->Itinerario_impulsadoras_model->Get_itinerarios($this->input->post('Carnet')));
-	
 		}
 	}
 
@@ -157,18 +155,21 @@ class Itinerario_impulsadoras extends CI_Controller
 	}
 
 	public function Informe_marcaciones()
-	{	
-		if($this->input->is_ajax_request()){
-			
+	{
+		if ($this->input->is_ajax_request()) {
+
 			$Pais = $this->input->post('txt_pais_informe');
 			$Distribuidora = $this->input->post('txt_distribuidora_informe');
 			$Fecha_inicio = $this->input->post('txt_fecha_inicio');
 			$Fecha_fin = $this->input->post('txt_fecha_fin');
 
-			$Data = array('Pais' => $Pais,'Distribuidora'=>$Distribuidora,'Fecha_inicio' => $Fecha_inicio,'Fecha_fin'=>$Fecha_fin);
+			$Data = array(
+				'Pais' => $Pais, 
+				'Distribuidora' => $Distribuidora, 
+				'Fecha_inicio' => $Fecha_inicio, 
+				'Fecha_fin' => $Fecha_fin);
 
-		echo json_encode($this->Itinerario_impulsadoras_model->Informe_marcaciones($Data));
-
+			echo json_encode($this->Itinerario_impulsadoras_model->Informe_marcaciones($Data));
 		}
 	}
 }

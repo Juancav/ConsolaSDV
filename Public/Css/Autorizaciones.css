@@ -1,434 +1,291 @@
-/* Tabbed Styles */
-
-.tabbed {
-  width: auto;
-  min-width: 400px;
-  margin: 0 auto;
-  margin-bottom: 68px;
-  border-bottom: 4px solid #000;
-  overflow: hidden;
-  transition: border 250ms ease;
-  margin-top:-3.5%;
-}
-
-.tabbed ul li {
-  display: block;
-  float: right;
-  padding: 10px 24px 8px;
-  background-color: #FFF;
-  margin-right: 46px;
-  z-index: 2;
-  position: relative;
-  cursor: pointer;
-  color: #777;
-  text-transform: uppercase;
-  font: 600 13px/20px roboto, "Open Sans", Helvetica, sans-serif;
-
-  transition: all 250ms ease;
-}
-.tabbed ul li:before,
-.tabbed ul li:after {
-  display: block;
-  content: " ";
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 44px;  
-  background-color: #FFF;
-  transition: all 250ms ease;
-}
-.tabbed ul li:before {
-  right: -24px;
-  transform: skew(30deg, 0deg);
-  box-shadow: rgba(0,0,0,.1) 3px 2px 5px, inset rgba(255,255,255,.09) -1px 0;
-}
-.tabbed ul li:after {
-  left: -24px;
-  transform: skew(-30deg, 0deg);
-  box-shadow: rgba(0,0,0,.1) -3px 2px 5px, inset rgba(255,255,255,.09) 1px 0;
-}
-.tabbed ul li:hover,
-.tabbed ul li:hover:before,
-.tabbed ul li:hover:after {
-  background-color: #F4F7F9;
-  color: #444;
-}
-.tabbed ul li.active {
-  z-index: 3;
-}
-.tabbed ul li.active,
-.tabbed ul li.active:before,
-.tabbed ul li.active:after {
-  background-color: #000;
-  color: #fff;
-}
-
-.AutorizacionesMH  {
-
-  background:#EDEDED;  
-  width:95%; 
-  float: left; 
-  margin-bottom:50px; 
-  margin-right:25px; 
-  margin-left:25px;
-  position: relative;
-  border-radius: 10px;
-
-}
-.AutorizacionesMH .form-mh{
-position: relative;
-background:rgb(255, 255, 255);
-border-radius: 15px;
-height: 50%;
-width: 35%;
-margin: 10px;
-padding: 10px;
-
-
-}
-
-.ConsultarMH{
-  background:#EDEDED;  
-  width:95%; 
-  float: left; 
-  margin-bottom:50px; 
-  margin-right:25px; 
-  margin-left:25px;
-  position: relative;
-  border-radius: 10px;
-}
-
-.BajaMH{
-  background:#EDEDED;  
-  width:95%; 
-  float: left; 
-  margin-bottom:50px; 
-  margin-right:25px; 
-  margin-left:25px;
-  position: relative;
-  border-radius: 10px;
-
-}
-
-
-  #containment-wrapper {
-    
-     margin:2%;
-     width: 95%; 
-     min-height:250px; 
-     height: auto;
-     overflow: auto;
-     border:2px solid #ccc; 
-     padding: 10px; 
-     background-color:whitesmoke;
-     
-     
-    }
-    .draggable{
-      border: 1px #000 solid;
-      box-shadow: 4px 2px rgb(0, 0, 0);
-      background: linear-gradient(to bottom right,rgb(0, 0, 0) 1px, rgb(92, 251, 0)  ,rgb(0, 0, 0));
-      float:left;
-          min-width: 20%;
-         width: auto;
-      height: 70px;
-      padding: 0.5em;
-      text-align: center;
-      margin: 0 10px 10px 0;
-      border-radius: 10px;
-      cursor: move;
-      
-     
-     
-     }
-   
-     
-   .draggableBP {
-    border: 1px solid;
-    box-shadow: 4px 2px rgb(0, 0, 0);
-     float: right;
-     min-width: 20%;
-     width: auto;
-     height: 70px;
-     padding: 0.5em;
-     text-align: center;
-     margin: 0 10px 10px 0;
-     background: linear-gradient(to bottom left,rgb(0, 0, 0) 1px, rgb(25, 0, 251)  ,rgb(0, 0, 0));
-     border-radius: 10px;
-     cursor: move; 
-
-      }
-
-      .draggableACT {
-        border: 1px solid;
-        box-shadow: 4px 2px rgb(0, 0, 0);
-         float: right;
-         min-width: 20%;
-         width: auto;
-         height: 70px;
-         padding: 0.5em;
-         text-align: center;
-         margin: 0 10px 10px 0;
-         background: linear-gradient(to bottom left,rgb(0, 0, 0) 1px, rgb(25, 0, 251)  ,rgb(0, 0, 0));
-         border-radius: 10px;
-         cursor: move; 
-          }
-   
-/* CAJAS ACTIVAS NO COLOCADA */
-  .droppable{
-  
-    
-    border-style: dashed;
-    text-align: left;
-    margin-bottom: 3%;
-    background: linear-gradient(to bottom left,rgb(251, 255, 0) 20%, #fff 100%);
+#containment-wrapper {
+    margin-top: 5px;
+    margin-bottom: 50px;
     width: 100%;
+    min-height: 250px;
+    height: auto;
+    overflow: auto;
+    border: 2px dashed #ccc;
+    padding: 2px;
+}
+
+
+/* Cajas activas */
+
+.draggable {
+    border: 1px solid #9292923b;
+    background-color: #fff;
+    box-shadow: 2px 4px 14px rgba(143, 142, 142, 0.377);
     padding: 10px;
-    height: 200px;
-    border-radius: 10px;
+    margin: 0 10px 10px 0;
+    cursor: move;
+    max-height: 75px;
+    width: 200px;
+}
 
-   
-  }
 
+/* Cajas back up  */
+
+.draggableBP {
+    border: 1px solid #9292923b;
+    background-color: #fff;
+    box-shadow: 2px 4px 14px rgba(143, 142, 142, 0.377);
+    padding: 10px;
+    margin: 0 10px 10px 0;
+    cursor: move;
+    width: 200px;
+    max-height: 75px;
+}
+
+
+/* cajas reservadas */
+
+.draggableACT {
+    border: 1px solid #9292923b;
+    background-color: #fff;
+    box-shadow: 2px 4px 14px rgba(143, 142, 142, 0.377);
+    padding: 10px;
+    margin: 0 10px 10px 0;
+    cursor: move;
+    width: 200px;
+    max-height: 75px;
+}
+
+
+/* CAJAS ACTIVAS NO COLOCADA */
+
+.droppable {
+    border: 2px dashed #a80404;
+    width: 450px;
+    height: 150px;
+    padding: 10px;
+}
 
 
 /* CAJAS ACTIVAS COLOCADA */
-  .droppablex p{ 
-   
-    
-    border-style: dashed;
-    text-align: left;
-    margin-bottom: 3%;
-    background: linear-gradient(to bottom left,teal 20%, #fff 100%);
-    /* background-color: teal; */
-    width: 100%;
-    padding: 10px;
-    height: 200px;
-    border-radius: 10px;
-    color: white;
-  }
 
-
-
-    /* CAJA BACK UP NO COLOCADA */
-    .droppableBP{
-      background: linear-gradient(to bottom left,rgb(251, 255, 0) 20%, #fff 100%);
-      border-style: dashed;
-      padding: 10px;
-      
-      width: 100%;
-      height: 200px;
-      border-radius: 10px;
-      text-align: left;
-    }
-
-  /*  CAJAS BACK UP COLOCADA */
-  .droppablexBP p{
-   
-    border-style: dashed;
-       background: linear-gradient(to bottom left,teal 20%, #fff 100%);
-    width: 100%;
+.droppablex p {
+    border: 2px dashed #22ee22;
+    box-shadow: 2px 4px 14px rgba(143, 142, 142, 0.377);
+    width: 450px;
+    height: 150px;
     padding: 10px;
     text-align: left;
-    height: 200px;
-    border-radius: 10px;
-    color: white;
-  }
-
-    /* CAJA BACK UP NO COLOCADA */
-    .droppableACT{
-      background: linear-gradient(to bottom left,rgb(251, 255, 0) 20%, #fff 100%);
-      border-style: dashed;
-      padding: 10px;
-      
-      width: 100%;
-      height: 200px;
-      border-radius: 10px;
-      text-align: left;
-    }
-
-/*ANIMACION DE BOTONES*/
-.animate
-{
-	transition: all 0.1s;
-	-webkit-transition: all 0.1s;
-}
-
-.action-button
-{
-	position: relative;
-	padding: 10px 40px;
-  margin: 0px 10px 10px 0px;
-  float: left;
-	border-radius: 10px;
-	/* font-family: 'Pacifico', cursive; */
-	font-size: 20px;
-	color: #FFF;
-  text-decoration: none;	
- 
-}
-
-.blue
-{
-	background-color: #128ada;
-	border-bottom: 5px solid #02609e;
-	text-shadow: 0px -2px #02609e;
-}
-
-.red
-{
-	background-color: #E74C3C;
-	border-bottom: 5px solid #BD3E31;
-	text-shadow: 0px -2px #BD3E31;
-}
-
-.green
-{
-	background-color: #72f117;
-	border-bottom: 5px solid rgb(85, 182, 16);
-	text-shadow: 0px -2px rgb(85, 182, 16);
-}
-
-.yellow
-{
-  
-	background-color: #F2CF66;
-	border-bottom: 5px solid #D1B358;
-	text-shadow: 0px -2px #D1B358;
-}
-
-.action-button:active
-{
-	transform: translate(0px,5px);
-  -webkit-transform: translate(0px,5px);
-	border-bottom: 1px solid;
 }
 
 
+/* CAJA BACK UP NO COLOCADA */
 
-.cr {
-  width: 200px;
-  padding: 16px;
-  position: absolute;
-  text-align: center;
-  color: #f0f0f0;
+.droppableBP {
+    margin-top: 20px;
+    border: 2px dashed #a80404;
+    width: 450px;
+    height: 150px;
+    padding: 10px;
 }
 
-.PdfDispositivos{
-  text-align: center;   
-background: #3a3f48;
-box-shadow: 0px -1px 5px #282c33;
-border-top: 1px solid #464a52;
-position: fixed;
-bottom: 0;
-width: 2%;
-height: 60px;
-right:30px;
-transition: background-color .5s;
+
+/*  CAJAS BACK UP COLOCADA */
+
+.droppablexBP p {
+    margin-top: 20px;
+    border: 2px dashed #22ee22;
+    box-shadow: 2px 4px 14px rgba(143, 142, 142, 0.377);
+    width: 450px;
+    height: 150px;
+    padding: 10px;
+    text-align: left;
 }
 
-.PdfDispositivos:hover{
-  -webkit-transform: scale(1.1);
--ms-transform: scale(1.1);
-transform: scale(1.1);
+
+/* CAJA BACK UP NO COLOCADA */
+
+.droppableACT {
+    border: 2px dashed #a80404;
+    padding: 10px;
+    width: 450px;
+    height: 150px;
+    text-align: left;
 }
 
+.PdfDispositivos {
+    text-align: center;
+    background: #3a3f48;
+    box-shadow: 0px -1px 5px #282c33;
+    border-top: 1px solid;
+    position: fixed;
+    bottom: 0;
+    width: 2%;
+    height: 60px;
+    right: 30px;
+    transition: .5s;
+}
+
+.PdfDispositivos:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    box-shadow: 0px -1px 5px #000000;
+    border-radius: 7px;
+}
 
 #modal {
-  background: rgba(0, 0, 0, 0.95);
-  color: #fff;
-  position: fixed;
-  top: -100vh;
-  height: 100vh;
-  width: 100vw;
-  right:0;
-  transition: all .5s;
-  overflow: auto;
-  z-index: 100;
-  
-}
-#modal p {
-  width: 60%;
-  height: 50%;
-  position: relative;
-  top: 10vw;
-  left: 15vw;
-  bottom: 0;
-  right: 0;
-  margin: auto;
-  font-size: 1.5em;
-  text-align: center;
-
+    color: #ffffff;
+    padding: 2% 5% 2% 20%;
+    background: #1e2229;
+    position: fixed;
+    top: -100vh;
+    height: 100vh;
+    width: 100vw;
+    right: 0;
+    transition: all .5s;
+    overflow: auto;
 }
 
 #mostrar-modal {
-  display: none;
+    display: none;
 }
-#mostrar-modal + label {
-  background: #3a3f48;
-  display: table;
-  color: red;
-  text-transform: uppercase;
-  cursor: pointer;
+
+#mostrar-modal+label {
+    background: #3a3f48;
+    display: table;
+    color: rgb(255, 0, 0);
+    cursor: pointer;
 }
-#mostrar-modal + label:hover {
-  background: #3a3f48;
+
+#mostrar-modal:checked~#modal {
+    top: 0;
 }
-#mostrar-modal:checked ~ #modal {
-  top: 0;
-}
-#mostrar-modal:checked ~ #cerrar-modal + label {
-  display: block;
+
+#mostrar-modal:checked~#cerrar-modal+label {
+    display: block;
 }
 
 #cerrar-modal {
-  display: none;
-}
-#cerrar-modal + label {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  z-index: 1000;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  background: tomato;
-  width: 25px;
-  height: 25px;
-  line-height: 25px;
-  text-align: center;
-  border-radius: 50%;
-  display: none;
-  transition: all .5s;
-}
-#cerrar-modal:checked ~ #modal {
-  top: -100vh;
-}
-#cerrar-modal:checked + label {
-  display: none;
+    display: none;
 }
 
-/* .table .th {
-  background: rgba(255, 255, 255, 0.95);
-  color: #000000;
-  text-align:center;
-} */
-#modal .table td{
-  margin:0 auto;
-  text-align: center;
-  overflow: auto;
-  padding:0;
- height: 5px;
+#cerrar-modal+label {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    z-index: 100;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    background: rgb(255, 0, 0);
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border-radius: 4%;
+    display: none;
+    transition: all .5s;
 }
-.tablapdf{
-  height: auto;
-  overflow: auto;
 
+#cerrar-modal:checked~#modal {
+    top: -100vh;
 }
 
-.buscador{
-  position: absolute;
-  float: right;
-  right: 5%;
-  top: 200px;
+#cerrar-modal:checked+label {
+    display: none;
+}
+
+
+/* -----------------------------------------
+  =CSS3 Loading animations
+-------------------------------------------- */
+
+
+/* =Elements style
+---------------------- */
+
+.square {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background-color: #0E39C6;
+}
+
+.spinner {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    margin: 0 auto;
+}
+
+
+/* =Animate the stuff
+------------------------ */
+
+.load-7 .square {
+    animation: loadingG 1.5s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+}
+
+@keyframes loadingG {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(70px, 0) rotate(360deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+.btn-tertiary {
+    color: #555;
+    padding: 0;
+    line-height: 40px;
+    width: 300px;
+    margin: auto;
+    display: block;
+    border: 2px solid #555;
+    width: 100%;
+}
+
+.btn-tertiary:hover,
+.btn-tertiary:focus {
+    color: #888888;
+    border-color: #888888;
+}
+
+.input-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.input-file+.js-labelFile {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.input-file+.js-labelFile .icon:before {
+    content: "\f093";
+}
+
+.input-file+.js-labelFile.has-file .icon:before {
+    content: "\f00c";
+    color: #5AAC7B;
+}
+
+#img {
+    transition: transform .2s;
+    /* Animation */
+    margin: 0 auto;
+    width: 100%;
+}
+
+#img:hover {
+    z-index: 100;
+    transform: scale(2.3);
+    /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }

@@ -86,9 +86,11 @@ class AutorizacionesMH_Model extends CI_Model {
 
   public function fetch_autorizaciones($distribuidora,$estado){
 
-    $this->db->select('a_mh.id_autorizaciones, m_c.Nombre_marca, mo_c.nombre_Modelo, t.año_telefono, a_mh.serie_autorizada, t.color_telefono, d.Nombre_Distribuidora , a_mh.software, a_mh.n_maquina ,a_mh.n_resolucion ,a_mh.n_resolucion_rt, a_mh.fecha_solicitud,a_mh.fecha_autorizacion,a_mh.cantidad_tk, t.imei_telefono, a_mh.estado  , a_mh.Id_telefono');
+    $this->db->select('a_mh.id_autorizaciones,r.Nombre_ruta, m_c.Nombre_marca, mo_c.nombre_Modelo, t.año_telefono, a_mh.serie_autorizada, t.color_telefono, d.Nombre_Distribuidora , a_mh.software, a_mh.n_maquina ,a_mh.n_resolucion ,a_mh.n_resolucion_rt, a_mh.fecha_solicitud,a_mh.fecha_autorizacion,a_mh.cantidad_tk, t.imei_telefono, a_mh.estado  , a_mh.Id_telefono');
     $this->db->from('autorizaciones_mh as a_mh');
     $this->db->join('telefonos as t','a_mh.Id_telefono=t.Id_telefono');
+    $this->db->join('bitacora_entrega_celular as bec','t.Id_telefono=bec.Id_telefono');
+    $this->db->join('rutas as r' ,'bec.Id_ruta=r.Id_ruta');
     $this->db->join('marca_cell as m_c','t.Id_marca_cell=m_c.Id_marca_cell');
     $this->db->join('modelo_cell as mo_c','t.Id_modelo_cell=mo_c.Id_modelo_cell');
     $this->db->join('distribuidora as d','d on t.Id_Distribuidora=d.Id_Distribuidora');
@@ -282,7 +284,24 @@ class AutorizacionesMH_Model extends CI_Model {
     inner join bitacora_entrega_celular as bec on bec.Id_telefono=t.Id_telefono
     inner join rutas as r on bec.Id_Ruta=r.Id_ruta
     order by bs.Id_baja_serie desc 
-    limit 10;';
+    limit 10';
+
+    $resultados = $this->db->query($query);
+    return $resultados->result();
+    
+  }
+
+  public function Consultar_PDF_r($Id_ruta){
+
+    $query='SELECT r.Nombre_Ruta, bs.estatus,a_mh.n_maquina, bs.fecha_baja_alta ,bs.Id_pdf_baja_serie from baja_serie as bs
+    inner join autorizaciones_mh as a_mh on bs.Id_autorizaciones=a_mh.Id_autorizaciones
+    inner join telefonos as t on a_mh.Id_telefono=t.Id_telefono
+    inner join distribuidora as d on t.Id_Distribuidora=d.Id_Distribuidora
+    inner join bitacora_entrega_celular as bec on bec.Id_telefono=t.Id_telefono
+    inner join rutas as r on bec.Id_Ruta=r.Id_ruta
+    where r.Id_ruta='.$Id_ruta.'
+    order by bs.Id_baja_serie desc 
+    ';
 
     $resultados = $this->db->query($query);
     return $resultados->result();

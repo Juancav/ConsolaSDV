@@ -50,47 +50,59 @@
                 <h1> Informes</h1><br>
                 <hr color="blue" width="90%" size="10px" style="margin-top:-10px; margin-left:80px;">
 
+
+
+
                 <!-- Botones-->
                 <div class="field">
 
-                    <div class="content-field">
-                        <fieldset class="border p-2">
-                            <legend class="w-auto"> Informe de Ventas</legend>
+                
+                    <!-- Informe de ventas -->
+                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Informe de venta</h5>
                             <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModalCenter">Actualizar</button>
                             <button class="btn btn-primary" data-toggle="modal" data-target="#VentaDiaria">Consultar</button>
-
-                        </fieldset>
+                        </div>
                     </div>
 
-                    <div class="content-field">
-                        <fieldset class="border p-2">
-                            <legend class="w-auto"> Informe de Exhibidores</legend>
+                    <!-- Informe de exhibidores -->
+                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Informe de Exhibidores</h5>
                             <button class="btn btn-primary" data-toggle="modal" data-target="#ActualizacionExhibidores">Consultar</button>
-
-                        </fieldset>
+                        </div>
                     </div>
 
-                    <div class="content-field">
-                        <fieldset class="border p-2">
-                            <legend class="w-auto"> Importacion de clientes</legend>
+                
+                    <!-- Importacion de clientes -->
+                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Importacion de clientes</h5>
                             <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#agregarclientes">Actualizar </button>
-                        </fieldset>
+                        </div>
                     </div>
 
-                    <div class="content-field">
-                        <fieldset class="border p-2">
-                            <legend class="w-auto">Facturacion exhibidores</legend>
+                    <!-- Facturacion de exhibidores-->
+                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Facturacion exhibidores</h5>
                             <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#addfacturacionexhibidor"> Actualizar </button>
-                        </fieldset>
+                        </div>
                     </div>
 
-                    <div class="content-field">
-                        <fieldset class="border p-2">
-                            <legend class="w-auto"> Formularios</legend>
+                    <!-- Formularios-->
+                    <div class="card border-primary mb-3" style="max-width: 18rem;">
+
+                        <div class="card-body text-primary">
+                            <h5 class="card-title">Formularios</h5>
                             <a type="button" href="cell_form" target="_blank" class="btn btn-outline-info"> Verificacion dispositivos </a>
-                        </fieldset>
+                        </div>
                     </div>
-
                 </div>
 
             </section>

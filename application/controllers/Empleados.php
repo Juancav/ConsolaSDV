@@ -216,6 +216,19 @@ class Empleados extends CI_Controller
 			
 	}
 
+	public function Consultar_PDF_ruta()
+	{
+		if ($this->input->is_ajax_request()) {
+
+		
+			$Datos = $this->Empleados_Model->Consultar_PDF_ruta($this->input->post('Id_Ruta'));
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
+
 	public function pdfdetails()
 	{
 

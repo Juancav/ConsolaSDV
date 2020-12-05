@@ -78,7 +78,7 @@ class AutorizacionesMH extends CI_Controller {
 
 		$this->load->library('upload',$config);
 
-		if (!$this->upload->do_upload("img_mh")) {
+		if (!$this->upload->do_upload("file")) {
             echo $data['error'] = $this->upload->display_errors();
 			// $this->load->view('Empleados/Index',$data);
         }else {
@@ -276,6 +276,19 @@ class AutorizacionesMH extends CI_Controller {
 
 		
 			$Datos = $this->AutorizacionesMH_Model->Consultar_PDF();
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
+
+	public function Consultar_PDF_r()
+	{
+		if ($this->input->is_ajax_request()) {
+
+		
+			$Datos = $this->AutorizacionesMH_Model->Consultar_PDF_r($this->input->post('Id_ruta'));
 			
 			echo json_encode($Datos);
 			

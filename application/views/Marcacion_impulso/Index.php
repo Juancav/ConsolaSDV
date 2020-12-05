@@ -11,6 +11,7 @@
   <link rel="manifest" href="<?php echo base_url('Public/Manifest/manifest.json') ?>">
   <script src="<?php echo base_url('Public/js/App.js') ?>"></script>
 
+
   <!--Icon page-->
   <link href="<?php echo base_url('Public/Img/favicon.png') ?>" rel="icon">
 
@@ -36,7 +37,6 @@
 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -855,9 +855,11 @@
           return false;
 
         } else {
+
           var rform = $('form')[0];
           var data = $("#form-impulso").serialize();
 
+     
           $.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>index.php/Marcacion_impulso/registrar_actividad",
@@ -886,7 +888,7 @@
                   if (result.dismiss === Swal.DismissReason.timer) {
 
 
-                    location.reload();
+                    //location.reload();
                   }
                 });
 
@@ -911,7 +913,7 @@
                 }).then((result) => {
                   /* Read more about handling dismissals below */
                   if (result.dismiss === Swal.DismissReason.timer) {
-                    location.reload();
+                    //location.reload();
                   }
                 })
 

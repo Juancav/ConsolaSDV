@@ -1,11 +1,12 @@
 const CacheEstatica = 'sitio-estatico';
-const Layout= [
+
+const Layout = [
     '/ConsolaSDV/index.php',
-    'Public/Img/favicon.png',   //ICONO DE LA PAGINA LOGIN
-    'Public/Css/util.css',      //CSS DE LOGIN 
-    'Public/Css/style.css',     //CCS ESTILOS DEL MENU Y BODY CONSOLASDV
-    'Public/Css/Css.css',       //CCS ESTILOS DEL MENU Y BODY CONSOLASDV
-    'Public/Img/bocadeli.jpg',  //IMAGEN DEL LOGIN 
+    'Public/Img/favicon.png', //ICONO DE LA PAGINA LOGIN
+    'Public/Css/util.css', //CSS DE LOGIN 
+    'Public/Css/style.css', //CCS ESTILOS DEL MENU Y BODY CONSOLASDV
+    'Public/Css/Css.css', //CCS ESTILOS DEL MENU Y BODY CONSOLASDV
+    'Public/Img/bocadeli.jpg', //IMAGEN DEL LOGIN 
     'https://code.jquery.com/jquery-3.4.1.js', // CDN DE JQUERY
     // 'Public/vendor/bootstrap/js/popper.js', //BOOTSTRAP POPPER 
     // 'Public/vendor/daterangepicker/moment.min.js',// MOMENT JS FECHAS
@@ -15,8 +16,8 @@ const Layout= [
     'https://code.jquery.com/ui/1.12.1/jquery-ui.js', //JQUERY UI JS
     'Public/js/App.js', //INICIALIZADOR SERVICES WORKER
     'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css', // CDN BOOTSTRAP CCS
-    'https://cdn.jsdelivr.net/npm/sweetalert2@9' , // SWEET ALERT 
-    'https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.min.js' , //ECHARTS LIBRERIA DE GRAFICOS
+    'https://cdn.jsdelivr.net/npm/sweetalert2@9', // SWEET ALERT 
+    'https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.min.js', //ECHARTS LIBRERIA DE GRAFICOS
     'https://kit.fontawesome.com/74f9e3337a.js', //ICONOS UTILIZADOS FONT AWUESOME
     'Public/Img/almuerzo.gif', // IMAGEN ALMUERZO GIF
     'Public/Img/ausencia.gif', //IMAGEN AUSENCIA TEMPORAL GIF
@@ -33,8 +34,8 @@ const Layout= [
 ]
 
 // Instalar service worker 
-self.addEventListener('install', evt =>{
-    
+self.addEventListener('install', evt => {
+
     evt.waitUntil(
         caches.open(CacheEstatica)
         .then(cache => {
@@ -46,14 +47,14 @@ self.addEventListener('install', evt =>{
 });
 
 //Activar service worker 
-self.addEventListener('activate', evt =>{
+self.addEventListener('activate', evt => {
     console.log("Serviceworker ha sido activado correctamente");
 });
 
 
 // eventos de recuperacion fetch
-self.addEventListener('fetch' , evt => {
-   
+self.addEventListener('fetch', evt => {
+
     //BUSCAR EN LA CACHE SI EXISTE LA SOLICITUD 
     evt.respondWith(
         caches

@@ -1071,3 +1071,46 @@ legend.scheduler-border {
     padding: 0 10px;
     border-bottom: none;
 }
+
+
+/* -----------------------------------------
+    =CSS3 Loading animations
+  -------------------------------------------- */
+
+
+/* =Elements style
+  ---------------------- */
+
+.square {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background-color: #0E39C6;
+}
+
+.spinner {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    margin: 0 auto;
+}
+
+
+/* =Animate the stuff
+  ------------------------ */
+
+.load-7 .square {
+    animation: loadingG 1.5s cubic-bezier(0.17, 0.37, 0.43, 0.67) infinite;
+}
+
+@keyframes loadingG {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(70px, 0) rotate(360deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
