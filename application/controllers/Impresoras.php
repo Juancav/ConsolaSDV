@@ -222,6 +222,17 @@ class Impresoras extends CI_Controller {
 		}
 			
 	}
+	public function Consultar_PDF_ruta()
+	{
+		if ($this->input->is_ajax_request()) {
+
+			$Datos = $this->Impresoras_Model->Consultar_PDF_ruta($this->input->post("Id_ruta"));
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
 
 	public function pdfdetails()
 	{

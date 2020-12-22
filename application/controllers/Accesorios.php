@@ -211,6 +211,19 @@ class Accesorios extends CI_Controller {
 			
 	}
 
+	function Consultar_PDF_ruta(){
+		
+		if ($this->input->is_ajax_request()) {
+
+		
+			$Datos = $this->Accesorios_Model->Consultar_PDF_ruta($this->input->post('Ruta'));
+			
+			echo json_encode($Datos);
+			
+		}
+			
+	}
+
 
 	public function pdfdetails()
 	{

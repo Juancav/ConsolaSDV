@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
+
   <link rel="stylesheet" type="text/css" href="<?php echo base_url('Public/Css/MarcacionesImp.css') ?>">
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -37,6 +39,9 @@
 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <!-- Compresion de imagenes -->
+  <script src="<?php echo base_url('node_modules/compress.js/index.js') ?>"></script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,7 +83,7 @@
   <div class="section">
 
 
-
+<!-- formulario para iniciar marcacion -->
     <div id="formularioinicio" style="display:none">
       <form id="form-impulso" enctype="multipart/form-data" style="margin-top:75px;">
 
@@ -140,15 +145,16 @@
 
           <label for="foto_frontal"> Fotografia </label>
           <div class="form-group custom-file">
-            <input type="file" class="custom-file-input" id="Img_inicio" name="Img_inicio" accept="image/*" capture="camera">
+            <input type="file" class="custom-file-input" id="Img_inicio" accept="image/*" capture="camera">
             <label class="custom-file-label" for="customFile">Fotografia </label>
+            <input type="text" class="custom-file-input" id="Img_inicio_64" name="Img_inicio_64" accept="image/*" capture="camera">
           </div><br><br>
         </div>
 
         <button type="submit" class="btn btn-primary col-md-12" id="btnregistrarimp" name="btnregistrarimp">Iniciar Actividad</button>
       </form>
     </div>
-
+<!-- formulario para finalizar marcacion -->
     <div id="formulariofin" style="display:none">
       <form id="form-impulso-fin" enctype="multipart/form-data" style="margin-top:75px;">
 
@@ -186,8 +192,10 @@
 
           <label for="foto_frontal"> Fotografia </label>
           <div class="form-group custom-file">
-            <input type="file" class="custom-file-input" id="Img_fin" name="Img_fin" accept="image/*" capture="camera">
+            <input type="file" class="custom-file-input" id="Img_fin" accept="image/*" capture="camera">
             <label class="custom-file-label" for="customFile">Fotografia </label>
+            <input type="text" class="custom-file-input" id="Img_fin_64" name="Img_fin_64" accept="image/*" capture="camera">
+
           </div><br><br>
         </div>
 
@@ -195,7 +203,7 @@
       </form>
     </div>
 
-
+<!-- tipo de apoyo solicitado -->
     <div id="FormularioApoyo" style="display:none; margin-top:75px; max-width:458px; width:100%;">
 
 
@@ -213,7 +221,7 @@
 
 
     </div>
-
+<!-- Formulario apoyo en ruta -->
     <div id="Form-apoyoruta" style="display:none;">
       <form id="form-apoyoruta" enctype="multipart/form-data">
 
@@ -263,7 +271,7 @@
         </div>
       </form>
     </div>
-
+<!-- Formulario apoyo en distribudiroa -->
     <div id="Form-apoyodistribuidora" style="display:none;">
 
       <form id="form-apoyodistribuidora" enctype="multipart/form-data">
@@ -290,7 +298,7 @@
         </div>
       </form>
     </div>
-
+<!-- formulario para finalizar apoyo en distribuidora -->
     <div id="Form-apoyodistribuidorafin" style="display:none; margin-top:75px; max-width:458px; width:100%;">
       <form id="form-apoyodistribuidorafin" enctype="multipart/form-data">
         <h5> <i class="fas fa-pencil-alt"></i> Finalizar apoyo en distribuidora</h5>
@@ -324,7 +332,7 @@
 
   </div>
 
-
+<!-- imagenes de almuerzo , ausencia temporal , y desplzacmiento -->
   <div style="display:flex; flex-flow: column wrap; justify-content:center; align-content:center;">
     <img src="<?php echo base_url('Public/Img/almuerzo.gif') ?>" alt="" width="300px" height="300px" id="almuerzoimg" style="display:none;">
     <img src="<?php echo base_url('Public/Img/ausencia.gif') ?>" alt="" width="300px" height="300px" id="ausenciaimg" style="display:none; margin-top:75px;">
@@ -338,6 +346,7 @@
 <br>
 <!--<button type="button" class="btn btn-warning col-md-12" onclick="pruebaimpresion()" id="impresion">Prueba Impresion</button>-->
 <script type="text/javascript">
+
   function pruebaimpresion() {
 
     let filters = [];
@@ -504,6 +513,63 @@
 
   $(document).ready(function() {
 
+    //comprimimos la imagen de inicio
+    "use strict";
+
+    const compressor = new Compress()
+    const upload = document.getElementById('Img_inicio')
+    const preview = document.getElementById('Img')
+
+    upload.addEventListener('change', function(evt) {
+      const files = [...evt.target.files]
+      compressor.compress(files, {
+        exifOrientation: 1,
+        size: 2,
+        quality: .75
+
+      }).then((results) => {
+
+        console.log(results)
+        const output = results[0]
+        const file = Compress.convertBase64ToFile(output.data, output.ext)
+        console.log(file)
+
+        preview.src = output.prefix + output.data
+
+        const img = results[0].data;
+
+        document.getElementById("Img_inicio_64").value = img;
+      })
+    }, false)
+
+    //comprimimos la imagen del final
+    "use strict";
+
+    const compressor_fin = new Compress()
+    const upload_fin = document.getElementById('Img_fin')
+    const preview_fin = document.getElementById('Imgfin')
+
+    upload_fin.addEventListener('change', function(evt) {
+      const files = [...evt.target.files]
+      compressor_fin.compress(files, {
+        exifOrientation: 1,
+        size: 2,
+        quality: .75
+
+      }).then((results) => {
+
+        console.log(results)
+        const output = results[0]
+        const file = Compress.convertBase64ToFile(output.data, output.ext)
+        console.log(file)
+
+        preview_fin.src = output.prefix + output.data
+
+        const img = results[0].data;
+
+        document.getElementById("Img_fin_64").value = img;
+      })
+    }, false)
 
     //Verificacion de actividades
     $.ajax({
@@ -856,10 +922,13 @@
 
         } else {
 
+
+
+
           var rform = $('form')[0];
           var data = $("#form-impulso").serialize();
 
-     
+
           $.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>index.php/Marcacion_impulso/registrar_actividad",
@@ -888,7 +957,7 @@
                   if (result.dismiss === Swal.DismissReason.timer) {
 
 
-                    //location.reload();
+                    location.reload();
                   }
                 });
 

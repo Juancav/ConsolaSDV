@@ -140,10 +140,13 @@ class Impresoras_Model extends CI_Model {
 
      public function Consultar_Impresoras($Distribuidora){
 
-      $query='SELECT I.Id_Distribuidora,m_i.Id_marca_impresoras,m_o.Id_modelo_impresoras,I.Id_impresoras,d.Nombre_Distribuidora,m_i.nombre_marca,m_o.nombre_modelo,I.activo_fijo,I.n_serie,I.codigo_impresora,I.estado,I.estado_entrega from Impresoras as I
+      $query='SELECT r.Nombre_ruta,I.Id_Distribuidora,m_i.Id_marca_impresoras,m_o.Id_modelo_impresoras,I.Id_impresoras,d.Nombre_Distribuidora,m_i.nombre_marca,m_o.nombre_modelo,I.activo_fijo,I.n_serie,I.codigo_impresora,I.estado,I.estado_entrega 
+      from Impresoras as I
       inner join Marca_Impresoras as m_i on I.Id_marca_impresoras=m_i.Id_marca_impresoras
       inner join Modelo_Impresoras as m_o on I.Id_modelo_impresoras=m_o.Id_modelo_impresoras
       inner join distribuidora as d on I.Id_Distribuidora=d.Id_Distribuidora
+      inner join Bitacora_entrega_impresora as bei on I.Id_impresoras=bei.Id_impresoras
+      inner join rutas as r on bei.Id_ruta=r.Id_ruta
       where I.Id_Distribuidora="'.$Distribuidora.'"';
 
       $resultados = $this->db->query($query);
@@ -365,6 +368,26 @@ class Impresoras_Model extends CI_Model {
                 where bei.Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'"
                 Order by bei.Id_bit_entrega DESC
                 limit 10';
+  
+      $resultados = $this->db->query($query);
+      return $resultados->result();
+
+    }
+
+    public function Consultar_PDF_ruta($Id_ruta){
+
+      $query='SELECT bei.Id_bit_entrega,r.Nombre_Ruta , e.Nombre,mip.nombre_marca,mop.nombre_modelo,I.codigo_impresora, d.Nombre_Distribuidora,bei.motivo_entrega,bei.fecha_registro,bei.Id_pdf_imp 
+                 from Bitacora_entrega_impresora as bei 
+                inner join Impresoras as I on bei.Id_Impresoras=I.Id_Impresoras
+                inner join Marca_Impresoras as mip on I.Id_marca_impresoras=mip.Id_marca_impresoras
+                inner join Modelo_Impresoras as mop on I.Id_modelo_impresoras=mop.Id_modelo_impresoras
+                inner join distribuidora as d on bei.Id_Distribuidora=d.Id_Distribuidora
+                inner join canal as c on bei.Id_Canal=c.Id_Canal
+                inner join rutas as r on bei.Id_Ruta=r.Id_Ruta
+                inner join Empleados as e on bei.Id_Empleados=e.Id_Empleados
+                where bei.Id_Ruta='.$Id_ruta.'
+                Order by bei.Id_bit_entrega DESC
+                ';
   
       $resultados = $this->db->query($query);
       return $resultados->result();

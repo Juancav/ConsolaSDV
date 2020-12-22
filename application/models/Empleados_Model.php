@@ -263,7 +263,7 @@ class Empleados_Model extends CI_Model {
                     inner join canal as c on he.Id_Canal=c.Id_Canal
                     inner join distribuidora as d on he.Id_Distribuidora=d.Id_Distribuidora
                     inner join Empleados as e on he.Id_Empleados=e.Id_Empleados 
-                    where he.Id_u_sdv='.$this->session->userdata('Id_u_sdv').' and he.estado=1 and r.id_ruta='.$Id_ruta.'
+                    where he.estado=1 and r.id_ruta='.$Id_ruta.'
                     order by he.Id_historial DESC';
     
         $resultados = $this->db->query($query);
@@ -285,7 +285,7 @@ class Empleados_Model extends CI_Model {
 
         if($query->row()->Cargo=='IMPULSADORA'){
 
-            $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion, he.Observacion,he.Id_PDF  
+            $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.Id_telefono,t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion, he.Observacion,he.Id_PDF  
                     from Historial_Entregas as he
                     inner join rutas as r on he.Id_Ruta=r.Id_Ruta
                     inner join canal as c on he.Id_Canal=c.Id_Canal
@@ -320,7 +320,7 @@ class Empleados_Model extends CI_Model {
 
             if($query->row()->Nombre_Canal !='DETALLE'){
 
-                $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion, he.Observacion,he.Id_PDF  
+                $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc ,t.Id_Telefono, t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion, he.Observacion,he.Id_PDF  
                     from Historial_Entregas as he
                     inner join rutas as r on he.Id_Ruta=r.Id_Ruta
                     inner join canal as c on he.Id_Canal=c.Id_Canal
@@ -344,7 +344,7 @@ class Empleados_Model extends CI_Model {
 
             }else{
 
-            $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc , t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion,mh.img_mh, he.Observacion,he.Id_PDF  
+            $data='SELECT r.Nombre_Ruta,he.Id_Ruta,e.Nombre,e.Cargo,e.Carnet,e.Dui,he.PB , he.CU ,he.VT,he.EP,he.EI,he.CT,he.CI,d.Nombre_Distribuidora,he.fecha_registro,he.Motivo_Traspaso,r.telefono,r.sim_card,  r.cod_cc , r.descrip_cc ,t.Id_Telefono, t.imei_telefono,t.activo_fijo, mo.nombre_Modelo,mc.Nombre_Marca,dt.primera_ocacion,dt.segunda_ocacion,dt.tercera_ocacion,di.primera_ocasion,di.segunda_ocasion,di.tercera_ocasion, (select Nombre from Empleados where Id_Distribuidora="'.$this->session->userdata('Id_Distribuidora').'" and Cargo="JEFE DE VENTA" and Estado=1) AS JEFE_DE_VENTA, mi.nombre_marca, moi.nombre_modelo,  i.codigo_impresora,i.activo_fijo,i.n_serie,di.primera_ocasion,mh.img_mh, he.Observacion,he.Id_PDF  
                 from Historial_Entregas as he
                 inner join rutas as r on he.Id_Ruta=r.Id_Ruta
                 inner join canal as c on he.Id_Canal=c.Id_Canal
@@ -1417,15 +1417,20 @@ class Empleados_Model extends CI_Model {
                     $this->db->where('he.Id_PDF',$Id_PDF);
                     $MH=$this->db->get();
 
+                    $this->db->select('img_mh');
+                    $this->db->from('autorizaciones_mh');
+                    $this->db->where('Id_telefono', $data->row()->Id_Telefono);
+                    $MH_1 = $this->db->get('');
+
                     if($MH->row()->Nombre_Canal=='DETALLE'){
                         $output.='<div style="font-size:20px; page-break-before:always;">';
                         
                         $imagemh = 'https://043ea08.netsolhost.com/ConsolaSDV/Uploads/Archivos/CartaMH/cartamhdefault.png';
 
-                        if ($MH->row()->img_mh == $imagemh) {
+                        if ($MH_1->row()->img_mh == $imagemh) {
                           $output .= '<img width="100%" src="https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-21.png">';
                         } else {
-                          $output .= '<img width="100%" src="' . substr($MH->row()->img_mh, 42) . '">';
+                          $output .= '<img width="100%" src="' . substr($MH_1->row()->img_mh, 42) . '">';
                         }
                 
                         $output.='<br><br><br><p style="font-size:24px; margin-left:350px;">RUTA: <b>'.STRTOUPPER($data->row()->Nombre_Ruta).' </b><br><br>

@@ -216,7 +216,7 @@ class Accesorios_Model extends CI_Model {
     }
 
         
-    public function fetch_ruta()
+    public function fetch_ruta($Id_Canal)
     {
         $this->db->where('Id_Canal', $Id_Canal);
         
@@ -349,6 +349,24 @@ class Accesorios_Model extends CI_Model {
         }else{
             $query.='group by S_A.Id_PDF order by S_A.Id_S_Accesorios desc limit 10';
         }
+
+        $resultados = $this->db->query($query);
+        return $resultados->result();
+
+    }
+
+    public function Consultar_PDF_ruta($Id_Ruta)
+    {   
+       $Id_Distribuidora= $this->session->userdata('Id_Distribuidora');
+
+
+        $query = 'SELECT S_A.Id_S_Accesorios, S_A.Id_Ruta, r.Nombre_Ruta, e.Nombre,a.nombre_accesorio,a.marca_accesorio,a.tipo_accesorio, S_A.fecha_salida , S_A.Id_Empleados , S_A.Id_Accesorios ,S_A.Id_PDF   
+        from Salida_Accesorios  as S_A 
+        inner join rutas as r on S_A.Id_Ruta= r.Id_Ruta
+        inner join Empleados as e on S_A.Id_Empleados = e.Id_Empleados 
+        inner join Accesorios as a on S_A.Id_Accesorios = a.Id_Accesorios 
+        where S_A.Id_pdf !="" and r.Id_ruta="'.$Id_Ruta.'" group by S_A.Id_PDF order by S_A.Id_S_Accesorios desc';
+        
 
         $resultados = $this->db->query($query);
         return $resultados->result();

@@ -143,7 +143,6 @@ class Marcaciones_imp_model extends CI_Model
     return 1;
   }
 
-
   public function ClientesComodin($data)
   {
     $fecha = date('Y-m-d H:i:s'); //inicializo la fecha con la hora

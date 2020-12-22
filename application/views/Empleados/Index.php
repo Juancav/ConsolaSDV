@@ -309,7 +309,8 @@
                 </select>
               </div>
               <!-- Campo fecha ingreso -->
-              <div class="form-group  col-md-6">
+              <div class="form-group  col-md-6"
+              >
                 <label for="x">Fecha Ingreso</label>
                 <input type="date" class="form-control" id="txtfecha" name="txtfecha">
               </div>
@@ -386,7 +387,9 @@
               <br>
               <!-- Radio Power Bank -->
               <label for="rdo-1" class="btn-radio">
+
                 <input type="radio" id="rdo-1" name="PW">
+
                 <svg width="20px" height="20px" viewBox="0 0 20 20">
                   <circle cx="10" cy="10" r="9"></circle>
                   <path d="M10,7 C8.34314575,7 7,8.34314575 7,10 C7,11.6568542 8.34314575,13 10,13 C11.6568542,13 13,11.6568542 13,10 C13,8.34314575 11.6568542,7 10,7 Z" class="inner"></path>
@@ -527,7 +530,6 @@
               <!-- Botones -->
 
             </div>
-
 
             <!-- Accesorios Impulsadoras-->
             <div id="AccesoriosI" style="width:25%; min-width:350px; display:none; flex-direction:column;">
@@ -1160,7 +1162,7 @@
           "<th class='th' >Empleado</th>" +
           "<th class='th' >Canal</th>" +
           "<th class='th' >Ruta</th>" +
-          "<th class='th' style='display:none;'>Estado</th>" +
+          "<th class='th' >Estado</th>" +
           "<th class='th' >Accion</th>" +
           "</tr>";
 
@@ -1175,7 +1177,7 @@
             "</td><td style='vertical-align : middle;text-align:center;'>" + registros[i]["Nombre"] +
             "</td><td style='vertical-align : middle;text-align:center;'>" + registros[i]["Nombre_Canal"] +
             "</td><td style='vertical-align : middle;text-align:center;'>" + registros[i]["Nombre_Ruta"] +
-            "</td><td style='vertical-align : middle;text-align:center; display:none;'>" + registros[i]["Estado"] +
+            "</td><td style='vertical-align : middle;text-align:center;'>" + registros[i]["Estado"] +
             "</td><td style='vertical-align : middle;text-align:center;'>" +
             "<a href='#' data-toggle='modal' class='editar' data-target='#ModalEdithPersona' onClick='Enviar_Datos_modal(\"" + registros[i]["Id_Empleados"] +
             "\",\"" + registros[i]["Carnet"] +
@@ -1434,13 +1436,13 @@
       return false;
     } else {
 
-      var PW = $("#Accesorios input[name='PW']:radio").is(':checked');
-      var CU = $("#Accesorios input[name='CU']:radio").is(':checked');
-      var VT = $("#Accesorios input[name='VT']:radio").is(':checked');
-      var EP = $("#Accesorios input[name='EP']:radio").is(':checked');
-      var EI = $("#Accesorios input[name='EI']:radio").is(':checked');
-      var CT = $("#Accesorios input[name='CT']:radio").is(':checked');
-      var CI = $("#Accesorios input[name='CI']:radio").is(':checked');
+      var PW = $("#AccesoriosVend input[name='PW']:radio").is(':checked');
+      var CU = $("#AccesoriosVend input[name='CU']:radio").is(':checked');
+      var VT = $("#AccesoriosVend input[name='VT']:radio").is(':checked');
+      var EP = $("#AccesoriosVend input[name='EP']:radio").is(':checked');
+      var EI = $("#AccesoriosVend input[name='EI']:radio").is(':checked');
+      var CT = $("#AccesoriosVend input[name='CT']:radio").is(':checked');
+      var CI = $("#AccesoriosVend input[name='CI']:radio").is(':checked');
 
 
       if (PW == 0 || CU == 0 || VT == 0 || EP == 0 || EI == 0 || CT == 0 || CI == 0) {
@@ -1487,15 +1489,16 @@
     var Ruta = $('#asigtxtruta').val();
     var Empleado = $('#asigtxtempleado').val();
     var Motivo = $('#asigtxtmotivo').val();
-    var PW = ~~($("#Accesorios input[name='PW']:radio").is(':checked'));
-    var CU = ~~($("#Accesorios input[name='CU']:radio").is(':checked'));
-    var VT = ~~($("#Accesorios input[name='VT']:radio").is(':checked'));
-    var EP = ~~($("#Accesorios input[name='EP']:radio").is(':checked'));
-    var EI = ~~($("#Accesorios input[name='EI']:radio").is(':checked'));
-    var CT = ~~($("#Accesorios input[name='CT']:radio").is(':checked'));
-    var CI = ~~($("#Accesorios input[name='CI']:radio").is(':checked'));
-    var Observacion = $("#txtobservacion").val();
 
+    var PW = ~~($("#AccesoriosVend input[name='PW']:radio").is(':checked'));
+    var CU = ~~($("#AccesoriosVend input[name='CU']:radio").is(':checked'));
+    var VT = ~~($("#AccesoriosVend input[name='VT']:radio").is(':checked'));
+    var EP = ~~($("#AccesoriosVend input[name='EP']:radio").is(':checked'));
+    var EI = ~~($("#AccesoriosVend input[name='EI']:radio").is(':checked'));
+    var CT = ~~($("#AccesoriosVend input[name='CT']:radio").is(':checked'));
+    var CI = ~~($("#AccesoriosVend input[name='CI']:radio").is(':checked'));
+
+    var Observacion = $("#txtobservacion").val();
 
 
     $.post("<?php echo base_url(); ?>index.php/Empleados/Registrar_Historial", {
@@ -1504,6 +1507,7 @@
       asigtxtruta: Ruta,
       asigtxtempleado: Empleado,
       asigtxtmotivo: Motivo,
+      
       PW: PW,
       CU: CU,
       VT: VT,
@@ -1511,6 +1515,7 @@
       EI: EI,
       CT: CT,
       CI: CI,
+
       txtobservacion: Observacion,
 
 

@@ -621,7 +621,7 @@ class Dispositivos_Model extends CI_Model
                 inner join marca_cell as m_c on t.Id_marca_cell=m_c.Id_marca_cell
                 inner join modelo_cell as mo_c on t.Id_modelo_cell=mo_c.Id_modelo_cell
                 ) PDF
-                where Id_Distribuidora="' . $this->session->userdata('Id_Distribuidora') . '" and id_ruta="' . $Id_ruta . '"
+                where id_ruta="' . $Id_ruta . '"
                   order by fecha_registro DESC,Id_entrega_cell DESC  
                   LIMIT 10 
           ;';
